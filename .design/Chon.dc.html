@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chon — Changing your phone number?</title>
+<meta name="description" content="Step-by-step guides to update your phone number across WhatsApp, Instagram, Facebook, Google, Apple, Telegram and more — without losing access to your accounts." />
+<style>
+@font-face { font-family: 'NotoSans'; src: url('fonts/NotoSans-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'NotoSans'; src: url('fonts/NotoSans-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'NotoSans'; src: url('fonts/NotoSans-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'NotoSans'; src: url('fonts/NotoSans-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Vazirmatn'; src: url('fonts/Vazirmatn-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+:root {
+  --c-bg: #FFFFFF; --c-bg-subtle: #F7F7F8; --c-surface: #FFFFFF; --c-surface-2: #FAFAFB;
+  --c-border: #E6E6E9; --c-border-strong: #D3D4D8; --c-divider: #EFEFF1;
+  --c-fg: #0F172A; --c-fg-2: #475569; --c-fg-muted: #8A93A3;
+  --c-primary: #F91701; --c-primary-press: #C71201; --c-primary-soft: #FFF1EF;
+  --c-success: #16803C; --c-success-soft: #EEF8F0;
+  --c-warning: #B44A00; --c-warning-soft: #FFF4EA;
+  --c-danger: #C41F14; --c-danger-soft: #FDEEEC;
+  --c-info: #1E4FBF; --c-info-soft: #EEF2FE;
+  --c-shadow: 0 1px 2px rgba(15,23,42,.04);
+  --c-shadow-lift: 0 8px 24px rgba(15,23,42,.10);
+  --c-font: 'NotoSans', system-ui, sans-serif;
+}
+html[data-theme="dark"] {
+  --c-bg: #1C1C1C; --c-bg-subtle: #202021; --c-surface: #262729; --c-surface-2: #2C2D30;
+  --c-border: #3A3B3F; --c-border-strong: #4A4B50; --c-divider: #323337;
+  --c-fg: #F4F5F7; --c-fg-2: #B9BFCA; --c-fg-muted: #8B9099;
+  --c-primary: #FF3B24; --c-primary-press: #E02A15; --c-primary-soft: #331916;
+  --c-success: #5BD68A; --c-success-soft: #16281C;
+  --c-warning: #FFA24D; --c-warning-soft: #2E2116;
+  --c-danger: #FF6B5E; --c-danger-soft: #331A18;
+  --c-info: #7EA6FF; --c-info-soft: #17203A;
+  --c-shadow: 0 1px 2px rgba(0,0,0,.4);
+  --c-shadow-lift: 0 8px 24px rgba(0,0,0,.5);
+}
+html[lang="ar"], html[lang="ku"], html[lang="ckb"] { --c-font: 'Vazirmatn', 'NotoSans', system-ui, sans-serif; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--c-bg); }
+body { font-family: var(--c-font); color: var(--c-fg); -webkit-font-smoothing: antialiased; }
+a { color: var(--c-primary); text-decoration: none; }
+a:hover { color: var(--c-primary-press); text-decoration: underline; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--c-info); outline-offset: 2px; border-radius: 6px; }
+@keyframes chonUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes chonIn { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+</style>
+</helmet>
+<div dir="{{ dir }}" style="min-height:100vh;background:var(--c-bg);color:var(--c-fg);font-family:var(--c-font);font-size:15px;line-height:1.55">
+
+  <header style="position:sticky;top:0;z-index:40;background:var(--c-bg);border-bottom:1px solid var(--c-border)">
+    <div style="max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:16px">
+      <button onClick="{{ goHome }}" aria-label="Chon home" style="display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;cursor:pointer">
+        <span style="width:34px;height:34px;border-radius:9px;background:var(--c-primary);color:#fff;display:grid;place-items:center;font-weight:700;font-size:17px;flex:none">C</span>
+        <span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1">
+          <span style="font-weight:700;font-size:17px;letter-spacing:-.2px">chon</span>
+          <span style="font-size:10px;color:var(--c-fg-muted);font-weight:500">{{ t.tagline }}</span>
+        </span>
+      </button>
+
+      <nav aria-label="Main" style="display:flex;gap:2px;margin-inline-start:8px;flex:1;overflow-x:auto">
+        <sc-for list="{{ nav }}" as="item" hint-placeholder-count="5">
+          <button onClick="{{ item.go }}" aria-current="{{ item.current }}" style="background:{{ item.bg }};color:{{ item.fg }};border:0;padding:7px 12px;border-radius:8px;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .15s" style-hover="background:var(--c-bg-subtle)">{{ item.label }}</button>
+        </sc-for>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:6px;flex:none">
+        <div style="position:relative">
+          <button onClick="{{ toggleLangMenu }}" aria-haspopup="true" aria-expanded="{{ langOpenStr }}" style="display:flex;align-items:center;gap:6px;background:var(--c-surface);border:1px solid var(--c-border);padding:6px 10px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer" style-hover="border-color:var(--c-border-strong)">
+            <span aria-hidden="true" style="font-size:13px">◍</span><span>{{ localeShort }}</span>
+          </button>
+          <sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+            <ul role="menu" style="position:absolute;inset-inline-end:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;box-shadow:var(--c-shadow-lift);min-width:190px;animation:chonUp .16s ease-out">
+              <sc-for list="{{ langs }}" as="l" hint-placeholder-count="4">
+                <li role="none">
+                  <button role="menuitem" onClick="{{ l.pick }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:{{ l.bg }};border:0;padding:8px 10px;border-radius:8px;cursor:pointer;text-align:start" style-hover="background:var(--c-bg-subtle)">
+                    <span style="display:flex;flex-direction:column;align-items:flex-start">
+                      <span style="font-size:14px;font-weight:500">{{ l.native }}</span>
+                      <span style="font-size:11px;color:var(--c-fg-muted)">{{ l.meta }}</span>
+                    </span>
+                    <span style="color:var(--c-primary);font-size:13px">{{ l.check }}</span>
+                  </button>
+                </li>
+              </sc-for>
+            </ul>
+          </sc-if>
+        </div>
+        <button onClick="{{ cycleTheme }}" aria-label="{{ t.themeLabel }}" title="{{ themeName }}" style="width:34px;height:34px;display:grid;place-items:center;background:var(--c-surface);border:1px solid var(--c-border);border-radius:8px;cursor:pointer;font-size:14px" style-hover="border-color:var(--c-border-strong)">{{ themeIcon }}</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width:1200px;margin:0 auto;padding:0 20px 80px">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <section style="padding:56px 0 8px;max-width:760px">
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--c-fg-2);background:var(--c-bg-subtle);border:1px solid var(--c-border);padding:5px 10px;border-radius:20px">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--c-success)"></span>{{ t.heroBadge }}
+        </span>
+        <h1 style="font-size:44px;line-height:1.12;letter-spacing:-1px;font-weight:700;margin:18px 0 12px;text-wrap:pretty">{{ t.heroTitle }}</h1>
+        <p style="font-size:17px;color:var(--c-fg-2);margin:0 0 24px;text-wrap:pretty">{{ t.heroSub }}</p>
+
+        <div style="display:flex;align-items:center;gap:10px;background:var(--c-surface);border:1px solid var(--c-border-strong);border-radius:14px;padding:12px 14px;box-shadow:var(--c-shadow)">
+          <span aria-hidden="true" style="color:var(--c-fg-muted);font-size:16px">⌕</span>
+          <input type="search" value="{{ query }}" onInput="{{ onSearch }}" placeholder="{{ t.searchPh }}" aria-label="{{ t.searchPh }}" style="flex:1;border:0;outline:none;background:none;font-size:15.5px;color:var(--c-fg);min-width:0" />
+          <button onClick="{{ goLibrary }}" style="background:var(--c-primary);color:#fff;border:0;padding:9px 16px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap" style-hover="background:var(--c-primary-press)">{{ t.searchBtn }}</button>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center">
+          <span style="font-size:12.5px;color:var(--c-fg-muted)">{{ t.tryLabel }}</span>
+          <sc-for list="{{ quickPicks }}" as="q" hint-placeholder-count="7">
+            <button onClick="{{ q.go }}" style="background:var(--c-surface);border:1px solid var(--c-border);padding:5px 11px;border-radius:20px;font-size:13px;cursor:pointer;color:var(--c-fg-2)" style-hover="border-color:var(--c-primary);color:var(--c-primary)">{{ q.name }}</button>
+          </sc-for>
+        </div>
+      </section>
+
+      <section aria-labelledby="chon-risk" style="margin:40px 0 0;background:var(--c-danger-soft);border:1px solid var(--c-danger);border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+        <span aria-hidden="true" style="width:30px;height:30px;border-radius:8px;background:var(--c-danger);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px;flex:none">!</span>
+        <div>
+          <h2 id="chon-risk" style="margin:0 0 4px;font-size:15px;font-weight:700;color:var(--c-danger)">{{ t.riskTitle }}</h2>
+          <p style="margin:0;font-size:14px;color:var(--c-fg-2);max-width:70ch;text-wrap:pretty">{{ t.riskBody }}</p>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:20px">
+        <sc-for list="{{ homeActions }}" as="a" hint-placeholder-count="3">
+          <button onClick="{{ a.go }}" style="text-align:start;background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s" style-hover="border-color:var(--c-primary);transform:translateY(-2px)">
+            <span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:{{ a.tint }};color:{{ a.ink }};display:grid;place-items:center;font-size:17px;font-weight:700">{{ a.glyph }}</span>
+            <span style="font-size:16px;font-weight:600">{{ a.title }}</span>
+            <span style="font-size:13.5px;color:var(--c-fg-2);text-wrap:pretty">{{ a.sub }}</span>
+            <span style="font-size:13px;font-weight:600;color:var(--c-primary);margin-top:2px">{{ a.cta }}</span>
+          </button>
+        </sc-for>
+      </section>
+
+      <section style="margin-top:48px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px">
+          <h2 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.3px">{{ t.popular }}</h2>
+          <button onClick="{{ goLibrary }}" style="background:none;border:0;padding:0;font-size:13.5px;font-weight:600;color:var(--c-primary);cursor:pointer">{{ t.viewAll }}</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,208px),1fr));gap:12px">
+          <sc-for list="{{ popular }}" as="p" hint-placeholder-count="8">
+            <button onClick="{{ p.go }}" style="text-align:start;background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s" style-hover="border-color:var(--c-border-strong);transform:translateY(-2px)">
+              <span style="display:flex;align-items:center;gap:10px">
+                <span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:{{ p.tile }};color:#fff;display:grid;place-items:center;font-size:15px;font-weight:700;flex:none">{{ p.mono }}</span>
+                <span style="display:flex;flex-direction:column;min-width:0">
+                  <span style="font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</span>
+                  <span style="font-size:11.5px;color:var(--c-fg-muted)">{{ p.catLabel }}</span>
+                </span>
+              </span>
+              <span style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;background:{{ p.statusBg }};color:{{ p.statusFg }}">{{ p.statusLabel }}</span>
+                <span style="font-size:11px;font-weight:500;padding:3px 7px;border-radius:6px;background:var(--c-bg-subtle);color:var(--c-fg-2)">{{ p.timeLabel }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="margin-top:48px">
+        <h2 style="margin:0 0 14px;font-size:22px;font-weight:700;letter-spacing:-.3px">{{ t.byCategory }}</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,168px),1fr));gap:10px">
+          <sc-for list="{{ categoryCards }}" as="c" hint-placeholder-count="13">
+            <button onClick="{{ c.go }}" style="text-align:start;background:var(--c-surface-2);border:1px solid var(--c-border);border-radius:10px;padding:13px;cursor:pointer;display:flex;flex-direction:column;gap:3px" style-hover="border-color:var(--c-border-strong)">
+              <span style="font-size:14px;font-weight:600">{{ c.label }}</span>
+              <span style="font-size:12px;color:var(--c-fg-muted)">{{ c.countLabel }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="margin-top:48px;background:var(--c-bg-subtle);border:1px solid var(--c-border);border-radius:14px;padding:22px">
+        <h2 style="margin:0 0 6px;font-size:16px;font-weight:700">{{ t.privacyTitle }}</h2>
+        <p style="margin:0 0 12px;font-size:14px;color:var(--c-fg-2);max-width:80ch;text-wrap:pretty">{{ t.privacyBody }}</p>
+        <p style="margin:0;font-size:13.5px;color:var(--c-danger);font-weight:600;max-width:80ch;text-wrap:pretty">{{ t.otpWarning }}</p>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:32px 0 0">
+        <h1 style="margin:0 0 6px;font-size:32px;font-weight:700;letter-spacing:-.6px">{{ t.libTitle }}</h1>
+        <p style="margin:0 0 22px;font-size:15.5px;color:var(--c-fg-2)">{{ t.libSub }}</p>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--c-surface);border:1px solid var(--c-border-strong);border-radius:12px;padding:10px 13px;max-width:520px">
+          <span aria-hidden="true" style="color:var(--c-fg-muted)">⌕</span>
+          <input type="search" value="{{ query }}" onInput="{{ onSearch }}" placeholder="{{ t.searchPh }}" aria-label="{{ t.searchPh }}" style="flex:1;border:0;outline:none;background:none;font-size:15px;color:var(--c-fg);min-width:0" />
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:24px;margin-top:22px;align-items:flex-start">
+          <aside aria-label="{{ t.filters }}" style="flex:1 1 220px;max-width:100%;background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:14px;font-weight:700">{{ t.filters }}</span>
+              <button onClick="{{ clearFilters }}" style="background:none;border:0;padding:0;font-size:12.5px;color:var(--c-primary);font-weight:600;cursor:pointer">{{ t.clear }}</button>
+            </div>
+            <sc-for list="{{ filterGroups }}" as="g" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--c-fg-muted)">{{ g.label }}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="4">
+                    <button onClick="{{ o.toggle }}" aria-pressed="{{ o.pressed }}" style="background:{{ o.bg }};color:{{ o.fg }};border:1px solid {{ o.bc }};padding:5px 10px;border-radius:18px;font-size:12.5px;font-weight:500;cursor:pointer">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </aside>
+
+          <div style="flex:999 1 320px;min-width:0">
+            <p style="margin:0 0 12px;font-size:13px;color:var(--c-fg-muted)">{{ resultsLabel }}</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px">
+              <sc-for list="{{ results }}" as="p" hint-placeholder-count="10">
+                <button onClick="{{ p.go }}" style="text-align:start;background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s" style-hover="border-color:var(--c-border-strong);transform:translateY(-2px)">
+                  <span style="display:flex;align-items:center;gap:10px">
+                    <span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:{{ p.tile }};color:#fff;display:grid;place-items:center;font-size:15px;font-weight:700;flex:none">{{ p.mono }}</span>
+                    <span style="display:flex;flex-direction:column;min-width:0">
+                      <span style="font-size:14.5px;font-weight:600">{{ p.name }}</span>
+                      <span style="font-size:11.5px;color:var(--c-fg-muted)">{{ p.catLabel }}</span>
+                    </span>
+                  </span>
+                  <span style="display:flex;flex-wrap:wrap;gap:6px">
+                    <span style="font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;background:{{ p.statusBg }};color:{{ p.statusFg }}">{{ p.statusLabel }}</span>
+                    <span style="font-size:11px;font-weight:500;padding:3px 7px;border-radius:6px;background:var(--c-bg-subtle);color:var(--c-fg-2)">{{ p.deviceLabel }}</span>
+                  </span>
+                  <span style="font-size:12px;color:var(--c-fg-2)">{{ p.flagLine }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px dashed var(--c-border-strong);border-radius:14px;padding:40px 20px;text-align:center">
+                <p style="margin:0 0 6px;font-size:16px;font-weight:600">{{ t.emptyTitle }}</p>
+                <p style="margin:0 0 14px;font-size:14px;color:var(--c-fg-2)">{{ t.emptyBody }}</p>
+                <button onClick="{{ clearFilters }}" style="background:var(--c-primary);color:#fff;border:0;padding:9px 16px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer">{{ t.clear }}</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isGuide }}" hint-placeholder-val="{{ false }}">
+      <article style="padding:26px 0 0">
+        <nav aria-label="Breadcrumb" style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:12.5px;color:var(--c-fg-muted);margin-bottom:16px">
+          <button onClick="{{ goHome }}" style="background:none;border:0;padding:0;font-size:12.5px;color:var(--c-fg-muted);cursor:pointer">{{ t.navHome }}</button>
+          <span aria-hidden="true">{{ crumbSep }}</span>
+          <button onClick="{{ goLibrary }}" style="background:none;border:0;padding:0;font-size:12.5px;color:var(--c-fg-muted);cursor:pointer">{{ t.navGuides }}</button>
+          <span aria-hidden="true">{{ crumbSep }}</span>
+          <span style="color:var(--c-fg-2);font-weight:500">{{ guide.name }}</span>
+        </nav>
+
+        <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+          <div style="flex:999 1 340px;min-width:0">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+              <span aria-hidden="true" style="width:54px;height:54px;border-radius:14px;background:{{ guide.tile }};color:#fff;display:grid;place-items:center;font-size:23px;font-weight:700;flex:none">{{ guide.mono }}</span>
+              <div>
+                <h1 style="margin:0;font-size:30px;font-weight:700;letter-spacing:-.6px;line-height:1.15">{{ guide.h1 }}</h1>
+                <p style="margin:3px 0 0;font-size:14px;color:var(--c-fg-2)">{{ guide.h2 }}</p>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;background:{{ guide.statusBg }};color:{{ guide.statusFg }}">{{ guide.statusIcon }} {{ guide.statusLabel }}</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;background:{{ guide.freshBg }};color:{{ guide.freshFg }}">{{ guide.freshLabel }}</span>
+              <span style="font-size:12px;font-weight:500;padding:5px 10px;border-radius:8px;background:var(--c-bg-subtle);color:var(--c-fg-2)">{{ guide.diffLabel }}</span>
+              <span style="font-size:12px;font-weight:500;padding:5px 10px;border-radius:8px;background:var(--c-bg-subtle);color:var(--c-fg-2)">{{ guide.timeLabel }}</span>
+            </div>
+            <p style="margin:0 0 20px;font-size:11.5px;color:var(--c-fg-muted);font-family:'NotoSans',monospace">{{ guide.route }}</p>
+
+            <sc-if value="{{ guide.stale }}" hint-placeholder-val="{{ false }}">
+              <div role="status" style="display:flex;gap:12px;background:var(--c-warning-soft);border:1px solid var(--c-warning);border-radius:12px;padding:14px 16px;margin-bottom:18px">
+                <span aria-hidden="true" style="color:var(--c-warning);font-weight:700">⚠</span>
+                <p style="margin:0;font-size:13.5px;color:var(--c-fg-2)">{{ t.staleBody }}</p>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ guide.hasTabs }}" hint-placeholder-val="{{ true }}">
+              <div role="tablist" aria-label="{{ t.deviceTabs }}" style="display:inline-flex;gap:4px;background:var(--c-bg-subtle);border:1px solid var(--c-border);padding:4px;border-radius:12px;margin-bottom:20px">
+                <sc-for list="{{ guide.tabs }}" as="d" hint-placeholder-count="2">
+                  <button role="tab" aria-selected="{{ d.selected }}" onClick="{{ d.pick }}" style="background:{{ d.bg }};color:{{ d.fg }};border:0;padding:7px 16px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:{{ d.shadow }}">{{ d.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ guide.missing }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px dashed var(--c-border-strong);border-radius:14px;padding:32px 24px;background:var(--c-surface-2)">
+                <p style="margin:0 0 6px;font-size:17px;font-weight:700">{{ t.pendingTitle }}</p>
+                <p style="margin:0 0 16px;font-size:14px;color:var(--c-fg-2);max-width:62ch;text-wrap:pretty">{{ t.pendingBody }}</p>
+                <a href="{{ guide.sourceUrl }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;background:var(--c-primary);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none">{{ t.openOfficial }} ↗</a>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ guide.hasSteps }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <sc-if value="{{ guide.transFallback }}" hint-placeholder-val="{{ false }}">
+                  <div role="status" style="display:flex;gap:10px;background:var(--c-info-soft);border:1px solid var(--c-info);border-radius:12px;padding:12px 14px;margin-bottom:18px">
+                    <span aria-hidden="true" style="color:var(--c-info);font-weight:700">i</span>
+                    <p style="margin:0;font-size:13.5px;color:var(--c-fg-2)">{{ t.transFallback }}</p>
+                  </div>
+                </sc-if>
+
+                <h2 style="margin:0 0 12px;font-size:19px;font-weight:700">{{ t.beforeYouStart }}</h2>
+                <ul style="margin:0 0 30px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ guide.prereqs }}" as="p" hint-placeholder-count="3">
+                    <li dir="{{ contentDir }}" style="display:flex;gap:10px;align-items:flex-start;background:var(--c-success-soft);border:1px solid var(--c-border);border-radius:10px;padding:11px 13px">
+                      <span aria-hidden="true" style="color:var(--c-success);font-weight:700;font-size:13px">✓</span>
+                      <span style="font-size:14px;color:var(--c-fg-2);text-wrap:pretty">{{ p.text }}</span>
+                    </li>
+                  </sc-for>
+                </ul>
+
+                <h2 style="margin:0 0 4px;font-size:19px;font-weight:700">{{ t.stepsTitle }}</h2>
+                <p style="margin:0 0 18px;font-size:13px;color:var(--c-fg-muted)">{{ guide.stepsHint }}</p>
+
+                <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px">
+                  <sc-for list="{{ guide.steps }}" as="s" hint-placeholder-count="5">
+                    <li style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:18px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+                      <div dir="{{ contentDir }}" style="flex:999 1 240px;min-width:0">
+                        <span style="display:inline-flex;align-items:center;gap:8px;margin-bottom:8px">
+                          <span aria-hidden="true" style="width:26px;height:26px;border-radius:7px;background:var(--c-primary-soft);color:var(--c-primary);display:grid;place-items:center;font-size:12.5px;font-weight:700">{{ s.num }}</span>
+                          <span style="font-size:11px;font-weight:600;color:var(--c-fg-muted);letter-spacing:.3px">{{ s.deviceBadge }}</span>
+                        </span>
+                        <h3 style="margin:0 0 6px;font-size:16.5px;font-weight:600">{{ s.title }}</h3>
+                        <p style="margin:0;font-size:14px;color:var(--c-fg-2);text-wrap:pretty">{{ s.desc }}</p>
+                        <sc-if value="{{ s.hasNote }}" hint-placeholder-val="{{ false }}">
+                          <p style="margin:10px 0 0;font-size:13px;color:var(--c-warning);background:var(--c-warning-soft);border:1px solid var(--c-warning);border-radius:9px;padding:9px 11px;text-wrap:pretty">{{ s.note }}</p>
+                        </sc-if>
+                      </div>
+                      <button onClick="{{ s.open }}" aria-label="{{ s.viewLabel }}" dir="{{ contentDir }}" style="flex:1 1 170px;max-width:220px;background:var(--c-bg-subtle);border:1px solid var(--c-border);border-radius:12px;padding:10px;cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:stretch" style-hover="border-color:var(--c-primary)">
+                        <span style="display:block;background:var(--c-surface);border:1px solid var(--c-border);border-radius:9px;overflow:hidden">
+                          <span style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;background:var(--c-surface-2);border-bottom:1px solid var(--c-divider)">
+                            <span style="font-size:8.5px;color:var(--c-fg-muted)">{{ s.mock.chrome }}</span>
+                            <span style="font-size:8.5px;color:var(--c-fg-muted)">{{ s.mock.clock }}</span>
+                          </span>
+                          <span style="display:block;padding:6px 7px 9px">
+                            <span style="display:block;font-size:10.5px;font-weight:700;margin-bottom:5px;text-align:start">{{ s.mock.title }}</span>
+                            <sc-for list="{{ s.mock.rows }}" as="r" hint-placeholder-count="4">
+                              <span style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding:5px 6px;margin-bottom:3px;border-radius:5px;background:{{ r.bg }};border:1px solid {{ r.bc }}">
+                                <span style="font-size:9px;font-weight:{{ r.fw }};color:{{ r.fg }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.label }}</span>
+                                <span aria-hidden="true" style="font-size:8px;color:{{ r.arrow }}">{{ r.tip }}</span>
+                              </span>
+                            </sc-for>
+                          </span>
+                        </span>
+                        <span style="font-size:11px;font-weight:600;color:var(--c-primary);text-align:center">{{ t.viewStep }}</span>
+                      </button>
+                    </li>
+                  </sc-for>
+                </ol>
+
+                <h2 style="margin:34px 0 12px;font-size:19px;font-weight:700">{{ t.important }}</h2>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ guide.warnings }}" as="w" hint-placeholder-count="2">
+                    <div style="display:flex;gap:12px;background:{{ w.bg }};border:1px solid {{ w.bc }};border-radius:12px;padding:14px 16px">
+                      <span aria-hidden="true" style="color:{{ w.ink }};font-weight:700;flex:none">{{ w.glyph }}</span>
+                      <div dir="{{ contentDir }}" style="min-width:0">
+                        <p style="margin:0 0 3px;font-size:12px;font-weight:700;color:{{ w.ink }};letter-spacing:.3px">{{ w.level }}</p>
+                        <p style="margin:0;font-size:14px;color:var(--c-fg-2);text-wrap:pretty">{{ w.text }}</p>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <h2 style="margin:34px 0 12px;font-size:19px;font-weight:700">{{ t.troubleshooting }}</h2>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ guide.trouble }}" as="q" hint-placeholder-count="4">
+                    <div dir="{{ contentDir }}" style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;overflow:hidden">
+                      <button onClick="{{ q.toggle }}" aria-expanded="{{ q.expanded }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:none;border:0;padding:14px 16px;cursor:pointer;text-align:start">
+                        <span style="font-size:14.5px;font-weight:600">{{ q.q }}</span>
+                        <span aria-hidden="true" style="color:var(--c-fg-muted);font-size:13px;flex:none">{{ q.chev }}</span>
+                      </button>
+                      <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+                        <div style="padding:0 16px 15px;animation:chonIn .16s ease-out">
+                          <p style="margin:0;font-size:14px;color:var(--c-fg-2);text-wrap:pretty">{{ q.a }}</p>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <aside style="flex:1 1 260px;max-width:100%;display:flex;flex-direction:column;gap:14px">
+            <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:16px">
+              <p style="margin:0 0 10px;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--c-fg-muted)">{{ t.atAGlance }}</p>
+              <dl style="margin:0;display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ guide.facts }}" as="f" hint-placeholder-count="6">
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:1px solid var(--c-divider);padding-bottom:8px">
+                    <dt style="font-size:12.5px;color:var(--c-fg-2);margin:0">{{ f.k }}</dt>
+                    <dd style="font-size:12.5px;font-weight:600;margin:0;color:{{ f.ink }};text-align:end">{{ f.v }}</dd>
+                  </div>
+                </sc-for>
+              </dl>
+            </div>
+
+            <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:16px">
+              <p style="margin:0 0 4px;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--c-fg-muted)">{{ t.source }}</p>
+              <p style="margin:0 0 10px;font-size:13.5px;color:var(--c-fg-2)">{{ guide.sourceName }}</p>
+              <a href="{{ guide.sourceUrl }}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:7px;background:var(--c-surface-2);border:1px solid var(--c-border-strong);color:var(--c-fg);padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:600;text-decoration:none" style-hover="border-color:var(--c-primary);color:var(--c-primary)">{{ t.openOfficial }} ↗</a>
+            </div>
+
+            <button onClick="{{ guide.addToChecklist }}" style="background:{{ guide.addBg }};color:{{ guide.addFg }};border:1px solid {{ guide.addBc }};border-radius:12px;padding:12px;font-size:14px;font-weight:600;cursor:pointer">{{ guide.addLabel }}</button>
+
+            <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:16px">
+              <p style="margin:0 0 10px;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--c-fg-muted)">{{ t.related }}</p>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ guide.related }}" as="r" hint-placeholder-count="4">
+                  <button onClick="{{ r.go }}" style="display:flex;align-items:center;gap:9px;background:none;border:0;padding:6px;border-radius:9px;cursor:pointer;text-align:start" style-hover="background:var(--c-bg-subtle)">
+                    <span aria-hidden="true" style="width:24px;height:24px;border-radius:7px;background:{{ r.tile }};color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none">{{ r.mono }}</span>
+                    <span style="font-size:13.5px;font-weight:500">{{ r.name }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </article>
+    </sc-if>
+
+    <sc-if value="{{ isWizard }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:34px 0 0;max-width:720px;margin:0 auto">
+        <p style="margin:0 0 8px;font-size:12.5px;font-weight:600;color:var(--c-primary)">{{ wizard.progressLabel }}</p>
+        <div style="height:6px;border-radius:99px;background:var(--c-bg-subtle);overflow:hidden;margin-bottom:24px">
+          <div style="height:100%;border-radius:99px;background:var(--c-primary);width:{{ wizard.pct }};transition:width .3s ease"></div>
+        </div>
+        <h1 style="margin:0 0 6px;font-size:28px;font-weight:700;letter-spacing:-.5px;text-wrap:pretty">{{ wizard.question }}</h1>
+        <p style="margin:0 0 22px;font-size:15px;color:var(--c-fg-2)">{{ wizard.hint }}</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">
+          <sc-for list="{{ wizard.options }}" as="o" hint-placeholder-count="5">
+            <button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="text-align:start;background:{{ o.bg }};border:1.5px solid {{ o.bc }};border-radius:12px;padding:15px;cursor:pointer;display:flex;align-items:flex-start;gap:11px" style-hover="border-color:var(--c-primary)">
+              <span aria-hidden="true" style="width:20px;height:20px;border-radius:{{ o.markRadius }};border:1.5px solid {{ o.markBc }};background:{{ o.markBg }};color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none;margin-top:1px">{{ o.mark }}</span>
+              <span style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:14.5px;font-weight:600">{{ o.label }}</span>
+                <span style="font-size:12.5px;color:var(--c-fg-2);text-wrap:pretty">{{ o.sub }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;margin-top:26px;flex-wrap:wrap">
+          <button onClick="{{ wizard.back }}" style="background:var(--c-surface);border:1px solid var(--c-border-strong);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">{{ t.back }}</button>
+          <button onClick="{{ wizard.next }}" disabled="{{ wizard.nextDisabled }}" style="background:{{ wizard.nextBg }};color:{{ wizard.nextFg }};border:0;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:{{ wizard.nextCursor }}">{{ wizard.nextLabel }}</button>
+          <span style="font-size:12.5px;color:var(--c-fg-muted)">{{ t.wizardPrivacy }}</span>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isChecklist }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:34px 0 0;max-width:820px">
+        <h1 style="margin:0 0 6px;font-size:32px;font-weight:700;letter-spacing:-.6px">{{ t.checklistTitle }}</h1>
+        <p style="margin:0 0 22px;font-size:15px;color:var(--c-fg-2)">{{ t.checklistSub }}</p>
+
+        <sc-if value="{{ checklist.empty }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px dashed var(--c-border-strong);border-radius:14px;padding:44px 24px;text-align:center;background:var(--c-surface-2)">
+            <p style="margin:0 0 6px;font-size:17px;font-weight:700">{{ t.checklistEmptyTitle }}</p>
+            <p style="margin:0 0 18px;font-size:14px;color:var(--c-fg-2)">{{ t.checklistEmptyBody }}</p>
+            <button onClick="{{ goWizard }}" style="background:var(--c-primary);color:#fff;border:0;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">{{ t.startWizard }}</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ checklist.any }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:14px;padding:18px;margin-bottom:16px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px">
+                <span style="font-size:14px;font-weight:700">{{ t.progress }}</span>
+                <span style="font-size:14px;font-weight:700;color:var(--c-primary)">{{ checklist.pctLabel }}</span>
+              </div>
+              <div role="progressbar" aria-valuenow="{{ checklist.done }}" aria-valuemin="0" aria-valuemax="{{ checklist.total }}" style="height:10px;border-radius:99px;background:var(--c-bg-subtle);overflow:hidden">
+                <div style="height:100%;border-radius:99px;background:var(--c-success);width:{{ checklist.pct }};transition:width .35s ease"></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;flex-wrap:wrap">
+                <span style="font-size:13px;color:var(--c-fg-2)">{{ checklist.countLabel }}</span>
+                <span style="display:flex;gap:8px">
+                  <button onClick="{{ goWizard }}" style="background:var(--c-surface-2);border:1px solid var(--c-border);padding:7px 12px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer">{{ t.rerunWizard }}</button>
+                  <button onClick="{{ checklist.reset }}" style="background:none;border:1px solid var(--c-border);padding:7px 12px;border-radius:9px;font-size:12.5px;font-weight:600;color:var(--c-danger);cursor:pointer">{{ t.reset }}</button>
+                </span>
+              </div>
+            </div>
+
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ checklist.items }}" as="i" hint-placeholder-count="8">
+                <li style="display:flex;align-items:center;gap:12px;background:{{ i.bg }};border:1px solid {{ i.bc }};border-radius:12px;padding:13px 15px">
+                  <button onClick="{{ i.toggle }}" role="checkbox" aria-checked="{{ i.checked }}" aria-label="{{ i.label }}" style="width:24px;height:24px;border-radius:7px;border:1.5px solid {{ i.boxBc }};background:{{ i.boxBg }};color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;cursor:pointer;flex:none">{{ i.mark }}</button>
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                    <span style="font-size:14.5px;font-weight:600;text-decoration:{{ i.deco }};color:{{ i.fg }}">{{ i.label }}</span>
+                    <span style="font-size:12.5px;color:var(--c-fg-muted)">{{ i.meta }}</span>
+                  </span>
+                  <sc-if value="{{ i.hasGuide }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ i.go }}" style="background:var(--c-surface);border:1px solid var(--c-border-strong);padding:7px 12px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;flex:none" style-hover="border-color:var(--c-primary);color:var(--c-primary)">{{ t.openGuide }}</button>
+                  </sc-if>
+                </li>
+              </sc-for>
+            </ul>
+            <p style="margin:14px 0 0;font-size:12.5px;color:var(--c-fg-muted)">{{ t.localOnly }}</p>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isSafety }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:34px 0 0;max-width:860px">
+        <h1 style="margin:0 0 6px;font-size:32px;font-weight:700;letter-spacing:-.6px;text-wrap:pretty">{{ t.lostTitle }}</h1>
+        <p style="margin:0 0 20px;font-size:15.5px;color:var(--c-fg-2);text-wrap:pretty">{{ t.lostSub }}</p>
+
+        <div style="display:flex;gap:14px;background:var(--c-danger-soft);border:1px solid var(--c-danger);border-radius:14px;padding:16px 18px;margin-bottom:26px">
+          <span aria-hidden="true" style="color:var(--c-danger);font-weight:700">!</span>
+          <p style="margin:0;font-size:14px;color:var(--c-fg-2);text-wrap:pretty">{{ t.lostWarn }}</p>
+        </div>
+
+        <sc-if value="{{ contentFallback }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;gap:10px;background:var(--c-info-soft);border:1px solid var(--c-info);border-radius:12px;padding:12px 14px;margin-bottom:22px">
+            <span aria-hidden="true" style="color:var(--c-info);font-weight:700">i</span>
+            <p style="margin:0;font-size:13.5px;color:var(--c-fg-2)">{{ t.transFallback }}</p>
+          </div>
+        </sc-if>
+        <h2 style="margin:0 0 12px;font-size:20px;font-weight:700">{{ t.orderMatters }}</h2>
+        <ol style="margin:0 0 34px;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ lostSteps }}" as="s" hint-placeholder-count="13">
+            <li dir="{{ contentDir }}" style="display:flex;gap:14px;align-items:flex-start;padding:13px 15px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;margin-bottom:8px">
+              <span aria-hidden="true" style="width:26px;height:26px;border-radius:7px;background:var(--c-bg-subtle);color:var(--c-fg-2);display:grid;place-items:center;font-size:12.5px;font-weight:700;flex:none">{{ s.n }}</span>
+              <span style="display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:15px;font-weight:600">{{ s.title }}</span>
+                <span style="font-size:13.5px;color:var(--c-fg-2);text-wrap:pretty">{{ s.body }}</span>
+              </span>
+            </li>
+          </sc-for>
+        </ol>
+
+        <h2 style="margin:0 0 6px;font-size:20px;font-weight:700">{{ t.twofaTitle }}</h2>
+        <p style="margin:0 0 16px;font-size:14.5px;color:var(--c-fg-2);max-width:75ch;text-wrap:pretty">{{ t.twofaSub }}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px;margin-bottom:34px">
+          <sc-for list="{{ twofaCards }}" as="c" hint-placeholder-count="7">
+            <div dir="{{ contentDir }}" style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.3px;padding:3px 7px;border-radius:6px;background:{{ c.bg }};color:{{ c.ink }};align-self:flex-start">{{ c.tag }}</span>
+              <span style="font-size:15px;font-weight:600">{{ c.title }}</span>
+              <span style="font-size:13.5px;color:var(--c-fg-2);text-wrap:pretty">{{ c.body }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <h2 style="margin:0 0 12px;font-size:20px;font-weight:700">{{ t.troubleshooting }}</h2>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ globalTrouble }}" as="q" hint-placeholder-count="9">
+            <div dir="{{ contentDir }}" style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:12px;overflow:hidden">
+              <button onClick="{{ q.toggle }}" aria-expanded="{{ q.expanded }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:none;border:0;padding:14px 16px;cursor:pointer;text-align:start">
+                <span style="font-size:14.5px;font-weight:600">{{ q.q }}</span>
+                <span aria-hidden="true" style="color:var(--c-fg-muted);font-size:13px;flex:none">{{ q.chev }}</span>
+              </button>
+              <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:0 16px 15px;animation:chonIn .16s ease-out">
+                  <p style="margin:0;font-size:14px;color:var(--c-fg-2);text-wrap:pretty">{{ q.a }}</p>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+  </main>
+
+  <footer style="border-top:1px solid var(--c-border);background:var(--c-bg-subtle)">
+    <div style="max-width:1200px;margin:0 auto;padding:28px 20px 40px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span aria-hidden="true" style="width:26px;height:26px;border-radius:7px;background:var(--c-primary);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px">C</span>
+        <span style="font-weight:700;font-size:15px">chon</span>
+        <span style="font-size:12.5px;color:var(--c-fg-muted)">{{ t.tagline }}</span>
+      </div>
+      <p style="margin:0;font-size:12.5px;color:var(--c-fg-muted);max-width:95ch;text-wrap:pretty">{{ t.disclaimer }}</p>
+      <p style="margin:0;font-size:12.5px;color:var(--c-fg-muted)">{{ t.buildNote }}</p>
+    </div>
+  </footer>
+
+  <sc-if value="{{ viewer.open }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="{{ viewer.aria }}" style="position:fixed;inset:0;z-index:80;background:rgba(9,12,20,.72);display:flex;align-items:center;justify-content:center;padding:20px;animation:chonIn .15s ease-out">
+      <div style="background:var(--c-bg);border-radius:18px;border:1px solid var(--c-border);width:min(100%,780px);max-height:92vh;overflow:auto;box-shadow:var(--c-shadow-lift)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--c-border);position:sticky;top:0;background:var(--c-bg)">
+          <span style="display:flex;align-items:center;gap:10px;min-width:0">
+            <span style="font-size:14px;font-weight:700">{{ viewer.counter }}</span>
+            <span style="font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--c-bg-subtle);color:var(--c-fg-2)">{{ viewer.device }}</span>
+          </span>
+          <span style="display:flex;gap:6px">
+            <button onClick="{{ viewer.zoom }}" aria-label="{{ t.zoom }}" style="background:var(--c-surface);border:1px solid var(--c-border);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:13px">{{ viewer.zoomIcon }}</button>
+            <button onClick="{{ viewer.close }}" aria-label="{{ t.close }}" style="background:var(--c-surface);border:1px solid var(--c-border);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:13px">✕</button>
+          </span>
+        </div>
+
+        <div style="padding:22px;display:flex;justify-content:center;background:var(--c-bg-subtle)">
+          <div style="width:{{ viewer.frameWidth }};transition:width .2s ease;background:var(--c-surface);border:1px solid var(--c-border-strong);border-radius:22px;padding:8px;box-shadow:var(--c-shadow-lift)">
+            <div style="background:var(--c-surface);border-radius:16px;overflow:hidden;border:1px solid var(--c-divider)">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--c-surface-2);border-bottom:1px solid var(--c-divider)">
+                <span style="font-size:10.5px;font-weight:600;color:var(--c-fg-2)">{{ viewer.step.mock.clock }}</span>
+                <span style="font-size:10.5px;color:var(--c-fg-muted)">{{ viewer.step.mock.chrome }}</span>
+              </div>
+              <div dir="{{ contentDir }}" style="padding:14px 14px 20px">
+                <p style="margin:0 0 12px;font-size:17px;font-weight:700">{{ viewer.step.mock.title }}</p>
+                <sc-for list="{{ viewer.step.mock.rows }}" as="r" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 12px;margin-bottom:7px;border-radius:9px;background:{{ r.bg }};border:1.5px solid {{ r.bc }};position:relative">
+                    <span style="display:flex;flex-direction:column;min-width:0">
+                      <span style="font-size:13.5px;font-weight:{{ r.fw }};color:{{ r.fg }}">{{ r.label }}</span>
+                      <span style="font-size:11px;color:var(--c-fg-muted)">{{ r.hint }}</span>
+                    </span>
+                    <span aria-hidden="true" style="font-size:11px;font-weight:700;color:{{ r.arrow }};flex:none">{{ r.tipFull }}</span>
+                  </div>
+                </sc-for>
+                <p style="margin:12px 0 0;font-size:11px;color:var(--c-fg-muted);text-align:center">{{ t.mockNote }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div dir="{{ contentDir }}" style="padding:18px">
+          <p style="margin:0 0 4px;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--c-primary)">{{ t.whatTap }}</p>
+          <h3 style="margin:0 0 6px;font-size:18px;font-weight:700">{{ viewer.step.title }}</h3>
+          <p style="margin:0;font-size:14.5px;color:var(--c-fg-2);text-wrap:pretty">{{ viewer.step.desc }}</p>
+          <sc-if value="{{ viewer.step.hasNote }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:12px 0 0;font-size:13.5px;color:var(--c-warning);background:var(--c-warning-soft);border:1px solid var(--c-warning);border-radius:10px;padding:11px 13px;text-wrap:pretty">{{ viewer.step.note }}</p>
+          </sc-if>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px">
+            <button onClick="{{ viewer.prev }}" disabled="{{ viewer.prevDisabled }}" style="background:var(--c-surface);border:1px solid var(--c-border-strong);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;opacity:{{ viewer.prevOpacity }}">{{ viewer.prevLabel }}</button>
+            <span style="font-size:12.5px;color:var(--c-fg-muted)">{{ viewer.counter }}</span>
+            <button onClick="{{ viewer.next }}" style="background:var(--c-primary);color:#fff;border:0;padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">{{ viewer.nextLabel }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;verifiedWindowDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:90,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:7,&quot;max&quot;:365,&quot;unit&quot;:&quot;days&quot;,&quot;section&quot;:&quot;Verification&quot;,&quot;label&quot;:&quot;Verified window&quot;},&quot;reviewWindowDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:180,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:30,&quot;max&quot;:730,&quot;unit&quot;:&quot;days&quot;,&quot;section&quot;:&quot;Verification&quot;}}">
+const TODAY = new Date('2026-09-20T00:00:00Z');
+
+const CATS = [
+  ['social','Social Media','وسائل التواصل','تۆڕی کۆمەڵایەتی','تۆرێن جڤاکی'],
+  ['messaging','Messaging','المراسلة','پەیامنێری','پەیامنێری'],
+  ['email','Email','البريد الإلكتروني','ئیمەیل','ئیمەیل'],
+  ['cloud','Cloud','الخدمات السحابية','هەور','هەور'],
+  ['shopping','Shopping','التسوق','بازاڕکردن','بازاڕکرن'],
+  ['banking','Banking','البنوك','بانکەکان','بانکان'],
+  ['travel','Travel','السفر','گەشتکردن','گەشتکرن'],
+  ['transport','Transportation','النقل','گواستنەوە','گوهاستن'],
+  ['entertainment','Entertainment','الترفيه','کاتبەسەربردن','کاتبەسەربرن'],
+  ['work','Work','العمل','کار','کار'],
+  ['dev','Developer Services','خدمات المطورين','خزمەتگوزاری پەرەپێدەر','خزمەتا پەرەپێدەری'],
+  ['gov','Government','الحكومة','حکومەت','حکومەت'],
+  ['other','Other','أخرى','هیتر','دی']
+];
+
+// status: official = workflow documented in the platform's own help centre;
+// reference = community/reference wording, flagged in UI; pending = no guide written yet.
+const P = (o) => o;
+const PLATFORMS = [
+  P({id:'whatsapp',name:'WhatsApp',cat:'messaging',mono:'W',tile:'#128C7E',url:'https://faq.whatsapp.com/',src:'Official WhatsApp Help Center',status:'official',diff:'easy',min:'3–5',verified:'2026-09-18',devices:['ios','android'],oldNumber:true,sms:true,email:false,twofa:true,direct:true}),
+  P({id:'telegram',name:'Telegram',cat:'messaging',mono:'T',tile:'#2AABEE',url:'https://telegram.org/faq',src:'Official Telegram FAQ',status:'official',diff:'easy',min:'2–4',verified:'2026-09-15',devices:['ios','android'],oldNumber:false,sms:true,email:false,twofa:true,direct:true}),
+  P({id:'google',name:'Google Account',cat:'email',mono:'G',tile:'#1A73E8',url:'https://support.google.com/accounts',src:'Official Google Account Help',status:'official',diff:'medium',min:'5–10',verified:'2026-09-17',devices:['web','android','ios'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'instagram',name:'Instagram',cat:'social',mono:'I',tile:'#C13584',url:'https://help.instagram.com/',src:'Instagram Help Center',status:'reference',diff:'easy',min:'3–5',verified:'2026-08-02',devices:['ios','web'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'facebook',name:'Facebook',cat:'social',mono:'F',tile:'#1877F2',url:'https://www.facebook.com/help/',src:'Facebook Help Center',status:'reference',diff:'easy',min:'3–6',verified:'2026-08-02',devices:['web'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'apple',name:'Apple Account',cat:'cloud',mono:'A',tile:'#3B3B3D',url:'https://support.apple.com/apple-account',src:'Apple Support',status:'reference',diff:'medium',min:'5–10',verified:'2026-09-10',devices:['ios','web'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'tiktok',name:'TikTok',cat:'social',mono:'K',tile:'#111214',url:'https://support.tiktok.com/',src:'TikTok Support',status:'pending',diff:'easy',min:'3–5',verified:'2026-03-04',devices:['ios','android'],oldNumber:true,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'snapchat',name:'Snapchat',cat:'social',mono:'S',tile:'#F7C900',url:'https://help.snapchat.com/',src:'Snapchat Support',status:'pending',diff:'easy',min:'3–5',verified:'2026-04-11',devices:['ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'linkedin',name:'LinkedIn',cat:'work',mono:'L',tile:'#0A66C2',url:'https://www.linkedin.com/help/linkedin',src:'LinkedIn Help',status:'pending',diff:'easy',min:'2–4',verified:'2026-05-20',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'microsoft',name:'Microsoft Account',cat:'email',mono:'M',tile:'#0067B8',url:'https://support.microsoft.com/account-billing',src:'Microsoft Support',status:'pending',diff:'medium',min:'5–10',verified:'2026-06-01',devices:['web'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'signal',name:'Signal',cat:'messaging',mono:'S',tile:'#3A76F0',url:'https://support.signal.org/',src:'Signal Support',status:'pending',diff:'easy',min:'2–4',verified:'2026-07-14',devices:['ios','android'],oldNumber:true,sms:true,email:false,twofa:false,direct:true}),
+  P({id:'x',name:'X / Twitter',cat:'social',mono:'X',tile:'#15181C',url:'https://help.x.com/',src:'X Help Center',status:'pending',diff:'easy',min:'2–4',verified:'2026-04-28',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'discord',name:'Discord',cat:'messaging',mono:'D',tile:'#5865F2',url:'https://support.discord.com/',src:'Discord Support',status:'pending',diff:'easy',min:'2–4',verified:'2026-05-02',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'viber',name:'Viber',cat:'messaging',mono:'V',tile:'#7360F2',url:'https://help.viber.com/',src:'Viber Support',status:'pending',diff:'medium',min:'5–10',verified:'2026-02-19',devices:['ios','android'],oldNumber:true,sms:true,email:false,twofa:false,direct:false}),
+  P({id:'threads',name:'Threads',cat:'social',mono:'@',tile:'#101010',url:'https://help.instagram.com/',src:'Instagram Help Center',status:'pending',diff:'easy',min:'2–4',verified:'2026-06-09',devices:['ios','android'],oldNumber:false,sms:false,email:true,twofa:true,direct:false}),
+  P({id:'reddit',name:'Reddit',cat:'social',mono:'R',tile:'#FF4500',url:'https://support.reddithelp.com/',src:'Reddit Help',status:'pending',diff:'easy',min:'2–4',verified:'2026-03-30',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:false}),
+  P({id:'paypal',name:'PayPal',cat:'banking',mono:'P',tile:'#003087',url:'https://www.paypal.com/smarthelp/home',src:'PayPal Help Center',status:'pending',diff:'medium',min:'5–10',verified:'2026-05-12',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'amazon',name:'Amazon',cat:'shopping',mono:'a',tile:'#FF9900',url:'https://www.amazon.com/gp/help/customer/display.html',src:'Amazon Customer Service',status:'pending',diff:'easy',min:'3–5',verified:'2026-04-02',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'uber',name:'Uber',cat:'transport',mono:'U',tile:'#0E0E0E',url:'https://help.uber.com/',src:'Uber Help',status:'pending',diff:'easy',min:'2–4',verified:'2026-04-22',devices:['ios','android'],oldNumber:true,sms:true,email:true,twofa:false,direct:true}),
+  P({id:'airbnb',name:'Airbnb',cat:'travel',mono:'A',tile:'#FF5A5F',url:'https://www.airbnb.com/help',src:'Airbnb Help Center',status:'pending',diff:'easy',min:'2–4',verified:'2026-03-18',devices:['web','ios','android'],oldNumber:false,sms:true,email:true,twofa:true,direct:true}),
+  P({id:'spotify',name:'Spotify',cat:'entertainment',mono:'S',tile:'#1DB954',url:'https://support.spotify.com/',src:'Spotify Support',status:'pending',diff:'easy',min:'2–4',verified:'2026-02-28',devices:['web'],oldNumber:false,sms:false,email:true,twofa:false,direct:false}),
+  P({id:'netflix',name:'Netflix',cat:'entertainment',mono:'N',tile:'#E50914',url:'https://help.netflix.com/',src:'Netflix Help Center',status:'pending',diff:'easy',min:'2–4',verified:'2026-02-10',devices:['web'],oldNumber:false,sms:true,email:true,twofa:false,direct:true})
+];
+
+const row = (label, hint, tap) => ({label, hint: hint || '', tap: !!tap});
+
+const GUIDES = {
+  whatsapp: {
+    ios: {
+      prereqs: ['The new SIM is in the phone and can receive SMS or a call.','The old number is still registered in WhatsApp (if you still have it).','A fresh chat backup has been created before you start.'],
+      steps: [
+        {title:'Open WhatsApp and go to Settings', desc:'On iPhone, Settings is the last item in the bottom tab bar.', mock:{title:'WhatsApp', chrome:'iPhone', rows:[row('Updates','Status, Channels'),row('Calls','Recent'),row('Communities',''),row('Chats','All messages'),row('Settings','Account, privacy, chats',true)]}},
+        {title:'Tap Account', desc:'Account holds everything tied to your identity — number, email, two-step verification.', mock:{title:'Settings', chrome:'iPhone', rows:[row('Account','Security notifications, change number',true),row('Privacy','Last seen, blocked'),row('Chats','Theme, wallpaper, backup'),row('Notifications',''),row('Storage and data','')]}},
+        {title:'Tap Change Number', desc:'This migrates your account — chats, groups and settings move to the new number.', mock:{title:'Account', chrome:'iPhone', rows:[row('Security notifications',''),row('Passkeys',''),row('Email address','Add a recovery email'),row('Two-step verification','On'),row('Change Number','',true),row('Delete my account','')]}},
+        {title:'Read the explanation screen, then continue', desc:'WhatsApp explains what moves and what does not. Continue when you have read it.', mock:{title:'Change Number', chrome:'iPhone', rows:[row('Your account info moves',''),row('Your groups move',''),row('Your chat history stays',''),row('Continue','',true)]}, note:'If you no longer have the old number, WhatsApp may still let you register the new number as a new account instead — that does not move your chats.'},
+        {title:'Enter the old number, then the new number', desc:'Both are typed inside WhatsApp only. Chon never asks for either.', mock:{title:'Change Number', chrome:'iPhone', rows:[row('Old phone number','Country code + number'),row('New phone number','Country code + number'),row('Next','',true)]}, note:'Never type a phone number, code or password into any website that offers to "do the change for you".'},
+        {title:'Choose whether to notify your contacts', desc:'You can tell all contacts, only your contacts in chats, or a custom list.', mock:{title:'Notify contacts', chrome:'iPhone', rows:[row('Notify my contacts','Everyone in your address book'),row('Contacts I have chats with','',true),row('Custom','Pick manually'),row('Done','')]}},
+        {title:'Verify the new number with the SMS code', desc:'WhatsApp sends a 6-digit code to the new number. Enter it to finish.', mock:{title:'Verify your number', chrome:'iPhone', rows:[row('Enter 6-digit code','Sent by SMS',true),row('Resend SMS',''),row('Call me instead','')]}, note:'Two-step verification stays on with the same PIN. If your PIN was tied to an email you no longer control, update the email now.'}
+      ],
+      warnings: [
+        {level:'high', text:'If your old number was your only recovery method on other accounts, update those accounts before you let the SIM expire.'},
+        {level:'medium', text:'Chat backups are tied to the phone number on some platforms. Create a backup before changing the number, and check that the backup still restores afterwards.'}
+      ]
+    },
+    android: {
+      prereqs: ['The new SIM is in the phone and can receive SMS or a call.','The old number is still registered in WhatsApp (if you still have it).','A fresh Google Drive chat backup has been created.'],
+      steps: [
+        {title:'Open WhatsApp and tap the menu', desc:'On Android the overflow menu (three dots) sits at the top-right of the Chats screen.', mock:{title:'WhatsApp', chrome:'Android', rows:[row('Search',''),row('New group',''),row('New broadcast',''),row('Linked devices',''),row('Settings','',true)]}},
+        {title:'Tap Account', desc:'Account holds the number, email and two-step verification.', mock:{title:'Settings', chrome:'Android', rows:[row('Account','Security notifications, change number',true),row('Privacy',''),row('Chats','Backup, history'),row('Notifications',''),row('Storage and data','')]}},
+        {title:'Tap Change number', desc:'Same migration flow as iPhone, different menu path.', mock:{title:'Account', chrome:'Android', rows:[row('Security notifications',''),row('Passkeys',''),row('Email address',''),row('Two-step verification',''),row('Change number','',true),row('Delete my account','')]}},
+        {title:'Continue past the explanation screen', desc:'Read what moves to the new number before you continue.', mock:{title:'Change number', chrome:'Android', rows:[row('Account info moves',''),row('Groups move',''),row('Next','',true)]}},
+        {title:'Enter the old number, then the new number', desc:'Include the country code for both. Type them only inside WhatsApp.', mock:{title:'Change number', chrome:'Android', rows:[row('Old number','+ country code'),row('New number','+ country code'),row('Next','',true)]}, note:'Chon never needs your phone number. Nobody legitimate will ask you for a verification code.'},
+        {title:'Choose who gets notified', desc:'Pick everyone, only chat contacts, or a custom list.', mock:{title:'Notify contacts', chrome:'Android', rows:[row('All my contacts',''),row('Contacts I have chats with','',true),row('Custom','')]}},
+        {title:'Verify with the SMS code', desc:'Enter the 6-digit code sent to the new number.', mock:{title:'Verify your number', chrome:'Android', rows:[row('Enter 6-digit code','',true),row('Resend SMS',''),row('Call me instead','')]}, note:'Check that your Google Drive backup account is still correct afterwards.'}
+      ],
+      warnings: [
+        {level:'high', text:'Do not uninstall WhatsApp before the change completes — reinstalling with only the new number starts a fresh account.'},
+        {level:'medium', text:'Verify that the Google account holding your chat backup is still one you control.'}
+      ]
+    }
+  },
+  telegram: {
+    ios: {
+      prereqs: ['The new number is active and can receive SMS.','You can still open Telegram on at least one device.'],
+      steps: [
+        {title:'Open Settings', desc:'Settings is in the bottom tab bar.', mock:{title:'Telegram', chrome:'iPhone', rows:[row('Contacts',''),row('Chats',''),row('Settings','Account, privacy',true)]}},
+        {title:'Tap Edit, then your phone number', desc:'Your number is shown at the top of your profile.', mock:{title:'Settings', chrome:'iPhone', rows:[row('Phone Number','Tap to change',true),row('Username',''),row('Bio',''),row('Privacy and Security','')]}},
+        {title:'Tap Change Number', desc:'Telegram warns that your account, chats and contacts move to the new number.', mock:{title:'Phone Number', chrome:'iPhone', rows:[row('Change Number','',true),row('Cancel','')]}},
+        {title:'Enter the new number', desc:'Select the country, then type the new number inside Telegram.', mock:{title:'Change Number', chrome:'iPhone', rows:[row('Country',''),row('New phone number',''),row('Next','',true)]}, note:'If the new number already has a Telegram account, you must delete or move that account first.'},
+        {title:'Verify the code', desc:'Telegram sends a code by SMS or in-app to confirm the new number.', mock:{title:'Verification', chrome:'iPhone', rows:[row('Enter code','',true),row('Resend','')]}, note:'Your chats, groups and channels follow your account automatically — contacts see the new number.'}
+      ],
+      warnings: [
+        {level:'medium', text:'People who have you saved under the old number will see your account move — the old number stops being able to log in immediately.'},
+        {level:'low', text:'If you use two-step verification, keep your Telegram cloud password and recovery email up to date.'}
+      ]
+    }
+  },
+  google: {
+    web: {
+      prereqs: ['You are signed in to the Google Account on a browser you trust.','The new number can receive SMS.','You know where your 2-Step Verification codes come from today.'],
+      steps: [
+        {title:'Open your Google Account', desc:'Go to myaccount.google.com and sign in.', mock:{title:'Google Account', chrome:'Web', rows:[row('Home',''),row('Personal info','Name, birthday, phone',true),row('Data and privacy',''),row('Security',''),row('People and sharing','')]}},
+        {title:'Open Personal info → Contact info', desc:'Personal info holds the phone number shown on your profile.', mock:{title:'Personal info', chrome:'Web', rows:[row('Name',''),row('Birthday',''),row('Phone','Used for profile and sign-in',true),row('Email','')]}},
+        {title:'Edit or add the new phone number', desc:'Add the new number, verify it, then remove the old one.', mock:{title:'Phone', chrome:'Web', rows:[row('Old number','Remove after the new one works'),row('Add recovery phone','',true),row('Verify','')]}},
+        {title:'Now open Security → 2-Step Verification', desc:'Changing your profile number does not change your 2-Step phone. This is the step most people miss.', mock:{title:'Security', chrome:'Web', rows:[row('2-Step Verification','Phone, authenticator, keys',true),row('Recovery phone',''),row('Recovery email',''),row('Your devices','')]}, note:'High risk: if your old number is still the 2-Step phone and the SIM dies, you can be locked out even though the profile number is new.'},
+        {title:'Update the 2-Step phone and recovery phone', desc:'Replace the old number in both places, then verify each one.', mock:{title:'2-Step Verification', chrome:'Web', rows:[row('Voice or text message','Change phone',true),row('Authenticator app',''),row('Backup codes','Generate new set'),row('Security keys','')]}},
+        {title:'Generate and store backup codes', desc:'Backup codes work without any phone. Save them somewhere offline before you drop the old SIM.', mock:{title:'Backup codes', chrome:'Web', rows:[row('Get backup codes','',true),row('Download',''),row('Print','')]}, note:'Backup codes are the single most useful safety net when a number changes.'}
+      ],
+      warnings: [
+        {level:'high', text:'A Google Account can hold the old number in three separate places: profile phone, recovery phone, and 2-Step Verification. Check all three.'},
+        {level:'medium', text:'If your Google Account is the recovery for other services, update those too.'}
+      ]
+    },
+    android: {
+      prereqs: ['You are signed in on the Android device.','The new SIM can receive SMS.'],
+      steps: [
+        {title:'Open device Settings → Google', desc:'Android exposes the same account settings from system Settings.', mock:{title:'Settings', chrome:'Android', rows:[row('Network and internet',''),row('Apps',''),row('Google','Services and preferences',true),row('System','')]}},
+        {title:'Tap Manage your Google Account', desc:'This opens the same account panel as the web.', mock:{title:'Google', chrome:'Android', rows:[row('Manage your Google Account','',true),row('Backup',''),row('Find My Device','')]}},
+        {title:'Personal info → Phone', desc:'Add and verify the new number, then remove the old one.', mock:{title:'Personal info', chrome:'Android', rows:[row('Name',''),row('Phone','',true),row('Email','')]}},
+        {title:'Security → 2-Step Verification', desc:'Update the number used for sign-in codes separately.', mock:{title:'Security', chrome:'Android', rows:[row('2-Step Verification','',true),row('Recovery phone',''),row('Recovery email','')]}, note:'Also check "Your devices" and sign out of phones you no longer have.'},
+        {title:'Save backup codes', desc:'Generate a fresh set and store them offline.', mock:{title:'Backup codes', chrome:'Android', rows:[row('Get backup codes','',true),row('Download','')]}}
+      ],
+      warnings: [
+        {level:'high', text:'Removing the old number before verifying the new one can leave the account with no working recovery method.'}
+      ]
+    }
+  },
+  instagram: {
+    ios: {
+      prereqs: ['The new number can receive SMS.','You know whether your login uses SMS two-factor authentication.'],
+      steps: [
+        {title:'Open your profile, then the menu', desc:'Tap your avatar, then the menu button at the top of your profile.', mock:{title:'Profile', chrome:'iPhone', rows:[row('Edit profile',''),row('Insights',''),row('Menu','Settings and activity',true)]}},
+        {title:'Open Accounts Centre', desc:'Contact details for Instagram, Facebook and Threads live in one shared place.', mock:{title:'Settings and activity', chrome:'iPhone', rows:[row('Accounts Centre','Personal details, passwords',true),row('Your account',''),row('How you use Instagram',''),row('Who can see your content','')]}},
+        {title:'Personal details → Contact info', desc:'This lists the phone numbers and emails on the account.', mock:{title:'Accounts Centre', chrome:'iPhone', rows:[row('Personal details','Contact info, birthday',true),row('Password and security',''),row('Ad preferences','')]}},
+        {title:'Change or add the phone number', desc:'Add the new number and verify it before removing the old one.', mock:{title:'Contact info', chrome:'iPhone', rows:[row('Phone number','Old number',true),row('Email address',''),row('Add new contact info','')]}},
+        {title:'Enter the confirmation code', desc:'Instagram sends a code by SMS to the new number.', mock:{title:'Confirm number', chrome:'iPhone', rows:[row('Enter code','',true),row('Resend code','')]}},
+        {title:'Check two-factor authentication separately', desc:'Password and security → Two-factor authentication. An SMS second factor keeps the old number until you change it here.', mock:{title:'Password and security', chrome:'iPhone', rows:[row('Two-factor authentication','',true),row('Login activity',''),row('Saved login info','')]}, note:'High risk: changing your contact number does not move SMS two-factor authentication.'}
+      ],
+      warnings: [
+        {level:'high', text:'Instagram, Facebook and Threads may share contact details through Accounts Centre — changing one can affect the others. Check each app after the change.'},
+        {level:'medium', text:'If the new number is already used by another Instagram account, you may have to remove it there first.'}
+      ]
+    },
+    web: {
+      prereqs: ['You can sign in on a desktop browser.','The new number can receive SMS.'],
+      steps: [
+        {title:'Open Settings from the web app', desc:'Use the More menu in the left sidebar.', mock:{title:'Instagram', chrome:'Web', rows:[row('Home',''),row('Search',''),row('Profile',''),row('More','Settings',true)]}},
+        {title:'Go to Accounts Centre', desc:'The web settings link out to the shared Accounts Centre.', mock:{title:'Settings', chrome:'Web', rows:[row('Accounts Centre','',true),row('Notifications',''),row('Privacy and security','')]}},
+        {title:'Personal details → Contact info', desc:'Add the new number, verify it, then remove the old one.', mock:{title:'Personal details', chrome:'Web', rows:[row('Contact info','',true),row('Birthday',''),row('Identity confirmation','')]}},
+        {title:'Verify the code', desc:'Enter the SMS code sent to the new number.', mock:{title:'Confirm number', chrome:'Web', rows:[row('Enter code','',true),row('Resend','')]}},
+        {title:'Review two-factor authentication', desc:'Password and security → Two-factor authentication, for every profile in the Accounts Centre.', mock:{title:'Password and security', chrome:'Web', rows:[row('Two-factor authentication','',true),row('Where you are logged in',''),row('Login alerts','')]}}
+      ],
+      warnings: [
+        {level:'medium', text:'Web and app show the same Accounts Centre — do the change once, then confirm in the app.'}
+      ]
+    }
+  },
+  facebook: {
+    web: {
+      prereqs: ['You can sign in on a desktop browser.','The new number can receive SMS.','You know whether SMS is your second login factor.'],
+      steps: [
+        {title:'Open Settings & privacy → Settings', desc:'From your account menu at the top-right.', mock:{title:'Facebook', chrome:'Web', rows:[row('See all profiles',''),row('Settings & privacy','Settings, language',true),row('Help & support',''),row('Log out','')]}},
+        {title:'Open Accounts Centre', desc:'Contact details moved into the shared Accounts Centre.', mock:{title:'Settings', chrome:'Web', rows:[row('Accounts Centre','Personal details, password, security',true),row('Privacy',''),row('Notifications','')]}},
+        {title:'Personal details → Contact info', desc:'Shows every phone number and email attached to the profile.', mock:{title:'Accounts Centre', chrome:'Web', rows:[row('Personal details','',true),row('Password and security',''),row('Your information and permissions','')]}},
+        {title:'Add the new number and verify it', desc:'Add first, verify, and only then remove the old number.', mock:{title:'Contact info', chrome:'Web', rows:[row('Add new contact info','',true),row('Old number','Remove after verifying'),row('Email address','')]}},
+        {title:'Enter the confirmation code', desc:'Facebook sends a code by SMS.', mock:{title:'Confirm number', chrome:'Web', rows:[row('Enter code','',true),row('Resend code','')]}},
+        {title:'Update two-factor authentication and recovery', desc:'Password and security → Two-factor authentication. Also check trusted contacts and login alerts.', mock:{title:'Password and security', chrome:'Web', rows:[row('Two-factor authentication','',true),row('Where you are logged in',''),row('Login alerts',''),row('Recovery codes','')]}, note:'Generate recovery codes so you are not dependent on SMS at all.'}
+      ],
+      warnings: [
+        {level:'high', text:'Removing the old number while SMS is still your second factor can lock you out at the next login.'},
+        {level:'medium', text:'Facebook may use the number for account recovery even after you stop using it to log in — check recovery settings too.'}
+      ]
+    }
+  },
+  apple: {
+    ios: {
+      prereqs: ['You are signed in to your Apple Account on the iPhone.','The new number can receive SMS or calls.','You have a second trusted device or recovery contact if possible.'],
+      steps: [
+        {title:'Open Settings and tap your name', desc:'The Apple Account panel is at the very top of iOS Settings.', mock:{title:'Settings', chrome:'iPhone', rows:[row('Your name','Apple Account, iCloud',true),row('Wi-Fi',''),row('Bluetooth',''),row('Notifications','')]}},
+        {title:'Tap Sign-In & Security', desc:'This holds the email addresses and phone numbers used to reach your account.', mock:{title:'Apple Account', chrome:'iPhone', rows:[row('Personal Information',''),row('Sign-In & Security','Email, phone, 2FA',true),row('Payment & Shipping',''),row('iCloud','')]}},
+        {title:'Open the email & phone number list', desc:'Shows every address and number that can receive account notices.', mock:{title:'Sign-In & Security', chrome:'iPhone', rows:[row('Email & Phone Numbers','',true),row('Two-Factor Authentication',''),row('Account Recovery',''),row('Legacy Contact','')]}},
+        {title:'Add the new number, verify it', desc:'Apple sends a code to confirm the number belongs to you.', mock:{title:'Email & Phone Numbers', chrome:'iPhone', rows:[row('Add Email or Phone Number','',true),row('Old number','Remove after verifying')]}},
+        {title:'Update trusted phone numbers for 2FA', desc:'Two-Factor Authentication keeps its own list of trusted numbers.', mock:{title:'Two-Factor Authentication', chrome:'iPhone', rows:[row('Trusted Phone Numbers','Add the new number',true),row('Get Verification Code',''),row('Turn Off Two-Factor','')]}, note:'High risk: Apple 2FA trusted numbers are separate from your contact numbers. Add the new one before removing the old.'},
+        {title:'Set up a recovery key or recovery contact', desc:'Account Recovery gives you a way back in with no phone at all.', mock:{title:'Account Recovery', chrome:'iPhone', rows:[row('Recovery Contact','',true),row('Recovery Key',''),row('Legacy Contact','')]}}
+      ],
+      warnings: [
+        {level:'high', text:'Apple Account recovery can take days. Set up a recovery contact or recovery key before you lose access to the old number.'},
+        {level:'medium', text:'Removing a trusted number from a device you no longer have may require account recovery.'}
+      ]
+    },
+    web: {
+      prereqs: ['You can sign in at account.apple.com.','The new number can receive SMS.'],
+      steps: [
+        {title:'Sign in at account.apple.com', desc:'Use a browser you trust. You may need a verification code from a trusted device.', mock:{title:'Apple Account', chrome:'Web', rows:[row('Sign in','',true),row('Forgot password?','')]}},
+        {title:'Open Sign-In and Security', desc:'Contains account email, phone numbers and two-factor settings.', mock:{title:'Apple Account', chrome:'Web', rows:[row('Personal Information',''),row('Sign-In and Security','',true),row('Payment',''),row('Devices','')]}},
+        {title:'Edit the phone number list', desc:'Add the new number and verify it before removing the old one.', mock:{title:'Sign-In and Security', chrome:'Web', rows:[row('Email and Phone Numbers','',true),row('Two-Factor Authentication',''),row('Account Recovery','')]}},
+        {title:'Update trusted phone numbers', desc:'Two-factor trusted numbers are managed separately.', mock:{title:'Two-Factor Authentication', chrome:'Web', rows:[row('Trusted Phone Numbers','',true),row('Trusted Devices','')]}},
+        {title:'Review Account Recovery', desc:'Confirm you still have a working recovery contact or key.', mock:{title:'Account Recovery', chrome:'Web', rows:[row('Recovery Contact','',true),row('Recovery Key','')]}}
+      ],
+      warnings: [
+        {level:'medium', text:'If you cannot receive a verification code on any trusted device, you must use account recovery — plan for it before dropping the old SIM.'}
+      ]
+    }
+  }
+};
+
+// Generic-but-accurate scaffolds: the place the number lives per platform, published with a
+// visible "generic steps" flag. Platforms where a direct change is not confirmed stay withheld.
+const GEN = {
+  tiktok:    {home:'Profile',        settings:'Settings and privacy', account:'Account',            phone:'Phone number'},
+  snapchat:  {home:'Profile',        settings:'Settings',             account:'Mobile Number',      phone:'Mobile Number'},
+  linkedin:  {home:'Me',             settings:'Settings & Privacy',   account:'Sign in & security', phone:'Phone numbers'},
+  microsoft: {home:'Your info',      settings:'Security',             account:'Advanced security',  phone:'Phone number'},
+  signal:    {home:'Settings',       settings:'Account',              account:'Change phone number',phone:'Change phone number'},
+  x:         {home:'Settings and privacy', settings:'Your account',   account:'Account information',phone:'Phone'},
+  discord:   {home:'User Settings',  settings:'My Account',           account:'Phone Number',       phone:'Phone Number'},
+  paypal:    {home:'Settings',       settings:'Account',              account:'Phone',              phone:'Phone'},
+  amazon:    {home:'Your Account',   settings:'Login & security',     account:'Mobile phone number',phone:'Mobile phone number'},
+  uber:      {home:'Account',        settings:'Settings',             account:'Phone number',       phone:'Phone number'},
+  airbnb:    {home:'Profile',        settings:'Account',              account:'Personal info',      phone:'Phone number'},
+  netflix:   {home:'Account',        settings:'Membership details',   account:'Phone number',       phone:'Phone number'}
+};
+
+const GUIDE_TROUBLE = {
+  whatsapp: [
+    {q:'I do not receive the verification SMS', a:'Wait for the full countdown, then use the "Call me" option. Check that the new SIM has signal, that SMS is not blocked by your carrier, and that you entered the country code. If nothing arrives, contact your carrier before contacting the platform.'},
+    {q:'I no longer have my old number', a:'You can still register the new number, but your chats will not migrate through Change Number. Follow the "I lost my old number" guide first, and check the platform help centre for account-recovery options.'},
+    {q:'My new number already has an account', a:'The new number must be free before it can take over your account. Delete or migrate the account on the new number first.'},
+    {q:'I changed my number but my chats are gone', a:'Restore from the backup you created before the change. Backups are tied to the device account (iCloud or Google Drive), not to the phone number.'}
+  ],
+  telegram: [
+    {q:'The new number already has a Telegram account', a:'Telegram will not move your account onto a number that is already in use. Delete the other account or pick a different number.'},
+    {q:'I did not get the code', a:'If you are still logged in on another device, the code arrives as an in-app message there instead of by SMS.'}
+  ],
+  google: [
+    {q:'I updated my profile number but still get codes to the old number', a:'2-Step Verification stores its own phone number. Update it in Security → 2-Step Verification, not in Personal info.'},
+    {q:'I cannot sign in and my old number is gone', a:'Use backup codes or another second factor if you have one. Otherwise start Google account recovery from a device and network you have used before.'},
+    {q:'Should I keep SMS as a second factor at all?', a:'An authenticator app or passkey is not tied to a phone number, so it survives a number change. Consider moving before you change the SIM.'}
+  ],
+  instagram: [
+    {q:'The change did not appear in the Facebook app', a:'Accounts Centre changes can take a moment to propagate. Re-open each app and check contact info per profile.'},
+    {q:'Two-factor still asks for my old number', a:'Two-factor authentication is set per profile under Password and security. Update it there, and save recovery codes.'}
+  ],
+  facebook: [
+    {q:'I removed the old number and now cannot log in', a:'Use a saved recovery code, a trusted device, or start account recovery from the login screen. Never pay anyone who offers to restore an account.'},
+    {q:'My account is locked after the change', a:'Follow the in-product recovery flow only. Links from search results and social posts are often phishing.'}
+  ],
+  apple: [
+    {q:'I cannot get a verification code', a:'Try a trusted device you still own, then a recovery contact, then account recovery. Recovery can take several days by design.'},
+    {q:'Can I remove the old number right away?', a:'Only after the new number is verified and appears under trusted phone numbers.'}
+  ]
+};
+
+const GLOBAL_TROUBLE = [
+  {q:'I do not receive the verification SMS', a:'Confirm the new SIM has signal and can receive an SMS from a friend. Check the country code, wait out the resend timer, then use a voice-call option if the platform offers one. Carrier-level SMS filtering is a common cause on newly activated numbers.'},
+  {q:'I do not have access to my old number', a:'Do not start deleting accounts. Work through the "order matters" list above, and for each platform use its own account-recovery flow with an email address or device you still control.'},
+  {q:'My new number is already associated with another account', a:'Most platforms allow one account per number. You must release the number on the old account — delete it or move it to a different number — before the new account can claim it.'},
+  {q:'The app says my number cannot be changed', a:'Some platforms only let the number be changed from one surface (app but not web, or the reverse), and some treat the number as permanent. Check the platform help centre link on the guide page rather than following third-party tutorials.'},
+  {q:'I lost my SIM', a:'Ask your carrier for a replacement SIM with the same number first. Keeping the number alive is almost always easier than recovering a dozen accounts without it.'},
+  {q:'My account is locked', a:'Use only the platform official recovery process. No third party — including Chon — can unlock an account, and anyone who claims otherwise is attempting fraud.'},
+  {q:'My account was banned', a:'A ban is unrelated to a number change and can only be appealed through the platform own appeal form.'},
+  {q:'I changed my number but cannot log in', a:'You are probably being asked for a second factor that still points at the old number. Try backup codes, an authenticator app, or a trusted device, then fix the second factor before anything else.'},
+  {q:'My 2FA stopped working', a:'Authenticator codes are tied to a secret stored in the app, not to your phone number — but if you also replaced the phone, the secret may be gone. Use recovery codes, then re-enrol.'}
+];
+
+const LOST_STEPS = [
+  ['Do not cancel the old number yet','If there is any chance of keeping or restoring the old number, keep it alive. It is your cheapest recovery path.'],
+  ['Contact your mobile carrier','Ask whether the number can be reactivated or a replacement SIM issued. Do this before touching any account settings.'],
+  ['Recover the old SIM if possible','A reissued SIM with the same number makes every step below routine instead of risky.'],
+  ['Write down which accounts matter','Email, banking, messaging, social, work. Order them by what would hurt most to lose.'],
+  ['Start with your email accounts','Email is the recovery path for almost everything else. Fix it first.'],
+  ['Update recovery phone numbers','Recovery numbers are stored separately from your profile number on most platforms.'],
+  ['Update two-factor authentication','SMS second factors keep pointing at the old number until you change them explicitly.'],
+  ['Generate and store recovery codes','Recovery codes work with no phone at all. Store them offline, not in a screenshot.'],
+  ['Verify email recovery works','Send yourself a password reset to confirm the path actually completes.'],
+  ['Check banking and payment accounts','Many banks require a branch visit or call centre verification. Start early.'],
+  ['Check your password manager','If its recovery is tied to the old number or an old device, fix that before it matters.'],
+  ['Check messaging and social apps','WhatsApp, Telegram, Signal and similar apps use the number as the identity itself.'],
+  ['Only then abandon the old number','When every important account answers to something you still control, let the old number go.']
+];
+
+const TWOFA_CARDS = [
+  ['SMS codes','high','Tied directly to the phone number. This is the factor that breaks when a number changes, and the one people forget.'],
+  ['Authenticator apps','low','Codes are generated from a secret stored in the app, not from your number. They survive a number change — but not a lost phone without a backup.'],
+  ['Recovery codes','safe','One-time codes that work with no phone and no network. Generate a set for every important account and store them offline.'],
+  ['Backup email','medium','Only as strong as the email account itself. Make sure that email is not recovered by the old number.'],
+  ['Security keys','safe','A physical key is unaffected by a number change. Register two if you can — one to carry, one to keep safe.'],
+  ['Passkeys','low','Bound to your device and its unlock, not your number. Check the passkey is synced to an account you still control.'],
+  ['Trusted devices','medium','Some platforms treat a signed-in device as a second factor. Do not wipe or sell the old phone until the migration is finished.']
+];
+
+const EXTRA_ITEMS = [
+  ['gen-email','Email account recovery','email'],
+  ['gen-bank','Banking and payment apps','banking'],
+  ['gen-2fa','Authenticator app / 2FA','other'],
+  ['gen-pm','Password manager recovery','other'],
+  ['gen-work','Work accounts and SSO','work']
+];
+
+const I18N = {
+  en: {
+    tagline:'Change your number safely', navHome:'Home', navGuides:'Guides', navWizard:'Number change plan', navChecklist:'My checklist', navSafety:'Safety & 2FA',
+    heroBadge:'Independent guide · verified September 2026',
+    heroTitle:'Changing your phone number?',
+    heroSub:'Don\u2019t lose access to your accounts. Follow step-by-step instructions to update your phone number across your favourite apps and services.',
+    searchPh:'Search for an app or service…', searchBtn:'Search', tryLabel:'Try:',
+    riskTitle:'Before you cancel the old SIM',
+    riskBody:'You may lose access to your accounts if the old number is still the only way to receive a recovery or two-factor code. Update the accounts first, then let the number go.',
+    popular:'Popular guides', viewAll:'Show all guides', byCategory:'Browse by category',
+    privacyTitle:'We never need your number',
+    privacyBody:'Chon never asks for your old number, your new number, a password, a one-time code or any account credential. Everything you enter stays on your own device.',
+    otpWarning:'Never give your OTP, verification code, recovery code, password or authentication token to anyone who offers to change your number for you.',
+    libTitle:'Platform library', libSub:'Every platform we track, with what the number is actually used for.',
+    filters:'Filters', clear:'Clear all', category:'Category', device:'Device', difficulty:'Difficulty', requirements:'Requirements',
+    reqOld:'Needs old number', directChange:'Direct change', twofaAffected:'2FA affected',
+    emptyTitle:'Nothing matches those filters', emptyBody:'Try a different platform name, or clear the filters and browse by category.',
+    resultsOne:'1 platform', resultsMany:'{n} platforms',
+    deviceTabs:'Choose your device', beforeYouStart:'Before you start', stepsTitle:'Steps', important:'Important', troubleshooting:'Troubleshooting',
+    source:'Source', openOfficial:'Open official help', related:'Related guides', atAGlance:'At a glance',
+    viewStep:'View step', whatTap:'What should I tap?', zoom:'Zoom', close:'Close',
+    mockNote:'Original recreation of the screen layout — not a screenshot of the app.',
+    statusOfficial:'Official source checked', statusReference:'Community reference', statusPending:'Guide in review',
+    freshVerified:'Last verified {d}', freshReview:'Review recommended · {d}', freshStale:'Potentially outdated · {d}',
+    staleBody:'This guide has not been re-checked recently. Platform interfaces change often — confirm each step against the official help centre before relying on it.',
+    pendingTitle:'We have not verified this platform recently',
+    pendingBody:'We track this platform but have not confirmed its current screens, so we are not publishing steps that might be wrong. Use the official help centre below, and add the platform to your checklist so you don\u2019t forget it.',
+    transFallback:'Step text for this guide is not translated yet, so it is shown in English. The interface and your checklist follow your chosen language.',
+    factDirect:'Direct number change', factOld:'Old number required', factSms:'SMS verification', factEmail:'Email instead of SMS', factTwofa:'Affects 2FA', factDevices:'Works on',
+    yes:'Yes', no:'No', unknown:'Not verified',
+    addToChecklist:'Add to my checklist', addedToChecklist:'On your checklist ✓',
+    checklistTitle:'Your number migration', checklistSub:'Saved on this device only. No account, no sign-in.',
+    progress:'Progress', reset:'Reset', rerunWizard:'Change my answers', openGuide:'Open guide',
+    checklistEmptyTitle:'Your checklist is empty', checklistEmptyBody:'Answer four questions and Chon will build a personalised list of what to update.',
+    startWizard:'Build my checklist', localOnly:'Stored locally in this browser. Clearing your browser data clears the checklist.',
+    countLabel:'{done} / {total} completed',
+    back:'Back', next:'Next', finish:'Build my checklist',
+    wizardPrivacy:'No phone numbers, no codes, no account needed.',
+    wizStep:'Step {n} of {total}',
+    q1:'What are you trying to do?', q1hint:'This sets the order of your checklist.',
+    q2:'Can you still receive messages on the old number?', q2hint:'It changes which accounts you should fix first.',
+    q3:'Which device will you be using?', q3hint:'We show instructions for that device only.',
+    q4:'Which of these do you use?', q4hint:'Pick everything that holds your number. You can add more later.',
+    lostTitle:'I lost access to my old phone number',
+    lostSub:'Changing a number and recovering an account after losing a number are two different problems. This page is for the second one.',
+    lostWarn:'High risk: if the old number is still the only recovery method on an account, you may not be able to prove the account is yours. Work through the accounts in order, starting with email.',
+    orderMatters:'The order matters',
+    twofaTitle:'Before changing your number, check your 2FA',
+    twofaSub:'Changing your phone number does not automatically update how you log in. Two-factor settings are stored separately on nearly every platform.',
+    disclaimer:'Chon is an independent educational resource and is not affiliated with WhatsApp, Meta, Instagram, TikTok, Google, Apple, Microsoft, Telegram or any other third-party service. Platform interfaces change frequently; always confirm steps against the official help centre linked on each guide.',
+    buildNote:'Content verified against official help centres where available. Guides without a verified current interface are marked and withheld rather than guessed.',
+    themeLabel:'Change theme', prev:'Previous', stepOf:'Step {n} of {total}'
+  },
+  ar: {
+    tagline:'غيّر رقمك بأمان', navHome:'الرئيسية', navGuides:'الأدلة', navWizard:'خطة تغيير الرقم', navChecklist:'قائمتي', navSafety:'الأمان والمصادقة',
+    heroBadge:'مرجع مستقل · تم التحقق في أيلول ٢٠٢٦',
+    heroTitle:'هل تغيّر رقم هاتفك؟',
+    heroSub:'لا تفقد الوصول إلى حساباتك. اتبع خطوات واضحة لتحديث رقم هاتفك في التطبيقات والخدمات التي تستخدمها.',
+    searchPh:'ابحث عن تطبيق أو خدمة…', searchBtn:'بحث', tryLabel:'جرّب:',
+    riskTitle:'قبل إلغاء الشريحة القديمة',
+    riskBody:'قد تفقد الوصول إلى حساباتك إذا كان الرقم القديم هو الطريقة الوحيدة لاستلام رمز الاسترداد أو رمز التحقق. حدّث الحسابات أولاً ثم تخلَّ عن الرقم.',
+    popular:'أدلة شائعة', viewAll:'عرض كل الأدلة', byCategory:'التصفح حسب الفئة',
+    privacyTitle:'لا نحتاج إلى رقمك',
+    privacyBody:'لا يطلب Chon رقمك القديم أو الجديد أو كلمة المرور أو رمزاً لمرة واحدة أو أي بيانات دخول. كل ما تدخله يبقى على جهازك.',
+    otpWarning:'لا تعطِ أبداً رمز التحقق أو رمز الاسترداد أو كلمة المرور لأي شخص يعرض عليك تغيير رقمك.',
+    libTitle:'مكتبة المنصات', libSub:'كل منصة نتابعها، وما يُستخدم الرقم فيه فعلياً.',
+    filters:'عوامل التصفية', clear:'مسح الكل', category:'الفئة', device:'الجهاز', difficulty:'الصعوبة', requirements:'المتطلبات',
+    reqOld:'يحتاج الرقم القديم', directChange:'تغيير مباشر', twofaAffected:'يؤثر على المصادقة',
+    emptyTitle:'لا نتائج مطابقة', emptyBody:'جرّب اسم منصة آخر أو امسح عوامل التصفية.',
+    resultsOne:'منصة واحدة', resultsMany:'{n} منصة',
+    deviceTabs:'اختر جهازك', beforeYouStart:'قبل أن تبدأ', stepsTitle:'الخطوات', important:'مهم', troubleshooting:'حل المشكلات',
+    source:'المصدر', openOfficial:'فتح المساعدة الرسمية', related:'أدلة ذات صلة', atAGlance:'نظرة سريعة',
+    viewStep:'عرض الخطوة', whatTap:'ما الذي يجب أن أضغط عليه؟', zoom:'تكبير', close:'إغلاق',
+    mockNote:'إعادة رسم أصلية لتخطيط الشاشة — وليست لقطة شاشة من التطبيق.',
+    statusOfficial:'تم التحقق من مصدر رسمي', statusReference:'مرجع مجتمعي', statusPending:'الدليل قيد المراجعة',
+    freshVerified:'آخر تحقق {d}', freshReview:'يُستحسن المراجعة · {d}', freshStale:'قد يكون قديماً · {d}',
+    staleBody:'لم يُعد التحقق من هذا الدليل مؤخراً. تتغير واجهات المنصات كثيراً — تأكد من كل خطوة من مركز المساعدة الرسمي.',
+    pendingTitle:'لم نتحقق من هذه المنصة مؤخراً',
+    pendingBody:'نتابع هذه المنصة لكننا لم نتأكد من شاشاتها الحالية، ولن ننشر خطوات قد تكون خاطئة. استخدم مركز المساعدة الرسمي أدناه، وأضف المنصة إلى قائمتك.',
+    transFallback:'لم تُترجم خطوات هذا الدليل بعد، لذا تظهر بالإنجليزية. الواجهة وقائمتك تتبعان لغتك المختارة.',
+    factDirect:'تغيير مباشر للرقم', factOld:'الرقم القديم مطلوب', factSms:'تحقق برسالة نصية', factEmail:'بريد بدل الرسالة', factTwofa:'يؤثر على المصادقة', factDevices:'يعمل على',
+    yes:'نعم', no:'لا', unknown:'غير مُتحقق',
+    addToChecklist:'أضف إلى قائمتي', addedToChecklist:'في قائمتك ✓',
+    checklistTitle:'ترحيل رقمك', checklistSub:'محفوظة على هذا الجهاز فقط. بدون حساب ولا تسجيل دخول.',
+    progress:'التقدم', reset:'إعادة تعيين', rerunWizard:'تغيير إجاباتي', openGuide:'فتح الدليل',
+    checklistEmptyTitle:'قائمتك فارغة', checklistEmptyBody:'أجب عن أربعة أسئلة وسينشئ Chon قائمة مخصصة لما يجب تحديثه.',
+    startWizard:'أنشئ قائمتي', localOnly:'محفوظة محلياً في هذا المتصفح. مسح بيانات المتصفح يمسح القائمة.',
+    countLabel:'{done} / {total} مكتملة',
+    back:'رجوع', next:'التالي', finish:'أنشئ قائمتي',
+    wizardPrivacy:'لا أرقام هاتف، لا رموز، لا حساب.',
+    wizStep:'الخطوة {n} من {total}',
+    q1:'ما الذي تحاول فعله؟', q1hint:'يحدد هذا ترتيب قائمتك.',
+    q2:'هل ما زلت تستلم الرسائل على الرقم القديم؟', q2hint:'يغيّر الحسابات التي يجب إصلاحها أولاً.',
+    q3:'أي جهاز ستستخدم؟', q3hint:'نعرض التعليمات لذلك الجهاز فقط.',
+    q4:'أي من هذه تستخدم؟', q4hint:'اختر كل ما يحتوي رقمك. يمكنك الإضافة لاحقاً.',
+    lostTitle:'فقدت الوصول إلى رقمي القديم',
+    lostSub:'تغيير الرقم واسترداد حساب بعد فقدان الرقم مشكلتان مختلفتان. هذه الصفحة للمشكلة الثانية.',
+    lostWarn:'خطر مرتفع: إذا كان الرقم القديم هو وسيلة الاسترداد الوحيدة، فقد لا تتمكن من إثبات ملكية الحساب. ابدأ بالبريد الإلكتروني.',
+    orderMatters:'الترتيب مهم',
+    twofaTitle:'قبل تغيير رقمك، تحقق من المصادقة الثنائية',
+    twofaSub:'تغيير رقم الهاتف لا يحدّث طريقة تسجيل دخولك تلقائياً. إعدادات المصادقة تُحفظ بشكل منفصل في معظم المنصات.',
+    disclaimer:'Chon مرجع تعليمي مستقل وغير مرتبط بـ WhatsApp أو Meta أو Instagram أو TikTok أو Google أو Apple أو Microsoft أو Telegram أو أي خدمة أخرى. تتغير واجهات المنصات باستمرار؛ تأكد دائماً من الخطوات عبر مركز المساعدة الرسمي.',
+    buildNote:'تم التحقق من المحتوى عبر مراكز المساعدة الرسمية حيث توفرت. الأدلة غير المتحقق منها موسومة وغير منشورة بدل تخمينها.',
+    themeLabel:'تغيير المظهر', prev:'السابق', stepOf:'الخطوة {n} من {total}'
+  },
+  ckb: {
+    tagline:'بە سەلامەتی ژمارەکەت بگۆڕە', navHome:'سەرەتا', navGuides:'ڕێنماییەکان', navWizard:'پلانی گۆڕینی ژمارە', navChecklist:'لیستی من', navSafety:'سەلامەتی و ٢FA',
+    heroBadge:'سەرچاوەی سەربەخۆ · پشتڕاستکراو لە ئەیلولی ٢٠٢٦',
+    heroTitle:'ژمارەی مۆبایلت دەگۆڕی؟',
+    heroSub:'دەستڕاگەیشتن بە هەژمارەکانت لەدەست نەدە. هەنگاو بە هەنگاو ژمارەکەت لە ئەپ و خزمەتگوزارییەکانت نوێ بکەرەوە.',
+    searchPh:'گەڕان بۆ ئەپ یان خزمەتگوزاری…', searchBtn:'گەڕان', tryLabel:'تاقی بکەرەوە:',
+    riskTitle:'پێش ئەوەی سیمکارتی کۆن هەڵبوەشێنیت',
+    riskBody:'ئەگەر ژمارەی کۆن تەنها ڕێگا بێت بۆ وەرگرتنی کۆدی گەڕانەوە یان کۆدی دووەم، ڕەنگە دەستڕاگەیشتنت لەدەست بدەیت. یەکەم هەژمارەکان نوێ بکەرەوە، پاشان ژمارە بەردە.',
+    popular:'ڕێنمایی بەناوبانگ', viewAll:'هەموو ڕێنماییەکان', byCategory:'بەپێی پۆل',
+    privacyTitle:'ئێمە هەرگیز ژمارەکەت ناخوازین',
+    privacyBody:'Chon هەرگیز داوای ژمارەی کۆن یان نوێ، وشەی نهێنی، کۆدی یەک‌جارە یان زانیاری هەژمار ناکات. هەرچی دەنووسی لەسەر ئامێری خۆت دەمێنێت.',
+    otpWarning:'هەرگیز کۆدی پشتڕاستکردن، کۆدی گەڕانەوە یان وشەی نهێنی بە هیچ کەس مەدە کە بڵێت یارمەتیت دەدات ژمارەکەت بگۆڕی.',
+    libTitle:'کتێبخانەی پلاتفۆرمەکان', libSub:'هەموو پلاتفۆرمێک کە بەدوایدا دەچین، و ژمارە بۆ چی بەکاردێت.',
+    filters:'فلتەرەکان', clear:'سڕینەوەی هەموو', category:'پۆل', device:'ئامێر', difficulty:'قەبارەی ئاستەنگی', requirements:'پێداویستییەکان',
+    reqOld:'ژمارەی کۆن پێویستە', directChange:'گۆڕینی ڕاستەوخۆ', twofaAffected:'کاریگەری لە ٢FA',
+    emptyTitle:'هیچ ئەنجامێک نەدۆزرایەوە', emptyBody:'ناوێکی تر تاقی بکەرەوە یان فلتەرەکان بسڕەوە.',
+    resultsOne:'١ پلاتفۆرم', resultsMany:'{n} پلاتفۆرم',
+    deviceTabs:'ئامێرەکەت هەڵبژێرە', beforeYouStart:'پێش دەستپێکردن', stepsTitle:'هەنگاوەکان', important:'گرنگ', troubleshooting:'چارەسەری کێشەکان',
+    source:'سەرچاوە', openOfficial:'کردنەوەی یارمەتی فەرمی', related:'ڕێنمایی پەیوەندیدار', atAGlance:'کورتەیەک',
+    viewStep:'بینینی هەنگاو', whatTap:'چی لێبدەم؟', zoom:'گەورەکردن', close:'داخستن',
+    mockNote:'دروستکردنەوەی ڕەسەنی شێوەی شاشە — وێنەی ڕاستەقینەی ئەپ نییە.',
+    statusOfficial:'سەرچاوەی فەرمی پشکنراو', statusReference:'سەرچاوەی کۆمەڵگە', statusPending:'ڕێنمایی لە پێداچوونەوەدا',
+    freshVerified:'دوا پشتڕاستکردن {d}', freshReview:'پێداچوونەوە پێشنیار دەکرێت · {d}', freshStale:'ڕەنگە کۆن بووبێت · {d}',
+    staleBody:'ئەم ڕێنماییە بەم دواییە پشکنین نەکراوە. ڕووکاری پلاتفۆرمەکان زوو دەگۆڕێن — هەر هەنگاوێک لەگەڵ یارمەتی فەرمی بپشکنە.',
+    pendingTitle:'بەم دواییە ئەم پلاتفۆرمە پشتڕاست نەکراوە',
+    pendingBody:'ئێمە ئەم پلاتفۆرمە بەدوایدا دەچین بەڵام شاشەکانی ئێستای پشتڕاست نەکراوە، بۆیە هەنگاوی ڕەنگە هەڵە بڵاو ناکەینەوە. یارمەتی فەرمی بەکاربهێنە و بخەیە سەر لیستەکەت.',
+    transFallback:'دەقی هەنگاوەکانی ئەم ڕێنماییە هێشتا وەرنەگێردراوە، بۆیە بە ئینگلیزی نیشان دەدرێت. ڕووکار و لیستەکەت بە زمانی هەڵبژارد دەمێنن.',
+    factDirect:'گۆڕینی ڕاستەوخۆی ژمارە', factOld:'ژمارەی کۆن پێویستە', factSms:'پشتڕاستکردن بە SMS', factEmail:'ئیمەیل لە جیاتی SMS', factTwofa:'کاریگەری لە ٢FA', factDevices:'کار دەکات لەسەر',
+    yes:'بەڵێ', no:'نەخێر', unknown:'پشتڕاست نەکراوە',
+    addToChecklist:'زیادکردن بۆ لیستەکەم', addedToChecklist:'لەسەر لیستەکەتە ✓',
+    checklistTitle:'گواستنەوەی ژمارەکەت', checklistSub:'تەنها لەسەر ئەم ئامێرە پاشەکەوت دەکرێت. بێ هەژمار، بێ چوونەژوورەوە.',
+    progress:'بەرەوپێشچوون', reset:'ڕێکخستنەوە', rerunWizard:'گۆڕینی وەڵامەکانم', openGuide:'کردنەوەی ڕێنمایی',
+    checklistEmptyTitle:'لیستەکەت بەتاڵە', checklistEmptyBody:'وەڵامی چوار پرسیار بدە و Chon لیستێکی تایبەت بۆت دروست دەکات.',
+    startWizard:'لیستەکەم دروست بکە', localOnly:'لە ناو ئەم وێبگەڕە پاشەکەوت کراوە. سڕینەوەی داتای وێبگەڕ لیستەکە دەسڕێت.',
+    countLabel:'{done} / {total} تەواو',
+    back:'گەڕانەوە', next:'دواتر', finish:'لیستەکەم دروست بکە',
+    wizardPrivacy:'بێ ژمارەی مۆبایل، بێ کۆد، بێ هەژمار.',
+    wizStep:'هەنگاوی {n} لە {total}',
+    q1:'دەتەوێت چی بکەیت؟', q1hint:'ئەمە ڕیزبەندی لیستەکەت دیاری دەکات.',
+    q2:'هێشتا نامە لەسەر ژمارەی کۆن وەردەگری؟', q2hint:'دیاری دەکات کام هەژمار پێشتر چاک بکەیت.',
+    q3:'کام ئامێر بەکاردەهێنی؟', q3hint:'تەنها ڕێنمایی ئەو ئامێرە نیشان دەدەین.',
+    q4:'کامەیان بەکاردەهێنی؟', q4hint:'هەموو ئەوانە هەڵبژێرە کە ژمارەکەت لێیە.',
+    lostTitle:'دەستڕاگەیشتنم بە ژمارەی کۆن لەدەستدا',
+    lostSub:'گۆڕینی ژمارە و گەڕاندنەوەی هەژمار دوای لەدەستدانی ژمارە دوو کێشەی جیاوازن. ئەم پەڕەیە بۆ دووەمە.',
+    lostWarn:'مەترسی بەرز: ئەگەر ژمارەی کۆن تەنها ڕێگای گەڕانەوە بێت، ڕەنگە نەتوانی هەژمارەکە بسەلمێنی. بە ئیمەیل دەست پێبکە.',
+    orderMatters:'ڕیزبەندی گرنگە',
+    twofaTitle:'پێش گۆڕینی ژمارە، ٢FA بپشکنە',
+    twofaSub:'گۆڕینی ژمارەی مۆبایل بەخۆکارانە شێوازی چوونەژوورەوەت نوێ ناکاتەوە. ڕێکخستنی ٢FA جیاواز پاشەکەوت دەکرێت.',
+    disclaimer:'Chon سەرچاوەیەکی فێرکاری سەربەخۆیە و پەیوەندی بە WhatsApp، Meta، Instagram، TikTok، Google، Apple، Microsoft، Telegram یان هیچ خزمەتگوزارییەکی تر نییە. ڕووکاری پلاتفۆرمەکان زوو دەگۆڕێن؛ هەمیشە لەگەڵ یارمەتی فەرمی بپشکنە.',
+    buildNote:'ناوەڕۆک لەگەڵ یارمەتی فەرمی پشتڕاست کراوە کاتێک بەردەست بووە. ئەو ڕێنماییانەی پشتڕاست نەکراون نیشانە کراون و بڵاو نەکراونەوە.',
+    themeLabel:'گۆڕینی ڕووکار', prev:'پێشتر', stepOf:'هەنگاوی {n} لە {total}'
+  },
+  ku: {
+    tagline:'بی سەلامەتی ژمارا خۆ بگوهۆڕە', navHome:'دەستپێک', navGuides:'ڕێبەرییان', navWizard:'پلانا گوهۆڕینا ژمارێ', navChecklist:'لیستا من', navSafety:'سەلامەتی و ٢FA',
+    heroBadge:'سەرچاوەیا سەربخۆ · پشتڕاستکری ئەیلولا ٢٠٢٦',
+    heroTitle:'ژمارا تەلەفۆنا خۆ دگوهۆڕی؟',
+    heroSub:'دەستگەهاندنا خۆ ب هەژمارێن خۆ وێنەکە. گاڤ ب گاڤ ژمارا خۆ ل ئەپ و خزمەتگوزارییان نو بکە.',
+    searchPh:'ل ئەپەکێ یان خزمەتگوزارییەکێ بگەڕە…', searchBtn:'گەڕان', tryLabel:'بجەڕبینە:',
+    riskTitle:'بەرێ هێشتنا سیمکارتا کەڤن',
+    riskBody:'ئەگەر ژمارا کەڤن تنێ ڕێکا وەرگرتنا کۆدا ڤەگەڕانێ بیت، دبیت دەستگەهاندنا خۆ وێنەکەی. ئێکەم هەژماران نو بکە، پاشێ ژمارێ بەردە.',
+    popular:'ڕێبەرییێن ناسیار', viewAll:'هەمی ڕێبەرییان', byCategory:'ل گۆرا بەشان',
+    privacyTitle:'ئەم چو جاران ژمارا تە ناخوازین',
+    privacyBody:'Chon چو جاران داخوازا ژمارا کەڤن یان نو، پەیڤا نڤێ، کۆدا ئێکجارێ یان زانیارییێن هەژمارێ ناکەت. هەرچی تو دنڤێسی ل سەر ئامێرا تە دمینیت.',
+    otpWarning:'چو جاران کۆدا پشتڕاستکرنێ، کۆدا ڤەگەڕانێ یان پەیڤا نڤێ نەدە کەسێ کو دبێژیت دێ ژمارا تە گوهۆڕیت.',
+    libTitle:'پەرتووکخانا پلاتفۆرمان', libSub:'هەمی پلاتفۆرمێن ئەم دشۆپینین، و ژمارە بۆ چی تێت بکارئینان.',
+    filters:'فلتەران', clear:'پاقژکرنا هەمییان', category:'بەش', device:'ئامێر', difficulty:'ئاستا زەحمەتییێ', requirements:'پێدڤی',
+    reqOld:'ژمارا کەڤن پێدڤیە', directChange:'گوهۆڕینا ڕاستەڕاست', twofaAffected:'کارتێکرن ل ٢FA',
+    emptyTitle:'چو ئەنجام نەهاتنە دیتن', emptyBody:'ناڤەکێ دی بجەڕبینە یان فلتەران پاقژ بکە.',
+    resultsOne:'١ پلاتفۆرم', resultsMany:'{n} پلاتفۆرم',
+    deviceTabs:'ئامێرا خۆ هەلبژێرە', beforeYouStart:'بەرێ دەستپێکرنێ', stepsTitle:'گاڤان', important:'گرنگ', troubleshooting:'چارەسەرکرنا کێشەیان',
+    source:'سەرچاوە', openOfficial:'ڤەکرنا هاریکارییا فەرمی', related:'ڕێبەرییێن پەیوەندیدار', atAGlance:'کورتی',
+    viewStep:'دیتنا گاڤێ', whatTap:'ئەز ل چی بدەم؟', zoom:'مەزنکرن', close:'گرتن',
+    mockNote:'دروستکرنەکا ڕەسەن یا شێوەیا ئێکرانێ — نە وێنەیێ ڕاستەقینێ ئەپێ.',
+    statusOfficial:'سەرچاوەیا فەرمی هاتیە پشکنین', statusReference:'سەرچاوەیا کۆمەڵێ', statusPending:'ڕێبەری د پێداچوونێ دایە',
+    freshVerified:'دویماهیک پشتڕاستکرن {d}', freshReview:'پێداچوون تێت پێشنیارکرن · {d}', freshStale:'دبیت کەڤن بیت · {d}',
+    staleBody:'ئەڤ ڕێبەری ب دویماهی نەهاتیە پشکنین. ڕوویێ پلاتفۆرمان زۆی دگوهۆڕیت — هەر گاڤەکێ ل گەل هاریکارییا فەرمی بپشکنە.',
+    pendingTitle:'ئەڤ پلاتفۆرمە ب دویماهی نەهاتیە پشتڕاستکرن',
+    pendingBody:'ئەم ڤێ پلاتفۆرمێ دشۆپینین بەلێ ئێکرانێن وێ یێن نوکە نەهاتینە پشتڕاستکرن، لەوما گاڤێن دبیت خەلەت بن بەلاڤ ناکەین. هاریکارییا فەرمی بکاربینە.',
+    transFallback:'دەقا گاڤێن ڤێ ڕێبەرییێ هێشتا نەهاتیە وەرگێران، لەوما ب ئینگلیزی دهێتە نیشاندان. ڕوویێ ئەپێ و لیستا تە ب زمانا تە دمینن.',
+    factDirect:'گوهۆڕینا ڕاستەڕاست یا ژمارێ', factOld:'ژمارا کەڤن پێدڤیە', factSms:'پشتڕاستکرن ب SMS', factEmail:'ئیمەیل ل شوینا SMS', factTwofa:'کارتێکرن ل ٢FA', factDevices:'کار دکەت ل سەر',
+    yes:'بەلێ', no:'نە', unknown:'نەهاتیە پشتڕاستکرن',
+    addToChecklist:'زێدەکرن بۆ لیستا من', addedToChecklist:'ل سەر لیستا تەیە ✓',
+    checklistTitle:'گواستنا ژمارا تە', checklistSub:'تنێ ل سەر ڤێ ئامێرێ تێت پاشەکەفتکرن. بێ هەژمار، بێ چوونا ژ‌ور.',
+    progress:'پێشکەفتن', reset:'ژ نو ڤەکرن', rerunWizard:'گوهۆڕینا بەرسڤان', openGuide:'ڤەکرنا ڕێبەرییێ',
+    checklistEmptyTitle:'لیستا تە ڤالایە', checklistEmptyBody:'بەرسڤا چار پرسیاران بدە و Chon دێ لیستەکا تایبەت بۆ تە دروست کەت.',
+    startWizard:'لیستا من دروست بکە', localOnly:'ل ڤێ وێبگەڕێ هاتیە پاشەکەفتکرن. پاقژکرنا داتایان لیستێ ژی پاقژ دکەت.',
+    countLabel:'{done} / {total} تەمام',
+    back:'ڤەگەر', next:'پاشتر', finish:'لیستا من دروست بکە',
+    wizardPrivacy:'بێ ژمارا تەلەفۆنێ، بێ کۆد، بێ هەژمار.',
+    wizStep:'گاڤا {n} ژ {total}',
+    q1:'تو دخوازی چ بکەی؟', q1hint:'ئەڤە ڕێزا لیستا تە دیار دکەت.',
+    q2:'هێشتا پەیام ل سەر ژمارا کەڤن وەردگری؟', q2hint:'دیار دکەت کیژ هەژمار بەرێ چاک بکەی.',
+    q3:'کیژ ئامێر دێ بکارئینی؟', q3hint:'تنێ ڕێنمایێن وی ئامێری نیشان ددەین.',
+    q4:'کیژان ژ وان بکارئینی؟', q4hint:'هەمی هەلبژێرە کو ژمارا تە د وان دایە.',
+    lostTitle:'دەستگەهاندنا خۆ ب ژمارا کەڤن وێنەکر',
+    lostSub:'گوهۆڕینا ژمارێ و ڤەگەڕاندنا هەژمارێ پشتی وێنەکرنا ژمارێ دو کێشەیێن جودا نە. ئەڤ پەلە بۆ یا دوویێ یە.',
+    lostWarn:'مەترسی یا بلند: ئەگەر ژمارا کەڤن تنێ ڕێکا ڤەگەڕانێ بیت، دبیت نەشێی هەژمارێ بسەلمینی. ب ئیمەیلێ دەست پێ بکە.',
+    orderMatters:'ڕێز گرنگە',
+    twofaTitle:'بەرێ گوهۆڕینا ژمارێ، ٢FA بپشکنە',
+    twofaSub:'گوهۆڕینا ژمارا تەلەفۆنێ ب خۆ‌کار شێوازا چوونا ژ‌ور نو ناکەت. ڕێکخستنێن ٢FA ب جودا تێنە پاشەکەفتکرن.',
+    disclaimer:'Chon سەرچاوەیەکا فێرکارییا سەربخۆیە و پەیوەندی ب WhatsApp، Meta، Instagram، TikTok، Google، Apple، Microsoft، Telegram یان چو خزمەتگوزارییەکا دی نینە. ڕوویێ پلاتفۆرمان زۆی دگوهۆڕیت؛ هەردەم ل گەل هاریکارییا فەرمی بپشکنە.',
+    buildNote:'ناڤەڕۆک ل گەل هاریکارییا فەرمی هاتیە پشتڕاستکرن ئەگەر بەردەست بویە. ڕێبەرییێن نەپشتڕاستکری هاتینە نیشانکرن و نەهاتینە بەلاڤکرن.',
+    themeLabel:'گوهۆڕینا ڕوویێ', prev:'بەرێ', stepOf:'گاڤا {n} ژ {total}'
+  }
+};
+
+// Short status/severity labels are translated even where body copy falls back to English.
+const LBL = {
+  high:   { en:'HIGH RISK',        ar:'خطر مرتفع',        ckb:'مەترسی بەرز',      ku:'مەترسی یا بلند' },
+  medium: { en:'CHECK THIS',       ar:'تحقق من هذا',      ckb:'ئەمە بپشکنە',       ku:'ئەڤە بپشکنە' },
+  low:    { en:'GOOD TO KNOW',     ar:'معلومة مفيدة',     ckb:'زانینی بەکارهاتوو', ku:'زانیارییا بکێرهاتی' },
+  breaks: { en:'BREAKS ON CHANGE', ar:'يتعطل عند التغيير', ckb:'بە گۆڕین تێک دەچێت', ku:'ب گوهۆڕینێ تێک دچیت' },
+  checkit:{ en:'CHECK IT',         ar:'تحقق منه',         ckb:'بپشکنە',            ku:'بپشکنە' },
+  safest: { en:'SAFEST',           ar:'الأكثر أماناً',     ckb:'سەلامەتترین',       ku:'سەلامەتترین' },
+  fine:   { en:'USUALLY FINE',     ar:'عادةً جيد',        ckb:'زۆربەی کات باشە',   ku:'پترا جاران باشە' },
+  statusGeneric: { en:'Generic steps · verify', ar:'خطوات عامة · تحقق منها', ckb:'هەنگاوی گشتی · بپشکنە', ku:'گاڤێن گشتی · بپشکنە' }
+};
+
+const LANGS = [
+  {code:'en', native:'English', meta:'English · LTR', short:'EN', dir:'ltr'},
+  {code:'ar', native:'العربية', meta:'Arabic · RTL', short:'AR', dir:'rtl'},
+  {code:'ku', native:'کوردی', meta:'Kurdish (Badini) · RTL', short:'KU', dir:'rtl'},
+  {code:'ckb', native:'کوردیی ناوەندی', meta:'Central Kurdish / Sorani · RTL', short:'CKB', dir:'rtl'}
+];
+
+const WIZ_Q1 = [
+  ['have-old','I have my old number','It still receives SMS'],
+  ['no-old','I don\u2019t have my old number','Lost, expired or disconnected'],
+  ['new-sim','I changed my SIM','Same phone, new number'],
+  ['moved','I moved to another country','New country code'],
+  ['expiring','My old number is about to expire','I still have a few days'],
+  ['stolen','My phone was lost or stolen','Device and number both gone'],
+  ['all','I need to update all my accounts','General clean-up']
+];
+const WIZ_Q2 = [
+  ['yes','Yes, it still receives SMS','Easiest case — most platforms can migrate directly'],
+  ['soon','Only for a few more days','Do the SMS-dependent accounts first'],
+  ['no','No, I cannot use it','We will prioritise recovery paths']
+];
+const WIZ_Q3 = [
+  ['ios','iPhone','Instructions for iOS'],
+  ['android','Android','Instructions for Android'],
+  ['web','Desktop / web','Browser instructions where available']
+];
+
+class Component extends DCLogic {
+  state = {
+    locale: 'en',
+    theme: 'system',
+    route: 'home',
+    platformId: 'whatsapp',
+    device: 'ios',
+    query: '',
+    langOpen: false,
+    filters: { cat: [], device: [], status: [], flags: [] },
+    open: {},
+    viewer: { open: false, index: 0, zoom: false },
+    checklist: { items: [], done: {} },
+    wizard: { step: 0, a1: null, a2: null, a3: null, a4: [] }
+  };
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('chon.checklist.v1');
+      if (raw) this.setState({ checklist: JSON.parse(raw) });
+      const loc = localStorage.getItem('chon.locale');
+      const th = localStorage.getItem('chon.theme');
+      const patch = {};
+      if (loc && I18N[loc]) patch.locale = loc;
+      if (th) patch.theme = th;
+      if (Object.keys(patch).length) this.setState(patch);
+      this.applyDoc(patch.locale || this.state.locale, patch.theme || this.state.theme);
+    } catch (e) { this.applyDoc(this.state.locale, this.state.theme); }
+    this._key = (e) => {
+      if (!this.state.viewer.open) return;
+      if (e.key === 'Escape') this.setState({ viewer: { ...this.state.viewer, open: false } });
+      if (e.key === 'ArrowRight') this.stepBy(1);
+      if (e.key === 'ArrowLeft') this.stepBy(-1);
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._key); }
+
+  applyDoc(locale, theme) {
+    const l = LANGS.find(x => x.code === locale) || LANGS[0];
+    const root = document.documentElement;
+    root.setAttribute('lang', l.code);
+    root.setAttribute('dir', l.dir);
+    let t = theme;
+    if (t === 'system') t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    root.setAttribute('data-theme', t);
+  }
+
+  save(cl) {
+    try { localStorage.setItem('chon.checklist.v1', JSON.stringify(cl)); } catch (e) {}
+  }
+
+  t(key, vars) {
+    const L = I18N[this.state.locale] || I18N.en;
+    let s = L[key] != null ? L[key] : (I18N.en[key] != null ? I18N.en[key] : key);
+    if (vars) Object.keys(vars).forEach(k => { s = s.split('{' + k + '}').join(vars[k]); });
+    return s;
+  }
+
+  lbl(k) { const m = LBL[k] || {}; return m[this.state.locale] || m.en || k; }
+
+  catLabel(id) {
+    const c = CATS.find(x => x[0] === id) || CATS[CATS.length - 1];
+    const idx = { en: 1, ar: 2, ckb: 3, ku: 4 }[this.state.locale] || 1;
+    return c[idx];
+  }
+
+  deviceLabel(d) {
+    const m = { ios: { en:'iPhone', ar:'آيفون', ckb:'ئایفۆن', ku:'ئایفۆن' }, android: { en:'Android', ar:'أندرويد', ckb:'ئەندرۆید', ku:'ئەندرۆید' }, web: { en:'Web', ar:'الويب', ckb:'وێب', ku:'وێب' } };
+    return (m[d] && (m[d][this.state.locale] || m[d].en)) || d;
+  }
+
+  diffLabel(d) {
+    const m = { easy: { en:'Easy', ar:'سهل', ckb:'ئاسان', ku:'ئاسان' }, medium: { en:'Medium', ar:'متوسط', ckb:'مامناوەند', ku:'نافنجی' }, hard: { en:'Hard', ar:'صعب', ckb:'قورس', ku:'زەحمەت' } };
+    return (m[d] && (m[d][this.state.locale] || m[d].en)) || d;
+  }
+
+  days(iso) { return Math.round((TODAY - new Date(iso)) / 86400000); }
+
+  fresh(iso) {
+    const warm = this.props.verifiedWindowDays ?? 90;
+    const cool = this.props.reviewWindowDays ?? 180;
+    const d = this.days(iso);
+    const dateStr = new Date(iso).toLocaleDateString(this.state.locale === 'en' ? 'en-GB' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
+    if (d <= warm) return { label: this.t('freshVerified', { d: dateStr }), bg:'var(--c-success-soft)', fg:'var(--c-success)', stale:false };
+    if (d <= cool) return { label: this.t('freshReview', { d: dateStr }), bg:'var(--c-warning-soft)', fg:'var(--c-warning)', stale:true };
+    return { label: this.t('freshStale', { d: dateStr }), bg:'var(--c-danger-soft)', fg:'var(--c-danger)', stale:true };
+  }
+
+  statusOf(p) { return p.status === 'pending' && GEN[p.id] ? 'generic' : p.status; }
+
+  status(s) {
+    if (s === 'official') return { label: this.t('statusOfficial'), bg:'var(--c-success-soft)', fg:'var(--c-success)', icon:'✓' };
+    if (s === 'reference') return { label: this.t('statusReference'), bg:'var(--c-info-soft)', fg:'var(--c-info)', icon:'i' };
+    if (s === 'generic') return { label: this.lbl('statusGeneric'), bg:'var(--c-warning-soft)', fg:'var(--c-warning)', icon:'≈' };
+    return { label: this.t('statusPending'), bg:'var(--c-warning-soft)', fg:'var(--c-warning)', icon:'⚠' };
+  }
+
+  go(route, patch) { this.setState({ route, langOpen: false, ...(patch || {}) }); window.scrollTo(0, 0); }
+
+  openPlatform(id) {
+    const p = PLATFORMS.find(x => x.id === id);
+    const g = this.guideFor(p);
+    let device = p.devices[0];
+    if (g) { const avail = Object.keys(g); device = avail.includes(this.state.device) ? this.state.device : avail[0]; }
+    this.go('guide', { platformId: id, device });
+  }
+
+  genericGuide(p) {
+    const s = GEN[p.id];
+    if (!s) return null;
+    const out = {};
+    p.devices.forEach(d => {
+      const chrome = d === 'ios' ? 'iPhone' : d === 'android' ? 'Android' : 'Web';
+      const steps = [
+        {title:'Open ' + p.name + ' and go to ' + s.home, desc:'Exact wording and placement vary by app version — look for the account or profile area.', mock:{title:p.name, chrome, rows:[row('Home',''),row('Notifications',''),row(s.home,'Account and settings',true)]}},
+        {title:'Open ' + s.settings, desc:'This is the section that holds your account details rather than app preferences.', mock:{title:s.home, chrome, rows:[row(s.settings,'',true),row('Privacy',''),row('Notifications',''),row('Help','')]}},
+        {title:'Open ' + s.account, desc:'Your phone number is stored with the rest of your sign-in and contact details.', mock:{title:s.settings, chrome, rows:[row(s.account,'',true),row('Password',''),row('Email',''),row('Data and privacy','')]}},
+        {title:'Add the new number and verify it', desc:'Add first, verify with the code the platform sends, and only then continue. Type the number inside the app only.', mock:{title:s.phone, chrome, rows:[row('New phone number','Include the country code'),row('Send code',''),row('Enter code','',true)]}, note:'Chon never needs your number or the code. Nobody legitimate will ask you for it.'},
+        {title:'Remove the old number', desc:'Once the new number is verified and working, remove the old one so it stops being a recovery path for someone else.', mock:{title:s.phone, chrome, rows:[row('New number','Verified'),row('Old number','Remove',true)]}}
+      ];
+      if (p.twofa) steps.push({title:'Check two-factor authentication separately', desc:'A number used for login codes is usually stored apart from your contact number. Update it, then save recovery codes.', mock:{title:'Security', chrome, rows:[row('Two-factor authentication','',true),row('Recovery codes',''),row('Active sessions','')]}, note:'High risk: this is the step that locks people out. Do it before the old SIM stops working.'});
+      out[d] = {
+        generic: true,
+        prereqs: ['The new number is active and can receive SMS.','You can sign in to ' + p.name + ' right now.','You know whether ' + p.name + ' sends you login codes by SMS.'],
+        steps,
+        warnings: [
+          {level:'high', text:'These steps are a generic pattern, not a verified walkthrough of the current ' + p.name + ' interface. Confirm each screen against the official help centre before relying on it.'},
+          {level:'medium', text:'Removing the old number before the new one is verified can leave the account with no working recovery method.'}
+        ]
+      };
+    });
+    return out;
+  }
+
+  guideFor(p) { return GUIDES[p.id] || this.genericGuide(p); }
+
+  currentGuide() {
+    const p = PLATFORMS.find(x => x.id === this.state.platformId) || PLATFORMS[0];
+    const g = this.guideFor(p);
+    const variant = g ? (g[this.state.device] || g[Object.keys(g)[0]]) : null;
+    return { p, g, variant };
+  }
+
+  stepBy(n) {
+    const { variant } = this.currentGuide();
+    if (!variant) return;
+    const total = variant.steps.length;
+    const i = (this.state.viewer.index + n + total) % total;
+    this.setState({ viewer: { ...this.state.viewer, index: i } });
+  }
+
+  toggleFilter(kind, val) {
+    const f = { ...this.state.filters };
+    const arr = f[kind].slice();
+    const i = arr.indexOf(val);
+    if (i >= 0) arr.splice(i, 1); else arr.push(val);
+    f[kind] = arr;
+    this.setState({ filters: f });
+  }
+
+  addItems(ids) {
+    const cl = { items: this.state.checklist.items.slice(), done: { ...this.state.checklist.done } };
+    ids.forEach(id => { if (!cl.items.includes(id)) cl.items.push(id); });
+    this.setState({ checklist: cl });
+    this.save(cl);
+  }
+
+  mockRows(rows, small) {
+    return rows.map(r => ({
+      label: r.label,
+      hint: r.hint,
+      fw: r.tap ? 700 : 500,
+      fg: r.tap ? 'var(--c-primary)' : 'var(--c-fg)',
+      bg: r.tap ? 'var(--c-primary-soft)' : 'var(--c-surface-2)',
+      bc: r.tap ? 'var(--c-primary)' : 'var(--c-divider)',
+      arrow: r.tap ? 'var(--c-primary)' : 'var(--c-fg-muted)',
+      tip: r.tap ? '●' : '›',
+      tipFull: r.tap ? (this.state.locale === 'en' ? '← Tap' : '←') : '›'
+    }));
+  }
+
+  buildSteps(variant, p) {
+    return variant.steps.map((s, i) => ({
+      num: i + 1,
+      title: s.title,
+      desc: s.desc,
+      note: s.note || '',
+      hasNote: !!s.note,
+      deviceBadge: this.deviceLabel(this.state.device).toUpperCase(),
+      viewLabel: this.t('stepOf', { n: i + 1, total: variant.steps.length }),
+      open: () => this.setState({ viewer: { open: true, index: i, zoom: false } }),
+      mock: { title: s.mock.title, chrome: s.mock.chrome, clock: '9:41', rows: this.mockRows(s.mock.rows) }
+    }));
+  }
+
+  renderVals() {
+    const st = this.state;
+    const L = LANGS.find(x => x.code === st.locale) || LANGS[0];
+    const t = {};
+    Object.keys(I18N.en).forEach(k => { t[k] = this.t(k); });
+    const rtl = L.dir === 'rtl';
+
+    const navItems = [
+      ['guides', 'navGuides', 'library'],
+      ['wizard', 'navWizard', 'wizard'],
+      ['checklist', 'navChecklist', 'checklist'],
+      ['safety', 'navSafety', 'safety']
+    ].map(([id, key, route]) => ({
+      label: this.t(key),
+      current: st.route === route ? 'page' : 'false',
+      bg: st.route === route ? 'var(--c-bg-subtle)' : 'transparent',
+      fg: st.route === route ? 'var(--c-fg)' : 'var(--c-fg-2)',
+      go: () => this.go(route)
+    }));
+
+    const card = (p) => {
+      const s = this.status(this.statusOf(p));
+      const f = this.fresh(p.verified);
+      return {
+        name: p.name, mono: p.mono, tile: p.tile, catLabel: this.catLabel(p.cat),
+        statusLabel: s.label, statusBg: s.bg, statusFg: s.fg,
+        timeLabel: p.min + ' min', deviceLabel: p.devices.map(d => this.deviceLabel(d)).join(' · '),
+        flagLine: (p.direct ? '✓ ' + this.t('directChange') : '⚠ ' + this.t('directChange')) + (p.oldNumber ? ' · ' + this.t('reqOld') : ''),
+        freshLabel: f.label,
+        go: () => this.openPlatform(p.id)
+      };
+    };
+
+    const q = st.query.trim().toLowerCase();
+    const matches = (p) => {
+      if (!q) return true;
+      const hay = [p.name, p.id, this.catLabel(p.cat), p.cat, p.src].join(' ').toLowerCase();
+      const syn = { whatsapp:'wa messaging chat', instagram:'insta ig meta', facebook:'fb meta', google:'gmail youtube android', apple:'icloud apple id iphone', x:'twitter tweet', microsoft:'outlook skype hotmail', telegram:'tg' };
+      return hay.includes(q) || (syn[p.id] || '').includes(q) || 'change phone number new sim lost old number 2fa'.includes(q) && p.status !== 'pending';
+    };
+    const f = st.filters;
+    const passFilters = (p) =>
+      (!f.cat.length || f.cat.includes(p.cat)) &&
+      (!f.device.length || f.device.some(d => p.devices.includes(d))) &&
+      (!f.status.length || f.status.includes(this.statusOf(p))) &&
+      (!f.flags.length || f.flags.every(fl => (fl === 'old' ? p.oldNumber : fl === 'direct' ? p.direct : fl === 'twofa' ? p.twofa : true)));
+    const results = PLATFORMS.filter(p => matches(p) && passFilters(p));
+
+    const chip = (on) => ({ bg: on ? 'var(--c-primary-soft)' : 'var(--c-surface-2)', fg: on ? 'var(--c-primary)' : 'var(--c-fg-2)', bc: on ? 'var(--c-primary)' : 'var(--c-border)', pressed: on ? 'true' : 'false' });
+
+    const filterGroups = [
+      { label: this.t('category'), options: CATS.filter(c => PLATFORMS.some(p => p.cat === c[0])).map(c => ({ label: this.catLabel(c[0]), ...chip(f.cat.includes(c[0])), toggle: () => this.toggleFilter('cat', c[0]) })) },
+      { label: this.t('device'), options: ['ios','android','web'].map(d => ({ label: this.deviceLabel(d), ...chip(f.device.includes(d)), toggle: () => this.toggleFilter('device', d) })) },
+      { label: this.t('source'), options: [['official', this.t('statusOfficial')], ['reference', this.t('statusReference')], ['generic', this.lbl('statusGeneric')], ['pending', this.t('statusPending')]].map(([k, l]) => ({ label: l, ...chip(f.status.includes(k)), toggle: () => this.toggleFilter('status', k) })) },
+      { label: this.t('requirements'), options: [['old', this.t('reqOld')], ['direct', this.t('directChange')], ['twofa', this.t('twofaAffected')]].map(([k, l]) => ({ label: l, ...chip(f.flags.includes(k)), toggle: () => this.toggleFilter('flags', k) })) }
+    ];
+
+    // ---- guide view
+    const { p: gp, g, variant } = this.currentGuide();
+    const gs = this.status(this.statusOf(gp));
+    const gf = this.fresh(gp.verified);
+    const onList = st.checklist.items.includes(gp.id);
+    const guide = {
+      name: gp.name, mono: gp.mono, tile: gp.tile,
+      h1: gp.name, h2: this.state.locale === 'en' ? 'Change your phone number' : this.t('navWizard'),
+      statusLabel: gs.label, statusBg: gs.bg, statusFg: gs.fg, statusIcon: gs.icon,
+      freshLabel: gf.label, freshBg: gf.bg, freshFg: gf.fg, stale: gf.stale && this.statusOf(gp) !== 'pending',
+      diffLabel: this.t('difficulty') + ': ' + this.diffLabel(gp.diff),
+      timeLabel: gp.min + ' min',
+      route: '/' + st.locale + '/' + gp.id + '/change-phone-number',
+      sourceName: gp.src, sourceUrl: gp.url,
+      missing: !variant, hasSteps: !!variant,
+      hasTabs: !!g && Object.keys(g).length > 1,
+      transFallback: !!variant && st.locale !== 'en',
+      tabs: g ? Object.keys(g).map(d => ({
+        label: this.deviceLabel(d), selected: d === st.device ? 'true' : 'false',
+        bg: d === st.device ? 'var(--c-surface)' : 'transparent',
+        fg: d === st.device ? 'var(--c-fg)' : 'var(--c-fg-2)',
+        shadow: d === st.device ? 'var(--c-shadow)' : 'none',
+        pick: () => this.setState({ device: d, viewer: { open: false, index: 0, zoom: false } })
+      })) : [],
+      prereqs: variant ? variant.prereqs.map(x => ({ text: x })) : [],
+      steps: variant ? this.buildSteps(variant, gp) : [],
+      stepsHint: variant ? this.t('stepOf', { n: 1, total: variant.steps.length }) + ' · ' + this.deviceLabel(st.device) : '',
+      warnings: variant ? variant.warnings.map(w => ({
+        text: w.text,
+        level: this.lbl(w.level === 'high' ? 'high' : w.level === 'medium' ? 'medium' : 'low'),
+        glyph: w.level === 'high' ? '!' : '⚠',
+        bg: w.level === 'high' ? 'var(--c-danger-soft)' : w.level === 'medium' ? 'var(--c-warning-soft)' : 'var(--c-info-soft)',
+        bc: w.level === 'high' ? 'var(--c-danger)' : w.level === 'medium' ? 'var(--c-warning)' : 'var(--c-info)',
+        ink: w.level === 'high' ? 'var(--c-danger)' : w.level === 'medium' ? 'var(--c-warning)' : 'var(--c-info)'
+      })) : [],
+      trouble: (GUIDE_TROUBLE[gp.id] || []).map((x, i) => {
+        const key = 'g-' + gp.id + '-' + i;
+        return { q: x.q, a: x.a, open: !!st.open[key], expanded: st.open[key] ? 'true' : 'false', chev: st.open[key] ? '▴' : '▾', toggle: () => this.setState({ open: { ...st.open, [key]: !st.open[key] } }) };
+      }),
+      facts: [
+        { k: this.t('factDirect'), v: gp.direct ? this.t('yes') : this.t('unknown'), ink: gp.direct ? 'var(--c-success)' : 'var(--c-warning)' },
+        { k: this.t('factOld'), v: gp.oldNumber ? this.t('yes') : this.t('no'), ink: gp.oldNumber ? 'var(--c-warning)' : 'var(--c-fg)' },
+        { k: this.t('factSms'), v: gp.sms ? this.t('yes') : this.t('no'), ink: 'var(--c-fg)' },
+        { k: this.t('factEmail'), v: gp.email ? this.t('yes') : this.t('no'), ink: 'var(--c-fg)' },
+        { k: this.t('factTwofa'), v: gp.twofa ? this.t('yes') : this.t('no'), ink: gp.twofa ? 'var(--c-danger)' : 'var(--c-fg)' },
+        { k: this.t('factDevices'), v: gp.devices.map(d => this.deviceLabel(d)).join(', '), ink: 'var(--c-fg)' }
+      ],
+      related: PLATFORMS.filter(x => x.cat === gp.cat && x.id !== gp.id).slice(0, 4).map(x => ({ name: x.name, mono: x.mono, tile: x.tile, go: () => this.openPlatform(x.id) })),
+      addLabel: onList ? this.t('addedToChecklist') : this.t('addToChecklist'),
+      addBg: onList ? 'var(--c-success-soft)' : 'var(--c-primary)',
+      addFg: onList ? 'var(--c-success)' : '#fff',
+      addBc: onList ? 'var(--c-success)' : 'var(--c-primary)',
+      addToChecklist: () => { if (!onList) this.addItems([gp.id]); }
+    };
+
+    // ---- viewer
+    const vsteps = guide.steps;
+    const vstep = vsteps[Math.min(st.viewer.index, Math.max(0, vsteps.length - 1))] || { title: '', desc: '', hasNote: false, note: '', mock: { title: '', chrome: '', clock: '', rows: [] } };
+    const viewer = {
+      open: st.viewer.open && vsteps.length > 0,
+      aria: this.t('whatTap'),
+      counter: this.t('stepOf', { n: st.viewer.index + 1, total: vsteps.length }),
+      device: this.deviceLabel(st.device),
+      step: vstep,
+      frameWidth: st.viewer.zoom ? '420px' : '300px',
+      zoomIcon: st.viewer.zoom ? '−' : '+',
+      zoom: () => this.setState({ viewer: { ...st.viewer, zoom: !st.viewer.zoom } }),
+      close: () => this.setState({ viewer: { ...st.viewer, open: false } }),
+      prev: () => this.stepBy(-1),
+      next: () => this.stepBy(1),
+      prevDisabled: st.viewer.index === 0,
+      prevOpacity: st.viewer.index === 0 ? '.45' : '1',
+      prevLabel: (rtl ? '→ ' : '← ') + this.t('prev'),
+      nextLabel: this.t('next') + (rtl ? ' ←' : ' →')
+    };
+
+    // ---- checklist
+    const labelFor = (id) => {
+      const p = PLATFORMS.find(x => x.id === id);
+      if (p) return p.name;
+      const e = EXTRA_ITEMS.find(x => x[0] === id);
+      return e ? e[1] : id;
+    };
+    const items = st.checklist.items.map(id => {
+      const p = PLATFORMS.find(x => x.id === id);
+      const done = !!st.checklist.done[id];
+      return {
+        label: labelFor(id),
+        meta: p ? this.catLabel(p.cat) + ' · ' + p.min + ' min' : this.t('navSafety'),
+        checked: done ? 'true' : 'false',
+        mark: done ? '✓' : '',
+        boxBg: done ? 'var(--c-success)' : 'transparent',
+        boxBc: done ? 'var(--c-success)' : 'var(--c-border-strong)',
+        bg: done ? 'var(--c-success-soft)' : 'var(--c-surface)',
+        bc: done ? 'var(--c-success)' : 'var(--c-border)',
+        fg: done ? 'var(--c-fg-2)' : 'var(--c-fg)',
+        deco: done ? 'line-through' : 'none',
+        hasGuide: !!p,
+        go: () => p && this.openPlatform(id),
+        toggle: () => {
+          const cl = { items: st.checklist.items.slice(), done: { ...st.checklist.done } };
+          if (cl.done[id]) delete cl.done[id]; else cl.done[id] = true;
+          this.setState({ checklist: cl }); this.save(cl);
+        }
+      };
+    });
+    const doneCount = items.filter(i => i.checked === 'true').length;
+    const total = items.length;
+    const pct = total ? Math.round((doneCount / total) * 100) : 0;
+    const checklist = {
+      items, any: total > 0, empty: total === 0, done: doneCount, total,
+      pct: pct + '%', pctLabel: pct + '%',
+      countLabel: this.t('countLabel', { done: doneCount, total }),
+      reset: () => { const cl = { items: [], done: {} }; this.setState({ checklist: cl }); this.save(cl); }
+    };
+
+    // ---- wizard
+    const w = st.wizard;
+    const wizQ = [
+      { key: 'a1', title: this.t('q1'), hint: this.t('q1hint'), opts: WIZ_Q1, multi: false },
+      { key: 'a2', title: this.t('q2'), hint: this.t('q2hint'), opts: WIZ_Q2, multi: false },
+      { key: 'a3', title: this.t('q3'), hint: this.t('q3hint'), opts: WIZ_Q3, multi: false },
+      { key: 'a4', title: this.t('q4'), hint: this.t('q4hint'), opts: PLATFORMS.slice(0, 12).map(p => [p.id, p.name, this.catLabel(p.cat)]).concat(EXTRA_ITEMS.map(e => [e[0], e[1], this.catLabel(e[2])])), multi: true }
+    ];
+    const cur = wizQ[Math.min(w.step, 3)];
+    const picked = w[cur.key];
+    const isPicked = (v) => cur.multi ? picked.indexOf(v) >= 0 : picked === v;
+    const wizard = {
+      progressLabel: this.t('wizStep', { n: w.step + 1, total: 4 }),
+      pct: ((w.step + 1) / 4 * 100) + '%',
+      question: cur.title, hint: cur.hint,
+      options: cur.opts.map(([v, label, sub]) => {
+        const on = isPicked(v);
+        return {
+          label, sub,
+          pressed: on ? 'true' : 'false',
+          bg: on ? 'var(--c-primary-soft)' : 'var(--c-surface)',
+          bc: on ? 'var(--c-primary)' : 'var(--c-border)',
+          markRadius: cur.multi ? '6px' : '50%',
+          markBg: on ? 'var(--c-primary)' : 'transparent',
+          markBc: on ? 'var(--c-primary)' : 'var(--c-border-strong)',
+          mark: on ? '✓' : '',
+          pick: () => {
+            const nw = { ...w };
+            if (cur.multi) {
+              const arr = nw.a4.slice();
+              const i = arr.indexOf(v);
+              if (i >= 0) arr.splice(i, 1); else arr.push(v);
+              nw.a4 = arr;
+            } else { nw[cur.key] = v; }
+            this.setState({ wizard: nw });
+          }
+        };
+      }),
+      nextDisabled: cur.multi ? w.a4.length === 0 : !picked,
+      nextCursor: (cur.multi ? w.a4.length === 0 : !picked) ? 'not-allowed' : 'pointer',
+      nextBg: (cur.multi ? w.a4.length === 0 : !picked) ? 'var(--c-bg-subtle)' : 'var(--c-primary)',
+      nextFg: (cur.multi ? w.a4.length === 0 : !picked) ? 'var(--c-fg-muted)' : '#fff',
+      nextLabel: w.step === 3 ? this.t('finish') : this.t('next'),
+      back: () => { if (w.step === 0) this.go('home'); else this.setState({ wizard: { ...w, step: w.step - 1 } }); },
+      next: () => {
+        if (cur.multi ? w.a4.length === 0 : !picked) return;
+        if (w.step < 3) { this.setState({ wizard: { ...w, step: w.step + 1 } }); window.scrollTo(0, 0); return; }
+        const base = w.a4.slice();
+        if (w.a2 === 'no' || w.a1 === 'no-old' || w.a1 === 'stolen') {
+          ['gen-email', 'gen-2fa', 'gen-bank'].forEach(x => { if (!base.includes(x)) base.unshift(x); });
+        }
+        if (w.a3 && ['ios','android','web'].includes(w.a3)) this.setState({ device: w.a3 });
+        this.addItems(base);
+        this.go('checklist');
+      }
+    };
+
+    return {
+      dir: L.dir, t,
+      contentDir: 'ltr',
+      contentFallback: st.locale !== 'en',
+      localeShort: L.short,
+      langOpen: st.langOpen, langOpenStr: st.langOpen ? 'true' : 'false',
+      toggleLangMenu: () => this.setState({ langOpen: !st.langOpen }),
+      langs: LANGS.map(l => ({
+        native: l.native, meta: l.meta, check: l.code === st.locale ? '✓' : '',
+        bg: l.code === st.locale ? 'var(--c-bg-subtle)' : 'transparent',
+        pick: () => { this.setState({ locale: l.code, langOpen: false }); try { localStorage.setItem('chon.locale', l.code); } catch (e) {} this.applyDoc(l.code, st.theme); }
+      })),
+      themeIcon: st.theme === 'dark' ? '☾' : st.theme === 'light' ? '☀' : '◐',
+      themeName: st.theme,
+      cycleTheme: () => {
+        const order = ['system', 'light', 'dark'];
+        const next = order[(order.indexOf(st.theme) + 1) % 3];
+        this.setState({ theme: next });
+        try { localStorage.setItem('chon.theme', next); } catch (e) {}
+        this.applyDoc(st.locale, next);
+      },
+      nav: navItems,
+      crumbSep: rtl ? '‹' : '›',
+      goHome: () => this.go('home'),
+      goLibrary: () => this.go('library'),
+      goWizard: () => this.go('wizard'),
+      isHome: st.route === 'home', isLibrary: st.route === 'library', isGuide: st.route === 'guide',
+      isWizard: st.route === 'wizard', isChecklist: st.route === 'checklist', isSafety: st.route === 'safety',
+      query: st.query,
+      onSearch: (e) => this.setState({ query: e.target.value, route: st.route === 'home' ? 'home' : 'library' }),
+      quickPicks: ['whatsapp','instagram','facebook','tiktok','google','apple','telegram'].map(id => {
+        const p = PLATFORMS.find(x => x.id === id);
+        return { name: p.name, go: () => this.openPlatform(id) };
+      }),
+      homeActions: [
+        { glyph: '◷', tint: 'var(--c-primary-soft)', ink: 'var(--c-primary)', title: this.t('navWizard'), sub: this.state.locale === 'en' ? 'Four questions, no phone number needed. Chon builds the list of accounts you must update.' : this.t('q4hint'), cta: this.t('startWizard'), go: () => this.go('wizard') },
+        { glyph: '✓', tint: 'var(--c-success-soft)', ink: 'var(--c-success)', title: this.t('navChecklist'), sub: this.t('checklistSub'), cta: this.t('progress'), go: () => this.go('checklist') },
+        { glyph: '!', tint: 'var(--c-danger-soft)', ink: 'var(--c-danger)', title: this.t('lostTitle'), sub: this.t('twofaSub'), cta: this.t('navSafety'), go: () => this.go('safety') }
+      ],
+      popular: ['whatsapp','instagram','facebook','tiktok','google','apple','telegram','linkedin'].map(id => card(PLATFORMS.find(x => x.id === id))),
+      categoryCards: CATS.map(c => {
+        const n = PLATFORMS.filter(p => p.cat === c[0]).length;
+        return { label: this.catLabel(c[0]), countLabel: n === 1 ? this.t('resultsOne') : this.t('resultsMany', { n }), go: () => { this.setState({ filters: { cat: [c[0]], device: [], status: [], flags: [] }, query: '' }); this.go('library'); } };
+      }),
+      filterGroups,
+      clearFilters: () => this.setState({ filters: { cat: [], device: [], status: [], flags: [] }, query: '' }),
+      results: results.map(card),
+      noResults: results.length === 0,
+      resultsLabel: results.length === 1 ? this.t('resultsOne') : this.t('resultsMany', { n: results.length }),
+      guide, viewer, checklist, wizard,
+      lostSteps: LOST_STEPS.map((s, i) => ({ n: i + 1, title: s[0], body: s[1] })),
+      twofaCards: TWOFA_CARDS.map(c => ({
+        title: c[0], body: c[2],
+        tag: this.lbl(c[1] === 'high' ? 'breaks' : c[1] === 'medium' ? 'checkit' : c[1] === 'safe' ? 'safest' : 'fine'),
+        bg: c[1] === 'high' ? 'var(--c-danger-soft)' : c[1] === 'medium' ? 'var(--c-warning-soft)' : c[1] === 'safe' ? 'var(--c-success-soft)' : 'var(--c-info-soft)',
+        ink: c[1] === 'high' ? 'var(--c-danger)' : c[1] === 'medium' ? 'var(--c-warning)' : c[1] === 'safe' ? 'var(--c-success)' : 'var(--c-info)'
+      })),
+      globalTrouble: GLOBAL_TROUBLE.map((x, i) => {
+        const key = 'gt-' + i;
+        return { q: x.q, a: x.a, open: !!st.open[key], expanded: st.open[key] ? 'true' : 'false', chev: st.open[key] ? '▴' : '▾', toggle: () => this.setState({ open: { ...st.open, [key]: !st.open[key] } }) };
+      })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

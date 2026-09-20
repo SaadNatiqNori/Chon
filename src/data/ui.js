@@ -1,0 +1,168 @@
+// Every string the interface shows, in all four languages.
+export const LANGS = [
+  { code: 'en',  native: 'English',        short: 'EN',  dir: 'ltr' },
+  { code: 'ar',  native: 'العربية',         short: 'عربی', dir: 'rtl' },
+  { code: 'ckb', native: 'کوردیی ناوەندی',  short: 'کوردی', dir: 'rtl' },
+  { code: 'ku',  native: 'کوردی بادینی',    short: 'بادینی', dir: 'rtl' }
+];
+
+// Page metadata, one set per language. Deliberately written without a dash
+// character in any of the four, per the brand's copy rules.
+export const META = {
+  en: {
+    title: 'Chon · Change your phone number safely',
+    description: 'Clear picture by picture guides for changing the phone number on WhatsApp, Telegram, Instagram, Facebook, TikTok, Google and more, without losing your accounts.',
+    ogLocale: 'en_US'
+  },
+  ar: {
+    title: 'چۆن · غيّر رقم هاتفك بأمان',
+    description: 'أدلة مصوّرة خطوة بخطوة لتغيير رقم الهاتف في واتساب وتيليجرام وإنستغرام وفيسبوك وتيك توك وجوجل وغيرها، دون أن تفقد حساباتك.',
+    ogLocale: 'ar_AR'
+  },
+  ckb: {
+    title: 'چۆن · بە سەلامەتی ژمارەکەت بگۆڕە',
+    description: 'ڕێنمایی وێنەیی هەنگاو بە هەنگاو بۆ گۆڕینی ژمارەی مۆبایل لە واتسئاپ و تێلێگرام و ئینستاگرام و فەیسبووک و تیکتۆک و گووگڵ و زیاتر، بەبێ ئەوەی هەژمارەکانت لەدەست بدەیت.',
+    ogLocale: 'ckb_IQ'
+  },
+  ku: {
+    title: 'چۆن · ب سەلامەتی ژمارا خۆ بگوهۆڕە',
+    description: 'ڕێنمایێن وێنەیی گاڤ ب گاڤ بۆ گوهۆڕینا ژمارا مۆبایلی د واتسئاپ و تێلێگرام و ئینستاگرام و فەیسبووک و تیکتۆک و گووگلێ و پترێ دا، بێی کو هەژمارێن خۆ ژ دەست بدەی.',
+    ogLocale: 'ku_TR'
+  }
+};
+
+export const BRAND = { name: 'Chon', amber: '#FFC640', ink: '#1A1A1C' };
+
+export const UI = {
+  tagline: {
+    en: 'Change your number safely',
+    ar: 'غيّر رقمك بأمان',
+    ckb: 'بە سەلامەتی ژمارەکەت بگۆڕە',
+    ku: 'ب سەلامەتی ژمارا خۆ بگوهۆڕە'
+  },
+  pickTitle: {
+    en: 'Which app?',
+    ar: 'أي تطبيق؟',
+    ckb: 'کام ئەپ؟',
+    ku: 'کیژ ئەپ؟'
+  },
+  pickSub: {
+    en: 'Tap the app you want to change your number in.',
+    ar: 'اضغط على التطبيق الذي تريد تغيير رقمك فيه.',
+    ckb: 'لەو ئەپە بدە کە دەتەوێت ژمارەکەت تێیدا بگۆڕیت.',
+    ku: 'ل وی ئەپی بدە یێ کو دخوازی ژمارا خۆ تێدا بگوهۆڕی.'
+  },
+  ready: {
+    en: 'Ready', ar: 'جاهز', ckb: 'ئامادەیە', ku: 'ئامادەیە'
+  },
+  soon: {
+    en: 'Soon', ar: 'قريباً', ckb: 'بەزووی', ku: 'ب زوویی'
+  },
+  openGuide: {
+    en: 'Open guide', ar: 'افتح الدليل', ckb: 'ڕێنمایی بکەرەوە', ku: 'ڕێنمایێ ڤەکە'
+  },
+  back: {
+    en: 'Back', ar: 'رجوع', ckb: 'گەڕانەوە', ku: 'زڤڕین'
+  },
+  stepOf: {
+    en: 'Step {n} of {total}',
+    ar: 'الخطوة {n} من {total}',
+    ckb: 'هەنگاوی {n} لە {total}',
+    ku: 'گاڤا {n} ژ {total}'
+  },
+  stepsCount: {
+    en: '{n} steps', ar: '{n} خطوات', ckb: '{n} هەنگاو', ku: '{n} گاڤ'
+  },
+  notReadyTitle: {
+    en: 'Not ready yet',
+    ar: 'غير جاهز بعد',
+    ckb: 'هێشتا ئامادە نییە',
+    ku: 'هێشتا ئامادە نینە'
+  },
+  notReadyBody: {
+    en: 'We have not photographed the steps for this app yet. Until we do, the official help page is the safest place to look.',
+    ar: 'لم نصوّر خطوات هذا التطبيق بعد. إلى أن نفعل، صفحة المساعدة الرسمية هي أأمن مكان للبحث.',
+    ckb: 'هێشتا وێنەی هەنگاوەکانی ئەم ئەپەمان نەگرتووە. تا ئەو کاتە، لاپەڕەی یارمەتی فەرمی سەلامەتترین شوێنە.',
+    ku: 'هێشتا مە وێنێن گاڤێن ڤی ئەپی نەگرتینە. هەتا وێ دەمێ، لاپەڕا هاریکاریا فەرمی سەلامەتترین جهە.'
+  },
+  openOfficial: {
+    en: 'Open official help',
+    ar: 'افتح المساعدة الرسمية',
+    ckb: 'یارمەتی فەرمی بکەرەوە',
+    ku: 'هاریکاریا فەرمی ڤەکە'
+  },
+  warnTitle: {
+    en: 'Before you start',
+    ar: 'قبل أن تبدأ',
+    ckb: 'پێش ئەوەی دەست پێبکەیت',
+    ku: 'بەری دەست پێ بکەی'
+  },
+  warnBody: {
+    en: 'Keep your old SIM working until you finish. If your old number is the only way back into your other accounts, change those first.',
+    ar: 'أبقِ شريحتك القديمة تعمل حتى تنتهي. إذا كان رقمك القديم هو الطريقة الوحيدة للعودة إلى حساباتك الأخرى، فغيّرها أولاً.',
+    ckb: 'سیمکارتە کۆنەکەت بەکاری بهێڵەوە تا تەواو دەبیت. ئەگەر ژمارە کۆنەکەت تەنها ڕێگای گەڕانەوەیە بۆ هەژمارەکانی تر، سەرەتا ئەوانە بگۆڕە.',
+    ku: 'سیمکارتا خۆ یا کەڤن بهێلە بخەبتیت هەتا قەدیای. ئەگەر ژمارا تە یا کەڤن تنێ ڕێکا زڤڕینێ یە بۆ هەژمارێن تە یێن دی, بەرێ وان بگوهۆڕە.'
+  },
+  scamNote: {
+    en: 'Never give your number or your code to anyone who offers to do this for you.',
+    ar: 'لا تعطِ رقمك أو رمزك لأي شخص يعرض أن يقوم بهذا نيابةً عنك.',
+    ckb: 'هەرگیز ژمارە یان کۆدەکەت مەدە بە کەسێک کە پێشنیاری ئەوە دەکات لە جیاتی تۆ ئەمە بکات.',
+    ku: 'چو جاران ژمارا خۆ یان کۆدێ خۆ نەدە کەسەکێ یێ دبێژیت ئەز دێ ڤێ بۆ تە کەم.'
+  },
+  doneTitle: {
+    en: 'That is everything',
+    ar: 'هذا كل شيء',
+    ckb: 'هەموویی ئەوەیە',
+    ku: 'هەمی ئەوە یە'
+  },
+  doneBody: {
+    en: 'Your number is changed. Your chats and groups stay where they are.',
+    ar: 'تم تغيير رقمك. محادثاتك ومجموعاتك تبقى كما هي.',
+    ckb: 'ژمارەکەت گۆڕا. چات و گرووپەکانت لە شوێنی خۆیان دەمێننەوە.',
+    ku: 'ژمارا تە هاتە گوهۆڕین. چات و گرووپێن تە ل جهێ خۆ دمینن.'
+  },
+  disclaimer: {
+    en: 'Chon is an independent guide and is not connected to WhatsApp or any other company. Apps change; if a screen looks different, check the official help page.',
+    ar: 'تشون دليل مستقل وغير مرتبط بواتساب أو أي شركة أخرى. التطبيقات تتغيّر؛ إذا بدت الشاشة مختلفة، راجع صفحة المساعدة الرسمية.',
+    ckb: 'چۆن ڕێنمایەکی سەربەخۆیە و پەیوەندی بە واتسئاپ یان هیچ کۆمپانیایەکی تر نییە. ئەپەکان دەگۆڕێن؛ ئەگەر شاشەیەک جیاواز بوو، لاپەڕەی یارمەتی فەرمی ببینە.',
+    ku: 'چۆن ڕێنمایەکا سەربخۆ یە و گرێدانا وێ ب واتسئاپ یان هیچ کۆمپانیایەکا دی نینە. ئەپ دهێنە گوهۆڕین؛ ئەگەر ئێکران جودا بوو, لاپەڕا هاریکاریا فەرمی ببینە.'
+  },
+  device: {
+    ios: { en: 'iPhone', ar: 'آيفون', ckb: 'ئایفۆن', ku: 'ئایفۆن' },
+    android: { en: 'Android', ar: 'أندرويد', ckb: 'ئەندرۆید', ku: 'ئەندرۆید' },
+    web: { en: 'Computer', ar: 'كمبيوتر', ckb: 'کۆمپیوتەر', ku: 'کۆمپیوتەر' }
+  },
+  homeLabel: {
+    en: 'Chon home', ar: 'الصفحة الرئيسية', ckb: 'پەڕەی سەرەکی', ku: 'لاپەڕا سەرەکی'
+  },
+  languageLabel: {
+    en: 'Language', ar: 'اللغة', ckb: 'زمان', ku: 'زمان'
+  },
+  coverageTitle: {
+    en: 'Covered so far', ar: 'ما تمت تغطيته', ckb: 'ئەوەی تا ئێستا کراوە', ku: 'یا هەتا نوکە هاتیە کرن'
+  },
+  coverageApps: {
+    en: 'apps ready', ar: 'تطبيقات جاهزة', ckb: 'ئەپی ئامادە', ku: 'ئەپێن ئامادە'
+  },
+  coverageSteps: {
+    en: 'steps photographed', ar: 'خطوة مصوّرة', ckb: 'هەنگاوی وێنەگیراو', ku: 'گاڤێن وێنەگرتی'
+  },
+  coverageLangs: {
+    en: 'languages', ar: 'لغات', ckb: 'زمان', ku: 'زمان'
+  },
+  themeLabel: {
+    en: 'Change theme', ar: 'تغيير المظهر', ckb: 'گۆڕینی ڕووکار', ku: 'گوهۆڕینا ڕوکاری'
+  }
+};
+
+export function t(key, locale, vars) {
+  const entry = UI[key];
+  let s = (entry && (entry[locale] || entry.en)) || key;
+  if (vars) Object.keys(vars).forEach(k => { s = s.split('{' + k + '}').join(vars[k]); });
+  return s;
+}
+
+export function deviceLabel(d, locale) {
+  const m = UI.device[d];
+  return (m && (m[locale] || m.en)) || d;
+}

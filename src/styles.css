@@ -1,0 +1,349 @@
+/* ---- Type ------------------------------------------------------------- */
+/* Arkan Lyon carries Latin as well as Arabic and Kurdish, so it sets the
+   brand voice for headings in every language and the whole interface in the
+   three right-to-left ones. */
+@font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Medium.woff2')  format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Bold.woff2')    format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Black.woff2')   format('woff2'); font-weight: 900; font-display: swap; }
+@font-face { font-family: 'NotoSans'; src: url('./assets/fonts/NotoSans.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+
+/* ---- Colour ------------------------------------------------------------
+   Taken from the logo: amber ink on near black, with a warm paper white. */
+:root {
+  --c-brand: #FFC640;
+  --c-brand-press: #F2B32A;
+  --c-brand-ink: #1A1A1C;          /* text that sits on amber */
+
+  --c-bg: #FFFFFF;
+  --c-bg-subtle: #FAF7F1;
+  --c-surface: #FFFFFF;
+  --c-surface-2: #FBF8F2;
+  --c-border: #ECE6DA;
+  --c-border-strong: #DAD1C0;
+  --c-divider: #F2ECE1;
+
+  --c-fg: #1A1A1C;
+  --c-fg-2: #56534C;
+  --c-fg-muted: #8B867B;
+
+  --c-primary: var(--c-brand);
+  --c-primary-press: var(--c-brand-press);
+  --c-primary-soft: #FFF6E2;
+
+  --c-success: #146B35; --c-success-soft: #EDF7F0;
+  --c-warning: #A55A06; --c-warning-soft: #FFF4E3;
+  --c-danger:  #B82F1C; --c-danger-soft:  #FDEEEB;
+  --c-info:    #2450C8; --c-info-soft:    #EEF2FE;
+
+  --c-shadow: 0 1px 2px rgba(26, 26, 28, .05);
+  --c-shadow-lift: 0 10px 30px rgba(26, 26, 28, .12);
+
+  --c-font: 'NotoSans', system-ui, sans-serif;
+  --c-display: 'Arkan', 'NotoSans', system-ui, sans-serif;
+  --c-header: rgba(255, 255, 255, .72);
+}
+
+html[data-theme="dark"] {
+  --c-bg: #111112;
+  --c-bg-subtle: #171718;
+  --c-surface: #1C1C1E;
+  --c-surface-2: #212124;
+  --c-border: #2D2D31;
+  --c-border-strong: #3E3E43;
+  --c-divider: #262629;
+
+  --c-fg: #F6F4F0;
+  --c-fg-2: #B9B5AD;
+  --c-fg-muted: #8B877F;
+
+  --c-primary-soft: #2E2613;
+
+  --c-success: #5FD98E; --c-success-soft: #14271B;
+  --c-warning: #FFB259; --c-warning-soft: #2E2214;
+  --c-danger:  #FF7C68; --c-danger-soft:  #331916;
+  --c-info:    #8FB0FF; --c-info-soft:    #171F38;
+
+  --c-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+  --c-shadow-lift: 0 12px 34px rgba(0, 0, 0, .55);
+  --c-header: rgba(17, 17, 18, .7);
+}
+
+/* The three right-to-left languages run entirely in Arkan. */
+html[lang="ar"], html[lang="ku"], html[lang="ckb"] { --c-font: 'Arkan', system-ui, sans-serif; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--c-bg); }
+body {
+  font-family: var(--c-font);
+  color: var(--c-fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 { font-family: var(--c-display); }
+a { color: var(--c-fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-brand); }
+a:hover { text-decoration-thickness: 2px; }
+button { font: inherit; color: inherit; border: 0; -webkit-appearance: none; appearance: none; }
+:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 2px; border-radius: 8px; }
+::selection { background: var(--c-brand); color: var(--c-brand-ink); }
+
+/* ---- Motion ------------------------------------------------------------ */
+@keyframes chonUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes chonIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Enter-on-scroll, in the spirit of ReactBits AnimatedContent. */
+.reveal { opacity: 0; transform: translateY(var(--reveal-y, 18px)) scale(var(--reveal-s, 1)); }
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1);
+  transition-delay: var(--reveal-d, 0ms);
+}
+
+/* Word-by-word blur reveal, in the spirit of ReactBits BlurText. */
+.blurtext > span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(9px);
+  transform: translateY(10px);
+}
+.blurtext.is-in > span {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition: opacity .55s ease, filter .55s ease, transform .55s cubic-bezier(.2,.7,.3,1);
+  transition-delay: calc(var(--i) * 70ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  .reveal, .blurtext > span { opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+
+/* ---- Small helpers ----------------------------------------------------- */
+.h-subtle:hover { background: var(--c-bg-subtle) !important; }
+.h-border:hover { border-color: var(--c-border-strong) !important; }
+.h-primary:hover { background: var(--c-primary-press) !important; }
+
+/* ---- Header ------------------------------------------------------------ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--c-header);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.site-header.is-stuck {
+  border-bottom-color: var(--c-border);
+  box-shadow: 0 1px 20px rgba(26, 26, 28, .06);
+}
+html[data-theme="dark"] .site-header.is-stuck { box-shadow: 0 1px 22px rgba(0, 0, 0, .5); }
+
+.site-header__bar {
+  margin: 0 auto;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brandmark { display: flex; align-items: center; gap: 0; background: none; border: 0; padding: 4px; cursor: pointer; flex: 1; min-width: 0; }
+.brandmark img { height: 32px; width: auto; }
+/* The wordmark keeps its proportions wherever it is placed. */
+img.brandmark__light, img.brandmark__dark { flex: none; align-self: flex-start; object-fit: contain; height: 32px; width: auto; }
+.site-footer__brand img.brandmark__light, .site-footer__brand img.brandmark__dark { height: 30px; }
+
+/* The theme swap is global, so the footer lockup gets it too. Declared after
+   any rule that sets display on these images, since specificity ties. */
+img.brandmark__light { display: block; }
+img.brandmark__dark { display: none; }
+html[data-theme="dark"] img.brandmark__light { display: none; }
+html[data-theme="dark"] img.brandmark__dark { display: block; }
+
+/* Segmented language control. */
+.seg { display: flex; gap: 2px; }
+.seg__inner { display: flex; gap: 2px; padding: 3px; }
+.seg__btn {
+  border: 0;
+  background: none;
+  padding: 6px 10px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--c-fg-muted);
+  cursor: pointer;
+  line-height: 1;
+  transition: color .18s ease, background .18s ease;
+}
+.seg__btn:hover { color: var(--c-fg); }
+.seg__btn[aria-pressed="true"] {
+  background: var(--c-surface);
+  color: var(--c-fg);
+  box-shadow: var(--c-shadow);
+}
+.icon-btn { width: 38px; height: 38px; cursor: pointer; font-size: 14px; flex: none; transition: background .18s ease; }
+.icon-btn:hover { background: var(--c-border-strong); }
+
+@media (max-width: 420px) {
+  .seg__btn { padding: 6px 7px; font-size: 11.5px; }
+  .brandmark img { height: 27px; }
+}
+
+/* ---- Platform cards ---------------------------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (min-width: 640px)  { .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+@media (min-width: 900px)  { .card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .card-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+/* The squircle is drawn with clip-path, which would cut a box-shadow off, so
+   the depth lives on this shell as a drop-shadow that follows the silhouette. */
+.pcard-shell {
+  aspect-ratio: 3 / 4;
+  filter: drop-shadow(0 8px 20px rgba(26, 26, 28, .16));
+  transition: transform .28s cubic-bezier(.2, .7, .3, 1), filter .28s ease;
+}
+.pcard-shell:hover { transform: translateY(-6px); filter: drop-shadow(0 20px 34px rgba(26, 26, 28, .26)); }
+.pcard-shell:active { transform: translateY(-2px); }
+html[data-theme="dark"] .pcard-shell { filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .55)); }
+html[data-theme="dark"] .pcard-shell:hover { filter: drop-shadow(0 20px 38px rgba(0, 0, 0, .7)); }
+
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  isolation: isolate;
+  text-align: inherit;
+}
+.pcard--soon { opacity: .66; }
+.pcard-shell:hover .pcard--soon { opacity: .9; }
+
+/* A hairline of light along the top edge, and just enough shade at the foot to
+   seat the pill. Kept light: the old version muddied every card's bottom half. */
+.pcard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
+    linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
+  pointer-events: none;
+}
+
+.pcard__art { flex: 1; display: grid; place-items: center; min-height: 0; padding-top: 6px; }
+.pcard__art svg { filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .28)); transition: transform .32s cubic-bezier(.2,.7,.3,1); }
+.pcard-shell:hover .pcard__art svg { transform: scale(1.07) translateY(-2px); }
+
+.pcard__body { position: relative; padding: 0 12px 12px; display: flex; flex-direction: column; gap: 9px; text-align: center; }
+.pcard__name {
+  color: #fff;
+  font-family: 'NotoSans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -.1px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .4);
+  text-wrap: balance;
+}
+.pcard__pill {
+  display: block;
+  padding: 9px 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, .19);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .34);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background .22s ease;
+}
+.pcard-shell:hover .pcard__pill { background: rgba(255, 255, 255, .3); }
+
+/* ---- Watermark --------------------------------------------------------- */
+.watermark {
+  position: absolute;
+  height: auto;              /* the markup carries width/height, so height must be released */
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  opacity: .07;
+  filter: invert(1);
+}
+html[data-theme="dark"] .watermark { opacity: .085; filter: none; }
+
+/* ---- Footer ------------------------------------------------------------ */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--c-border);
+  background: var(--c-bg-subtle);
+  margin-top: 56px;
+}
+.site-footer__inner { position: relative; margin: 0 auto; padding: 38px 18px 44px; }
+.site-footer__top { display: flex; flex-wrap: wrap; gap: 22px 40px; align-items: flex-start; justify-content: space-between; }
+.site-footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; max-width: 34ch; }
+.site-footer__brand img { height: 30px; width: auto; }
+.site-footer__tag { font-size: 13.5px; color: var(--c-fg-2); line-height: 1.6; }
+.site-footer__col { display: flex; flex-direction: column; gap: 8px; }
+.site-footer__h {
+  font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--c-fg-muted);
+}
+.site-footer__stat { font-size: 13.5px; color: var(--c-fg-2); }
+.site-footer__stat b { color: var(--c-fg); font-weight: 700; }
+.site-footer__rule { height: 1px; background: var(--c-border); margin: 26px 0 18px; }
+.site-footer__legal { font-size: 12.5px; color: var(--c-fg-muted); line-height: 1.65; max-width: 95ch; }
+.site-footer .watermark { inset-inline-end: -40px; bottom: -34px; width: 320px; }
+@media (max-width: 560px) { .site-footer .watermark { width: 220px; inset-inline-end: -30px; bottom: -22px; } }
+
+/* ---- Callouts ---------------------------------------------------------- */
+.callout { position: relative; }
+.callout__inner { display: flex !important; gap: 13px; padding: 15px 17px; align-items: flex-start !important; justify-content: flex-start !important; }
+.callout__icon {
+  width: 26px; height: 26px; flex: none;
+  display: grid; place-items: center;
+  font-size: 14px; font-weight: 700; line-height: 1;
+}
+.callout__title { margin: 0 0 3px; font-size: 14px; font-weight: 700; }
+.callout__body { margin: 0; font-size: 14px; color: var(--c-fg-2); line-height: 1.6; text-wrap: pretty; }
+
+.callout--warn .callout__icon { background: var(--c-warning); color: #fff; }
+.callout--warn .callout__icon { background: var(--c-warning); color: #fff; }
+.callout--warn .callout__title { color: var(--c-warning); }
+
+.callout--danger .callout__icon { background: var(--c-danger); color: #fff; }
+.callout--danger .callout__icon { background: var(--c-danger); color: #fff; }
+.callout--danger .callout__title { color: var(--c-danger); }
+
+.callout--done .callout__icon { background: var(--c-success); color: #fff; }
+.callout--done .callout__icon { background: var(--c-success); color: #fff; }
+.callout--done .callout__title { color: var(--c-success); }
+
+/* ---- Buttons ----------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 18px;
+  font-size: 14.5px; font-weight: 700;
+  cursor: pointer; border: 0;
+  transition: background .18s ease, transform .18s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn--brand { background: var(--c-brand); color: var(--c-brand-ink); }
+.btn--brand:hover { background: var(--c-brand-press); }
+.btn--quiet { color: var(--c-fg); text-decoration: none; transition: background .18s ease; }
+.btn--quiet:hover { background: var(--c-fg-muted); }
+
+/* Back control on a guide. */
+.backbtn { width: 42px; height: 42px; flex: none; color: var(--c-fg); font-size: 17px; line-height: 1; cursor: pointer; transition: background .18s ease; }
+.backbtn:hover { background: var(--c-border-strong); }
