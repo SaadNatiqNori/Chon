@@ -133,6 +133,13 @@ button { font: inherit; color: inherit; border: 0; -webkit-appearance: none; app
 .h-border:hover { border-color: var(--c-border-strong) !important; }
 .h-primary:hover { background: var(--c-primary-press) !important; }
 
+/* `backdrop-filter` is written unprefixed everywhere in this file, and the
+   -webkit- copy is left to the build. Lightning CSS treats a hand-written pair
+   as one property and keeps only the last of the two, so spelling both out
+   shipped a stylesheet carrying `-webkit-backdrop-filter` alone — a prefix
+   Chrome has never recognised. Every pane in the app lost its blur in the
+   build while dev, unminified, looked right. Do not add the prefix back. */
+
 /* ---- Header ------------------------------------------------------------ */
 .site-header {
   position: sticky;
@@ -140,7 +147,6 @@ button { font: inherit; color: inherit; border: 0; -webkit-appearance: none; app
   z-index: 60;
   background: var(--c-header);
   backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border-bottom: 1px solid transparent;
   transition: border-color .25s ease, box-shadow .25s ease;
 }
@@ -319,7 +325,6 @@ html[data-theme="dark"] {
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .pcard {
     backdrop-filter: blur(22px) saturate(1.7);
-    -webkit-backdrop-filter: blur(22px) saturate(1.7);
   }
 }
 
@@ -367,7 +372,6 @@ html[data-theme="dark"] {
   color: var(--ink);
   background: color-mix(in srgb, var(--ink) var(--chip-a), var(--chip-base));
   backdrop-filter: blur(10px) saturate(150%);
-  -webkit-backdrop-filter: blur(10px) saturate(150%);
   box-shadow: inset 0 1px 0 var(--chip-edge);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: background .22s ease;
@@ -385,7 +389,6 @@ html[data-theme="dark"] {
   .pcard-shell:hover .pcard {
     background: var(--solid);
     backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     --specular:
       linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
       linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
@@ -712,7 +715,6 @@ html[data-theme="dark"] .watermark { opacity: var(--wm-o-dark, .085); filter: no
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .bcard {
     backdrop-filter: blur(18px) saturate(1.7);
-    -webkit-backdrop-filter: blur(18px) saturate(1.7);
   }
 }
 .bcard::before {
@@ -745,7 +747,6 @@ html[data-theme="dark"] .bcard__bloom { inset: -22%; opacity: .78; }
   .bcard {
     background: var(--solid);
     backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     --specular:
       linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
       linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
