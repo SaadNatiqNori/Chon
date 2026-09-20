@@ -205,43 +205,89 @@ html[data-theme="dark"] img.brandmark__dark { display: block; }
 @media (min-width: 900px)  { .card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (min-width: 1180px) { .card-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
-/* The squircle is drawn with clip-path, which would cut a box-shadow off, so
-   the depth lives on this shell as a drop-shadow that follows the silhouette.
-   The filter sits above the tilt in the tree, so the shadow is taken from the
-   leaning card and leans with it. A hovered card grows past its grid track,
-   hence the z-index: without it the next card in the row is painted over the
-   corner it overlaps. */
+/* The card's own vocabulary. The pane is what the glass is made of, and it
+   thins on hover so more of the light beneath comes through — a card lights up
+   by getting clearer, not by getting brighter. The chip is a wash of the card's
+   own ink over a base that leans the other way — white in daylight, black at
+   night. A white chip vanished into the pane, and a chip of pure ink put the
+   text's own colour into its background, which caps the contrast between them
+   however the alpha is set: measured that way the darkest pills came out at
+   2:1. The base is what pulls the two apart, and the pill is the one thing on
+   the card that has to look like it can be pressed. */
+:root {
+  --pane: rgba(255, 255, 255, .66);
+  --pane-lit: rgba(255, 255, 255, .5);
+  --chip-a: 15%;
+  --chip-lit-a: 27%;
+  --chip-base: rgba(255, 255, 255, .78);
+  --chip-edge: rgba(255, 255, 255, .55);
+  --specular:
+    linear-gradient(180deg, rgba(255,255,255,.62) 0%, rgba(255,255,255,0) 24%),
+    radial-gradient(130% 70% at 14% -12%, rgba(255,255,255,.45) 0%, rgba(255,255,255,0) 62%);
+}
+html[data-theme="dark"] {
+  --pane: rgba(255, 255, 255, .07);
+  --pane-lit: rgba(255, 255, 255, .13);
+  --chip-a: 18%;
+  --chip-lit-a: 30%;
+  --chip-base: rgba(0, 0, 0, .66);
+  --chip-edge: rgba(255, 255, 255, .16);
+  --specular:
+    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 26%),
+    radial-gradient(130% 70% at 14% -12%, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 62%);
+}
+
+/* Nothing in the grid casts a shadow any more. A pane of glass gets its depth
+   from the light underneath it, and that light spills past the card's own edges
+   so neighbouring cards overlap and the grid mixes a field nobody painted. The
+   drop-shadow that used to live here would also have cut the glass off from the
+   page: an ancestor with a filter becomes the backdrop the blur samples, and
+   inside that ancestor there is nothing behind the card to sample.
+
+   A hovered card grows past its grid track, hence the z-index: without it the
+   next card in the row is painted over the corner it overlaps. */
 .pcard-shell {
   position: relative;
   z-index: 0;
   aspect-ratio: 3 / 4;
-  filter: drop-shadow(0 8px 20px rgba(26, 26, 28, .16));
-  transition: transform .28s cubic-bezier(.2, .7, .3, 1), filter .28s ease;
+  transition: transform .28s cubic-bezier(.2, .7, .3, 1);
 }
 .pcard-shell:hover,
-.pcard-shell:focus-within { z-index: 3; filter: drop-shadow(0 20px 34px rgba(26, 26, 28, .26)); }
+.pcard-shell:focus-within { z-index: 3; }
 /* The tilt is a mouse's doing, so a card reached by keyboard gets the lift the
    hover used to give instead, rather than no answer at all. */
 .pcard-shell:focus-within { transform: translateY(-6px); }
-html[data-theme="dark"] .pcard-shell { filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .55)); }
-html[data-theme="dark"] .pcard-shell:hover,
-html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 38px rgba(0, 0, 0, .7)); }
+
+/* Diffuse by construction rather than by blur(): a radial gradient is already
+   a soft blob, and twenty-two blurred layers is a bill this app's readers —
+   mostly on old Android phones — would be the ones to pay. */
+.pcard__bloom {
+  position: absolute;
+  inset: -26%;
+  z-index: 0;
+  background: var(--bloom);
+  pointer-events: none;
+  transition: transform .5s cubic-bezier(.2, .7, .3, 1);
+}
+.pcard-shell:hover .pcard__bloom,
+.pcard-shell:focus-within .pcard__bloom { transform: scale(1.1); }
 
 /* ReactBits TiltedCard. The perspective lives on the outer box so the inner one
    has a room to lean inside of; the lean itself is set from TiltedCard.jsx,
-   because it settles on a spring and a spring has no CSS spelling. */
-.tilted-card { width: 100%; height: 100%; perspective: 800px; }
+   because it settles on a spring and a spring has no CSS spelling. The z-index
+   lifts the pane off the light, which stays flat while the pane leans. */
+.tilted-card { position: relative; z-index: 1; width: 100%; height: 100%; perspective: 800px; }
 .tilted-card__inner {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
   will-change: transform;
 }
-.tilted-card:active .pcard { transform: scale(.97); }
+.tilted-card:active .pcard { transform: translateZ(0) scale(.97); }
 
 .pcard {
   position: relative;
-  transition: transform .18s cubic-bezier(.2, .7, .3, 1);
+  transition: transform .18s cubic-bezier(.2, .7, .3, 1), background .24s ease;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -251,29 +297,53 @@ html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 3
   cursor: pointer;
   isolation: isolate;
   text-align: inherit;
+  background: var(--pane);
+  /* Inside the tilt's 3D context Chrome drops the squircle's clip-path unless
+     the card has a compositing layer of its own, and the card goes back to
+     being a rectangle. The glass gets one from backdrop-filter; the opaque
+     fallback below gets none, which is where the square corners showed up. */
+  transform: translateZ(0);
 }
+.pcard-shell:hover .pcard { background: var(--pane-lit); }
 .pcard--soon { opacity: .66; }
 .pcard-shell:hover .pcard--soon { opacity: .9; }
 
-/* A hairline of light along the top edge, and just enough shade at the foot to
-   seat the pill. Kept light: the old version muddied every card's bottom half. */
+/* The blur is the enhancement, not the effect: the pane is translucent on its
+   own, so a browser without backdrop-filter still shows the light through it.
+   What the blur adds is the watermark going soft behind the grid, and the
+   saturate, which gives the brand colour back the bite the white film takes. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .pcard {
+    backdrop-filter: blur(22px) saturate(1.7);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+  }
+}
+
+/* The lit edge of a pane held at an angle: bright along the top, brightest at
+   the corner the light comes from. Drawn as a background because an inset
+   box-shadow follows the element's rectangle and the squircle's clip-path would
+   cut it off at every corner. */
 .pcard::before {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
-    linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
+  background: var(--specular);
   pointer-events: none;
 }
 
 .pcard__art { flex: 1; display: grid; place-items: center; min-height: 0; padding-top: 6px; }
-.pcard__art svg { filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .28)); transition: transform .32s cubic-bezier(.2,.7,.3,1); }
+/* The mark is set in the brand's own colour now, so it needs no shadow to lift
+   it off the card — and a dark one under a coloured mark on white glass only
+   ever looked like dirt under the pane. */
+.pcard__art svg { fill: var(--ink-art); transition: transform .32s cubic-bezier(.2,.7,.3,1); }
+.pcard__dot { width: 20%; aspect-ratio: 1; border-radius: 50%; background: var(--ink-art); }
 .pcard-shell:hover .pcard__art svg { transform: scale(1.07) translateY(-2px); }
 
 .pcard__body { position: relative; padding: 0 12px 12px; display: flex; flex-direction: column; gap: 9px; text-align: center; }
 .pcard__name {
-  color: #fff;
+  /* The page's own ink, not white: the pane is close enough to the page colour
+     that white lettering would sit on nothing. */
+  color: var(--c-fg);
   font-family: inherit;
   /* Grows with the card rather than with the viewport: on a phone the grid is
      two up and the floor holds the name readable, on a desktop it is five up
@@ -282,7 +352,6 @@ html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 3
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -.1px;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, .4);
   text-wrap: balance;
 }
 .pcard__pill {
@@ -290,15 +359,38 @@ html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 3
   padding: 9px 10px;
   font-size: 12.5px;
   font-weight: 700;
-  color: #fff;
-  background: rgba(255, 255, 255, .19);
-  backdrop-filter: blur(16px) saturate(170%);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .34);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) var(--chip-a), var(--chip-base));
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: inset 0 1px 0 var(--chip-edge);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: background .22s ease;
 }
-.pcard-shell:hover .pcard__pill { background: rgba(255, 255, 255, .3); }
+.pcard-shell:hover .pcard__pill { background: color-mix(in srgb, var(--ink) var(--chip-lit-a), var(--chip-base)); }
+
+/* A reader who has asked their system for less transparency gets back the card
+   the glass replaced: the brand gradient, opaque, with the white lettering that
+   belongs on it. Everything goes but the light. */
+@media (prefers-reduced-transparency: reduce) {
+  .pcard__bloom { display: none; }
+  .pcard-shell { filter: drop-shadow(0 8px 20px rgba(26, 26, 28, .16)); }
+  html[data-theme="dark"] .pcard-shell { filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .55)); }
+  .pcard,
+  .pcard-shell:hover .pcard {
+    background: var(--solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    --specular:
+      linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
+      linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
+  }
+  .pcard__name { color: #fff; text-shadow: 0 1px 12px rgba(0, 0, 0, .4); }
+  .pcard__art svg { fill: rgba(255, 255, 255, .96); }
+  .pcard__dot { background: rgba(255, 255, 255, .9); }
+  .pcard__pill { color: #fff; background: rgba(255, 255, 255, .19); }
+  .pcard-shell:hover .pcard__pill { background: rgba(255, 255, 255, .3); }
+}
 
 /* ---- Watermark --------------------------------------------------------- */
 .watermark {
@@ -525,14 +617,15 @@ html[data-theme="dark"] .watermark { opacity: var(--wm-o-dark, .085); filter: no
   align-items: center;
   justify-content: center;
 }
+/* No drop-shadow here any more, for the reason the grid's shell gives: an
+   ancestor with a filter becomes the backdrop the glass samples, and inside it
+   there is nothing behind the tile to sample. The bloom is the depth. */
 .bounceCards__card {
   position: absolute;
   width: 116px;
   aspect-ratio: 3 / 4;
   transform-origin: center;
-  filter: drop-shadow(0 10px 24px rgba(26, 26, 28, .20));
 }
-html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgba(0, 0, 0, .6)); }
 
 .bounceCards__image {
   display: block;
@@ -542,7 +635,8 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
   object-fit: cover;
 }
 
-/* The tile itself, lit the way a grid card is. */
+/* The tile itself, glazed the way a grid card is and sharing its tokens, so
+   the two surfaces cannot drift apart. */
 .bcard {
   position: relative;
   display: grid;
@@ -550,15 +644,51 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
   width: 100%;
   height: 100%;
   isolation: isolate;
+  background: var(--pane);
+  transform: translateZ(0);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .bcard {
+    backdrop-filter: blur(18px) saturate(1.7);
+    -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  }
 }
 .bcard::before {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
-    linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
+  background: var(--specular);
   pointer-events: none;
+}
+.bcard svg { fill: var(--ink-art); }
+
+/* Reach further than the grid's. Twenty-two cards build a field between them;
+   five fanned tiles on an empty page have only their own light, and at the
+   grid's spread the deck went invisible against a white screen. */
+.bcard__bloom {
+  position: absolute;
+  inset: -32%;
+  background: var(--bloom);
+  pointer-events: none;
+}
+/* Except at night, where the danger runs the other way: each tile is a stacking
+   context of its own, so a card's light paints over the neighbour it leans on
+   rather than under it, and at full strength the deck muddied itself. */
+html[data-theme="dark"] .bcard__bloom { inset: -22%; opacity: .78; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .bounceCards__card { filter: drop-shadow(0 10px 24px rgba(26, 26, 28, .20)); }
+  html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgba(0, 0, 0, .6)); }
+  .bcard__bloom { display: none; }
+  .bcard {
+    background: var(--solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    --specular:
+      linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
+      linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
+  }
+  .bcard svg { fill: rgba(255, 255, 255, .96); }
 }
 
 /* ---- Guide steps ------------------------------------------------------- */
@@ -587,10 +717,11 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
 
 
 /* ---- Tips ---------------------------------------------------------------
-   Safety notes as a thread in the corner, filling from the foot up. The layer
-   is fixed and transparent to the pointer, so only a note itself is clickable
-   and the page underneath scrolls normally. Because the column is pinned to
-   the bottom, a note growing at its foot lifts the ones above it. */
+   Safety notes as a thread centred at the foot of the page, filling from the
+   bottom up. The layer is fixed and transparent to the pointer, so only a note
+   itself is clickable and the page underneath scrolls normally. Because the
+   column is pinned to the bottom, a note growing at its foot lifts the ones
+   above it. */
 .tips {
   position: fixed;
   inset-inline: 0;
@@ -605,9 +736,8 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
   width: 100%;
   display: flex;
   flex-direction: column;
-  /* Written in flow terms, so the thread sits on the reading side of the page
-     in all four languages without a second rule. */
-  align-items: flex-start;
+  /* Centred, so the thread reads the same way in all four languages. */
+  align-items: center;
   gap: 9px;
 }
 
@@ -625,7 +755,7 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: 21px;
-  transform-origin: bottom left;
+  transform-origin: bottom center;
   /* The shadow is a filter rather than a box-shadow so that it is taken from
      the clipped silhouette and follows the note as it grows. */
   filter: drop-shadow(0 10px 26px rgba(26, 26, 28, .16));
@@ -634,7 +764,6 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
      where the words wrap. */
   transition: width .46s var(--tip-ease), height .46s var(--tip-ease);
 }
-[dir="rtl"] .tip { transform-origin: bottom right; }
 html[data-theme="dark"] .tip { filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .62)); }
 
 .tip--typing { width: var(--tip-pill); }
@@ -695,6 +824,10 @@ html[data-theme="dark"] .tip { filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .62
   line-height: 1.55;
   text-wrap: pretty;
 }
+/* Never broken across a line, so a two word setting name stays readable
+   inside a right to left sentence. */
+.tip__term { white-space: nowrap; }
+
 .tip__close {
   flex: none;
   width: 22px; height: 22px;

@@ -1,6 +1,19 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { TIP_ICONS } from '../data/tips.js';
 
+// A setting's name, written the way the app itself writes it. <bdi> isolates
+// the Latin so it cannot disturb the Kurdish or Arabic around it, and nowrap
+// holds it on one line: a two word name split across a line break leaves half
+// of itself stranded at the far end of the line above, which in a right to
+// left paragraph is the opposite end from where the eye is looking.
+function withTerms(text) {
+  return String(text)
+    .split(/(\u2018[^\u2019]+\u2019)/)
+    .map((part, i) => (part.charAt(0) === '\u2018'
+      ? <bdi key={i} className="tip__term">{part}</bdi>
+      : part));
+}
+
 // Safety notes, delivered the way a messenger delivers them: a thread in the
 // corner that fills from the foot up. Each note announces itself as three
 // bouncing dots, holds for a beat, and then opens out into the message.
@@ -90,7 +103,7 @@ function Note({ tip, phase, leaving, dismissLabel, onDismiss }) {
 
             <span className="tip__text">
               <span className="tip__title">{tip.t}</span>
-              <span className="tip__body">{tip.d}</span>
+              <span className="tip__body">{withTerms(tip.d)}</span>
             </span>
 
             <button type="button" className="tip__close" onClick={onDismiss}

@@ -5,6 +5,12 @@
 // is the order they arrive in, so the two that matter most on the way to
 // changing a number — take a backup, never pass on the code — are not last.
 //
+// Where a note is about a setting the reader has to go and find, the name the
+// app itself uses is quoted in Latin in all four languages, the way the step
+// guides already write 'Account' and 'Personal information'. The apps are in
+// English, so a purely translated name would leave the reader hunting for
+// something that is not written anywhere on their screen.
+//
 // `tone` picks the colour of the icon chip from the palette in styles.css, and
 // `icon` is a path drawn on a 24 grid in the same stroked style as the rest of
 // the interface.
@@ -27,19 +33,19 @@ export const TIPS = [
     tone: 'warning',
     en: {
       t: 'Back up before you start',
-      d: 'Save a backup of your chats first. Some apps lose them when the number changes, and there is no getting them back afterwards.'
+      d: 'Some apps lose your chats when the number changes. If you have not saved them first, there is no getting them back afterwards.'
     },
     ar: {
       t: 'خذ نسخة احتياطية قبل أن تبدأ',
-      d: 'احفظ نسخة احتياطية من محادثاتك أولاً. بعض التطبيقات تفقدها عند تغيير الرقم، ولا سبيل لاستعادتها بعد ذلك.'
+      d: 'بعض التطبيقات تفقد محادثاتك عند تغيير الرقم. إن لم تحفظها أولاً، فلا سبيل لاستعادتها بعد ذلك.'
     },
     ckb: {
-      t: 'پێش دەستپێکردن پاڵپشت دروست بکە',
-      d: 'سەرەتا پاڵپشتێک لە چاتەکانت هەڵبگرە. هەندێک ئەپ لە کاتی گۆڕینی ژمارەدا لەدەستیان دەدەن، و دواتر هیچ ڕێگایەک نییە بۆ گەڕاندنەوەیان.'
+      t: 'پێش دەستپێکردن چاتەکانت پاشەکەوت بکە',
+      d: 'هەندێک ئەپ لە کاتی گۆڕینی ژمارەدا چاتەکان لەدەست دەدەن. ئەگەر پێشتر پاشەکەوتت نەکردبن، دوایی هیچ ڕێگایەک نییە بۆ گەڕاندنەوەیان.'
     },
     ku: {
-      t: 'بەری دەست پێ بکەی پاشکەفتەکێ چێکە',
-      d: 'بەرێ پاشکەفتەکا چاتێن خۆ هەلگرە. هندەک ئەپ د دەمێ گوهۆڕینا ژمارەیێ دا وان ژ دەست ددەن, و پاشی چو ڕێک نینە بۆ زڤڕاندنا وان.'
+      t: 'بەری دەست پێ بکەی چاتێن خۆ پاشکەفت بکە',
+      d: 'هندەک ئەپ د دەمێ گوهۆڕینا ژمارەیێ دا چاتان ژ دەست ددەن. ئەگەر بەرێ تە ئەو پاشکەفت نەکربن, پاشی چو ڕێک نینە بۆ زڤڕاندنا وان.'
     }
   },
   {
@@ -48,19 +54,19 @@ export const TIPS = [
     tone: 'danger',
     en: {
       t: 'The code is yours alone',
-      d: 'No company, no friend and no support agent ever needs the code that arrives on your phone. Anyone who asks for it is taking your account.'
+      d: 'No company, no friend and no support agent needs the code that arrives on your phone. Anyone who asks for it is taking your account.'
     },
     ar: {
       t: 'الرمز لك وحدك',
-      d: 'لا شركة ولا صديق ولا موظف دعم يحتاج أبداً إلى الرمز الذي يصل إلى هاتفك. من يطلبه منك يريد سرقة حسابك.'
+      d: 'لا شركة ولا صديق ولا موظف دعم يحتاج إلى الرمز الذي يصل إلى هاتفك. من يطلبه منك يريد أخذ حسابك.'
     },
     ckb: {
       t: 'کۆدەکە تەنها هی تۆیە',
-      d: 'هیچ کۆمپانیایەک، هیچ هاوڕێیەک و هیچ کارمەندی پشتگیری هەرگیز پێویستی بەو کۆدە نییە کە دێتە مۆبایلەکەت. هەرکەسێک داوای بکات، هەژمارەکەت دەبات.'
+      d: 'ئەو کۆدەی دێتە سەر مۆبایلەکەت، هیچ کۆمپانیایەک و هیچ هاوڕێیەک و هیچ کارمەندی پشتگیریەک پێویستی پێی نییە. هەرکەسێک داوای بکات، دەیەوێت هەژمارەکەت ببات.'
     },
     ku: {
       t: 'کۆد تنێ یێ تە یە',
-      d: 'چو کۆمپانی, چو هەڤال و چو کارمەندێ پشتگیریێ چو جاران پێدڤی ب وی کۆدی نینە یێ دگەهیتە مۆبایلا تە. هەر کەسێ داخازا وی بکەت, هەژمارا تە دبەت.'
+      d: 'ئەو کۆدا دگەهیتە مۆبایلا تە, چو کۆمپانی و چو هەڤال و چو کارمەندێ پشتگیریێ پێدڤی پێ نینە. هەر کەسێ داخازا وێ بکەت, دخوازیت هەژمارا تە ببەت.'
     }
   },
   {
@@ -69,19 +75,19 @@ export const TIPS = [
     tone: 'success',
     en: {
       t: 'Turn on two step verification',
-      d: 'It is a second lock on your account. Even someone who learns your password cannot get in without it. Every app on this site has it.'
+      d: 'A second lock on your account: after the password it wants a short code as well. Apps call it ‘Two step verification’, or ‘2FA’.'
     },
     ar: {
       t: 'فعّل التحقق بخطوتين',
-      d: 'هو قفل ثانٍ على حسابك. حتى من يعرف كلمة مرورك لا يستطيع الدخول بدونه. كل تطبيق في هذا الموقع يوفره.'
+      d: 'قفل ثانٍ على حسابك: بعد كلمة المرور يطلب رمزاً قصيراً أيضاً. التطبيقات تسميه ‘Two step verification’ أو ‘2FA’.'
     },
     ckb: {
-      t: 'پشتڕاستکردنەوەی دوو هەنگاوی چالاک بکە',
-      d: 'قوفڵێکی دووەمە لەسەر هەژمارەکەت. تەنانەت ئەوەی وشەی نهێنیەکەت بزانێت، بەبێ ئەو ناتوانێت بچێتە ژوورەوە. هەموو ئەپێکی ئەم ماڵپەڕە هەیەتی.'
+      t: 'پشکنینی دوو هەنگاوی چالاک بکە',
+      d: 'قوفڵێکی دووەمە لەسەر هەژمارەکەت: دوای وشەی نهێنی، کۆدێکی کورتیشی دەوێت. ئەپەکان بە ‘Two step verification’ یان ‘2FA’ ناوی دەبەن.'
     },
     ku: {
-      t: 'پشتڕاستکرنا دو گاڤی چالاک بکە',
-      d: 'قوفلەکا دوێ یە ل سەر هەژمارا تە. تەنانەت ئەوێ پەیڤا تە یا ڤەشارتی بزانیت, بێی وێ نەشێت بکەڤیتە ژوور. هەر ئەپەکێ ڤی مالپەڕی وێ هەیە.'
+      t: 'پشکنینا دو گاڤی چالاک بکە',
+      d: 'قوفلەکا دوێ یە ل سەر هەژمارا تە: پشتی پەیڤا ڤەشارتی, کۆدەکێ کورت ژی دڤێت. ئەپ ناڤێ وێ ‘Two step verification’ یان ‘2FA’ دانێن.'
     }
   },
   {
@@ -89,20 +95,20 @@ export const TIPS = [
     icon: 'phone',
     tone: 'info',
     en: {
-      t: 'Use an authenticator app',
-      d: 'Codes made by an app are safer than codes sent by message. A stolen SIM card cannot read them, because they never travel.'
+      t: 'Take the code from an app, not a message',
+      d: 'An ‘Authenticator’ app makes the code inside the phone itself. Nothing is ever sent, so a stolen SIM card has nothing to read.'
     },
     ar: {
-      t: 'استخدم تطبيق مصادقة',
-      d: 'الرموز التي ينشئها تطبيق أأمن من الرموز المرسلة برسالة. الشريحة المسروقة لا تستطيع قراءتها، لأنها لا تُرسل أصلاً.'
+      t: 'خذ الرمز من تطبيق لا من رسالة',
+      d: 'تطبيق ‘Authenticator’ ينشئ الرمز داخل الهاتف نفسه. لا يُرسل شيء، فلا تجد الشريحة المسروقة ما تقرأه.'
     },
     ckb: {
-      t: 'ئەپی ئۆتەنتیکەیتەر بەکاربهێنە',
-      d: 'ئەو کۆدانەی ئەپ دروستیان دەکات لەو کۆدانە سەلامەتترن کە بە نامە دێن. سیمکارتی دزراو ناتوانێت بیانخوێنێتەوە، چونکە هەرگیز ناگوازرێنەوە.'
+      t: 'کۆدەکە لە ئەپێکەوە وەربگرە، نەک بە نامە',
+      d: 'ئەپی ‘Authenticator’ خۆی کۆدەکە لەناو مۆبایلەکەتدا دروست دەکات. هیچ نامەیەک نانێردرێت، بۆیە سیمکارتی دزراو هیچی نییە بیخوێنێتەوە.'
     },
     ku: {
-      t: 'ئەپەکا ئۆتەنتیکەیتەری بکاربینە',
-      d: 'ئەو کۆدێن ئەپ چێدکەت ژ وان کۆدان سەلامەتترن یێن ب نامەیێ دهێن. سیمکارتا دزیای نەشێت وان بخوینیت, چنکو چو جاران نایێنە هنارتن.'
+      t: 'کۆدێ ژ ئەپەکێ وەرگرە, نە ب نامەیێ',
+      d: 'ئەپا ‘Authenticator’ بخۆ کۆدی د نێڤ مۆبایلی دا چێدکەت. چو نامە نایێنە هنارتن, لەو سیمکارتا دزیای چو تشت نینە بخوینیت.'
     }
   },
   {
@@ -111,19 +117,19 @@ export const TIPS = [
     tone: 'warning',
     en: {
       t: 'Give it a long password',
-      d: 'Long beats clever. Four ordinary words you will actually remember are harder to break than one short word with numbers stuck on the end.'
+      d: 'Length beats cleverness. Four ordinary words you will actually remember are far harder to break than one short word full of numbers and signs.'
     },
     ar: {
       t: 'اجعل كلمة المرور طويلة',
-      d: 'الطول أهم من الذكاء. أربع كلمات عادية تتذكرها فعلاً أصعب في الكسر من كلمة قصيرة مع أرقام في آخرها.'
+      d: 'الطول أهم من التعقيد. أربع كلمات عادية تتذكرها فعلاً أصعب في الكسر بكثير من كلمة قصيرة مليئة بالأرقام والرموز.'
     },
     ckb: {
       t: 'وشەیەکی نهێنی درێژ دابنێ',
-      d: 'درێژی لە زیرەکی باشترە. چوار وشەی ئاسایی کە بەڕاستی بیریان دەکەیتەوە، شکاندنیان قورستر لە یەک وشەی کورتە کە چەند ژمارەیەکی بە دوایەوە بێت.'
+      d: 'درێژی لە ئاڵۆزی گرنگترە. چوار وشەی ئاسایی کە بەڕاستی بیریان دەکەیتەوە، شکاندنیان زۆر قورستر لە یەک وشەی کورتی پڕ لە ژمارە و هێما.'
     },
     ku: {
       t: 'پەیڤەکا ڤەشارتی یا درێژ دانە',
-      d: 'درێژی ژ زیرەکیێ چێترە. چار پەیڤێن ئاسایی یێن ب ڕاستی ب بیر دئینی, شکاندنا وان دژوارترە ژ ئێک پەیڤا کورت یا چەند ژمار ل دویڤ.'
+      d: 'درێژی ژ ئالۆزیێ گرنگترە. چار پەیڤێن ئاسایی یێن تو ب ڕاستی ب بیر دئینی, شکاندنا وان پتر دژوارترە ژ ئێک پەیڤا کورت یا پڕ ژ ژمار و نیشانان.'
     }
   },
   {
@@ -131,20 +137,20 @@ export const TIPS = [
     icon: 'copies',
     tone: 'danger',
     en: {
-      t: 'Never use one password twice',
-      d: 'When one site is broken into, every other account sharing that password is open as well. A password manager remembers them so you do not have to.'
+      t: 'Never use one password for everything',
+      d: 'When one site is broken into, every account sharing that password is open too. A ‘Password manager’ remembers them all so you do not have to.'
     },
     ar: {
-      t: 'لا تستخدم كلمة المرور نفسها مرتين',
-      d: 'عندما يُخترق موقع واحد، كل حساب آخر يشترك في تلك الكلمة يصبح مفتوحاً. مدير كلمات المرور يتذكرها بدلاً عنك.'
+      t: 'لا تستخدم كلمة مرور واحدة لكل شيء',
+      d: 'عندما يُخترق موقع واحد، كل حساب يشترك في تلك الكلمة يصبح مفتوحاً. تطبيق ‘Password manager’ يتذكرها كلها بدلاً عنك.'
     },
     ckb: {
-      t: 'یەک وشەی نهێنی دوو جار بەکارمەهێنە',
-      d: 'کاتێک یەک ماڵپەڕ دەشکێنرێت، هەموو هەژمارێکی تر کە هەمان وشەی هەیە ئەویش کراوەیە. بەڕێوەبەری وشەی نهێنی لە جیاتی تۆ بیریان دەکاتەوە.'
+      t: 'یەک وشەی نهێنی بۆ هەموو شتێک بەکارمەهێنە',
+      d: 'ئەگەر یەک ماڵپەڕ بشکێنرێت، هەموو ئەو هەژمارانەی هەمان وشەیان هەیە دەکەونە مەترسییەوە. ئەپی ‘Password manager’ لە جیاتی تۆ هەموویان بیر دەکاتەوە.'
     },
     ku: {
-      t: 'ئێک پەیڤا ڤەشارتی دو جاران بکارنەینە',
-      d: 'دەمێ ئێک مالپەڕ دهێتە شکاندن, هەر هەژمارەکا دی یا وێ پەیڤێ هەبیت ئەو ژی ڤەکری یە. بەڕێڤەبەرێ پەیڤێن ڤەشارتی د جهێ تە دا وان ب بیر دئینیت.'
+      t: 'ئێک پەیڤا ڤەشارتی بۆ هەمی تشتان بکارنەینە',
+      d: 'ئەگەر ئێک مالپەڕ هاتە شکاندن, هەمی هەژمارێن هەمان پەیڤ هەبن دکەڤنە مەترسیێ. ئەپا ‘Password manager’ د جهێ تە دا هەمیان ب بیر دئینیت.'
     }
   },
   {
@@ -153,19 +159,19 @@ export const TIPS = [
     tone: 'info',
     en: {
       t: 'Keep a second way back in',
-      d: 'Add an email address you still read, and save the backup codes somewhere off the phone. That is what lets you in when the phone is gone.'
+      d: 'Add an email you still open, and keep the ‘Backup codes’ somewhere off the phone. Once the phone is gone, they are the only way in.'
     },
     ar: {
       t: 'احتفظ بطريقة ثانية للعودة',
-      d: 'أضف بريداً إلكترونياً ما زلت تقرأه، واحفظ رموز الاسترداد في مكان خارج الهاتف. هذا ما يُدخلك عندما يضيع الهاتف.'
+      d: 'أضف بريداً ما زلت تفتحه، واحفظ ‘Backup codes’ في مكان خارج الهاتف. حين يضيع الهاتف تكون هي الطريق الوحيد.'
     },
     ckb: {
-      t: 'ڕێگایەکی دووەمی گەڕانەوە هەڵبگرە',
-      d: 'ئیمەیلێک زیاد بکە کە هێشتا دەیخوێنیتەوە، و کۆدە پاڵپشتەکان لە شوێنێکی دەرەوەی مۆبایل هەڵبگرە. ئەوەیە کە دەتخاتە ژوورەوە کاتێک مۆبایلەکە نەما.'
+      t: 'ڕێگایەکی دووەمی گەڕانەوە دابنێ',
+      d: 'ئیمەیلێک زیاد بکە کە هێشتا دەیکەیتەوە، و ‘Backup codes’ لە شوێنێکی دەرەوەی مۆبایل هەڵبگرە. کاتێک مۆبایلەکە نەما، ئەوانە تەنها ڕێگان.'
     },
     ku: {
-      t: 'ڕێکا دوێ یا زڤڕینێ هەلگرە',
-      d: 'ئیمەیلەکێ زێدە بکە یا هێشتا دخوینی, و کۆدێن پاشکەفتی ل جهەکێ دەرڤەیی مۆبایلی هەلگرە. ئەو ئەوە یە یا تە دکەتە ژوور دەمێ مۆبایل نەما.'
+      t: 'ڕێکا دوێ یا زڤڕینێ دانە',
+      d: 'ئیمەیلەکێ زێدە بکە یا هێشتا ڤەدکەی, و ‘Backup codes’ ل جهەکێ دەرڤەیی مۆبایلی هەلگرە. دەمێ مۆبایل نەما, ئەو تنێ ڕێک ن.'
     }
   },
   {
@@ -174,19 +180,19 @@ export const TIPS = [
     tone: 'success',
     en: {
       t: 'Look at who is signed in',
-      d: 'Every one of these apps keeps a list of the devices using your account. Read it once a month and sign out anything you do not recognise.'
+      d: 'Every one of these apps lists the devices using your account under ‘Active sessions’. Read it once a month and sign out anything you do not know.'
     },
     ar: {
-      t: 'راجع الأجهزة المسجّلة',
-      d: 'كل تطبيق من هذه التطبيقات يحتفظ بقائمة الأجهزة التي تستخدم حسابك. راجعها مرة في الشهر وأخرج أي جهاز لا تعرفه.'
+      t: 'راجع من دخل إلى حسابك',
+      d: 'كل تطبيق من هذه التطبيقات يعرض في ‘Active sessions’ قائمة الأجهزة التي تستخدم حسابك. راجعها مرة في الشهر وأخرج أي جهاز لا تعرفه.'
     },
     ckb: {
-      t: 'سەیری ئەوە بکە کێ چووەتە ژوورەوە',
-      d: 'هەریەکێک لەم ئەپانە لیستێکی ئەو ئامێرانەی هەیە کە هەژمارەکەت بەکاردەهێنن. مانگی جارێک بیخوێنەوە و هەر شتێک نەتناسی دەریبکە.'
+      t: 'بزانە کێ چووەتە ناو هەژمارەکەتەوە',
+      d: 'هەموو ئەم ئەپانە لە ‘Active sessions’ دا لیستی ئەو ئامێرانە پیشان دەدەن کە هەژمارەکەت بەکاردەهێنن. مانگی جارێک سەیری بکە و هەر ئامێرێکت نەناسی دەریبکە.'
     },
     ku: {
-      t: 'بەرێ خۆ بدە کێ کەفتیە ژوور',
-      d: 'هەر ئێک ژ ڤان ئەپان لیستەکا وان ئامیران هەلدگریت یێن هەژمارا تە بکاردئینن. مەهێ جارەکێ بخوینە و هەر تشتەکێ نەناسی دەرکە.'
+      t: 'بزانە کێ کەفتیە ناڤ هەژمارا تە',
+      d: 'هەمی ڤان ئەپان د ‘Active sessions’ دا لیستا وان ئامیران دیار دکەن یێن هەژمارا تە بکاردئینن. مەهێ جارەکێ بەرێ خۆ بدەیێ و هەر ئامیرەکێ نەناسی دەرکە.'
     }
   }
 ];

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Squircle } from 'corner-smoothing';
 import { BRAND_ICONS } from '../data/icons.js';
-import { cardGradient } from '../tint.js';
+import { brandInk, cardBloom, cardGradient } from '../tint.js';
 import BounceCards from './BounceCards.jsx';
 
 // The intro layer. The wordmark, and under it the same five tiles the grid
@@ -73,19 +73,30 @@ export default function Splash({ v }) {
     .map(id => v.platforms.find(p => p.id === id))
     .filter(Boolean)
     .map(p => (
-      <Squircle
-        key={p.id}
-        cornerRadius={26}
-        cornerSmoothing={0.8}
-        className="bcard"
-        style={{ background: cardGradient(p.tile, v.resolvedTheme) }}
-      >
-        {BRAND_ICONS[p.id] && (
-          <svg viewBox="0 0 24 24" width="42%" height="42%" fill="rgba(255,255,255,.96)">
-            <path d={BRAND_ICONS[p.id]} />
-          </svg>
-        )}
-      </Squircle>
+      // The grid's glass, in the fan's hand: the same four values off the one
+      // brand colour, and the same light sitting outside the tile so it can
+      // spill past the squircle's edge.
+      <Fragment key={p.id}>
+        <span
+          className="bcard__bloom"
+          style={{ background: cardBloom(p.tile, v.resolvedTheme) }}
+        />
+        <Squircle
+          cornerRadius={26}
+          cornerSmoothing={0.8}
+          className="bcard"
+          style={{
+            '--ink-art': brandInk(p.tile, v.resolvedTheme, 3),
+            '--solid': cardGradient(p.tile, v.resolvedTheme)
+          }}
+        >
+          {BRAND_ICONS[p.id] && (
+            <svg viewBox="0 0 24 24" width="42%" height="42%">
+              <path d={BRAND_ICONS[p.id]} />
+            </svg>
+          )}
+        </Squircle>
+      </Fragment>
     ));
 
   return (
