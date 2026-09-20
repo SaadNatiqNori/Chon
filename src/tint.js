@@ -75,8 +75,8 @@ export function cardBloom(hex, theme = 'light') {
   // with no colour.
   const flat = Math.max(...raw) - Math.min(...raw) < 26 && luma(raw) < 0.3;
   const c = (flat ? (night ? [170, 172, 180] : [104, 108, 122]) : saturate(raw, night ? 1.1 : 1.18)).map(clamp).join(',');
-  const core = flat ? 0.22 : (night ? 0.5 : 0.56);
-  const halo = flat ? 0.07 : (night ? 0.18 : 0.22);
+  const core = flat ? 0.17 : (night ? 0.37 : 0.42);
+  const halo = flat ? 0.05 : (night ? 0.13 : 0.16);
   const reach = flat ? '48% 44%' : '58% 52%';
 
   return `radial-gradient(${reach} at 50% 38%, rgba(${c},${core}) 0%, rgba(${c},${halo}) 46%, rgba(${c},0) 76%)`;
