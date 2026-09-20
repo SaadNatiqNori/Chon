@@ -85,6 +85,18 @@ export const UI = {
     ckb: 'هێشتا وێنەی هەنگاوەکانی ئەم ئەپەمان نەگرتووە. تا ئەو کاتە، لاپەڕەی یارمەتی فەرمی سەلامەتترین شوێنە.',
     ku: 'هێشتا مە وێنێن گاڤێن ڤی ئەپی نەگرتینە. هەتا وێ دەمێ، لاپەڕا هاریکاریا فەرمی سەلامەتترین جهە.'
   },
+  watchVideo: {
+    en: 'Watch someone do it',
+    ar: 'شاهد شخصاً يقوم بها',
+    ckb: 'سەیری کەسێک بکە کە دەیکات',
+    ku: 'بەرێ خۆ بدە کەسەکێ کو دکەت'
+  },
+  videoNote: {
+    en: 'Not our video. It is on YouTube, in Arabic, and it opens in another app.',
+    ar: 'الفيديو ليس لنا. هو على يوتيوب، بالعربية، ويفتح في تطبيق آخر.',
+    ckb: 'ڤیدیۆکە هی ئێمە نییە. لەسەر یوتیوبە، بە عەرەبی، و لە ئەپێکی تردا دەکرێتەوە.',
+    ku: 'ڤیدیۆ نە یا مە یە. ل سەر یوتیوبێ یە، ب عەرەبی، و د ئەپەکێ دی دا ڤەدبیت.'
+  },
   openOfficial: {
     en: 'Open official help',
     ar: 'افتح المساعدة الرسمية',
@@ -149,6 +161,26 @@ export const UI = {
   },
   coverageLangs: {
     en: 'languages', ar: 'لغات', ckb: 'زمان', ku: 'زمان'
+  },
+  // The panel at the foot of a guide, for the code that never came. Its own
+  // nine fixes live in data/otp.js; these three are the interface around them.
+  otpTitle: {
+    en: 'The code is not arriving?',
+    ar: 'الرمز لا يصل؟',
+    ckb: 'کۆدەکە نایەت؟',
+    ku: 'کۆد نەهات؟'
+  },
+  otpSub: {
+    en: 'Nine things to try, in the order worth trying them.',
+    ar: 'تسعة أمور جرّبها، بالترتيب الذي يستحق أن تُجرَّب به.',
+    ckb: 'نۆ شت بۆ هەوڵدان، بەو ڕیزبەندییەی شایانی هەوڵدانە.',
+    ku: 'نۆ تشت بۆ هەویلدانێ, ب وێ ڕیزبەندیا هەویلدان بۆ وێ دڤێت.'
+  },
+  otpNote: {
+    en: 'None of this is your mistake. The message has to cross a network nobody here controls, and nothing on your account changes while you wait.',
+    ar: 'لا شيء من هذا خطؤك. الرسالة تعبر شبكة ليست بيد أحد هنا، ولا يتغيّر شيء في حسابك وأنت تنتظر.',
+    ckb: 'هیچ لەمانە هەڵەی تۆ نییە. نامەکە دەبێت بەناو تۆڕێکدا بڕوات کە بەدەست هیچ کەسێکی ئێرە نییە، و هیچ شتێک لە هەژمارەکەت ناگۆڕێت تاکو چاوەڕێ دەکەیت.',
+    ku: 'چو ژ ڤان نە شاشیا تە یە. نامە دڤێت د ناڤ تۆرەکێ دا بچیت یێ نە ب دەستێ چو کەسێ ڤێرێ یە, و چو تشت د هەژمارا تە دا ناهێتە گوهۆڕین دەمێ تو چاڤەڕێ دکەی.'
   },
   themeLabel: {
     en: 'Change theme', ar: 'تغيير المظهر', ckb: 'گۆڕینی ڕووکار', ku: 'گوهۆڕینا ڕوکاری'

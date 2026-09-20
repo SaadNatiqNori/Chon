@@ -1,11 +1,17 @@
 // The apps people ask about, in the order they are offered. `names` carries the
 // brand as it is written in each right to left language; English uses `name`.
+// `tile` is the colour the card is built from; the optional `glow` overrides it
+// for the light behind the card and the mark on it, where a brand's darker tile
+// reads flat against the two things meant to carry its colour.
 export const PLATFORMS = [
-  {"id":"whatsapp","name":"WhatsApp","tile":"#128C7E","url":"https://faq.whatsapp.com/","devices":["ios","android"],"names":{"ar": "واتساب", "ckb": "واتسئاپ", "ku": "واتسئاپ"}},
+  {"id":"whatsapp","name":"WhatsApp","tile":"#128C7E","glow":"#25D366","url":"https://faq.whatsapp.com/","devices":["ios","android"],"names":{"ar": "واتساب", "ckb": "واتسئاپ", "ku": "واتسئاپ"}},
   {"id":"telegram","name":"Telegram","tile":"#2AABEE","url":"https://telegram.org/faq","devices":["ios","android"],"names":{"ar": "تيليجرام", "ckb": "تێلێگرام", "ku": "تێلێگرام"}},
   {"id":"google","name":"Google Account","tile":"#1A73E8","url":"https://support.google.com/accounts","devices":["web","android","ios"],"names":{"ar": "حساب جوجل", "ckb": "هەژماری گووگڵ", "ku": "هەژمارا گووگلێ"}},
   {"id":"instagram","name":"Instagram","tile":"#C13584","url":"https://help.instagram.com/","devices":["ios","web"],"names":{"ar": "إنستغرام", "ckb": "ئینستاگرام", "ku": "ئینستاگرام"}},
   {"id":"facebook","name":"Facebook","tile":"#1877F2","url":"https://www.facebook.com/help/","devices":["web"],"names":{"ar": "فيسبوك", "ckb": "فەیسبووک", "ku": "فەیسبووک"}},
+  {"id":"fib","name":"FIB","tile":"#00A69C","url":"https://fib.iq/","devices":["ios","android"],"names":{"ar": "مصرف FIB", "ckb": "بانکی FIB", "ku": "بانکێ FIB"}},
+  {"id":"superqi","name":"SuperQi","tile":"#F2CE00","url":"https://superqi.iq/","devices":["ios","android"],"names":{"ar": "سوبركي", "ckb": "سوپەرکی", "ku": "سوپەرکی"}},
+  {"id":"fastpay","name":"FastPay","tile":"#EE3264","url":"https://www.fast-pay.iq/","devices":["ios","android"],"names":{"ar": "فاست باي", "ckb": "فاست پەی", "ku": "فاست پەی"}},
   {"id":"apple","name":"Apple Account","tile":"#3B3B3D","url":"https://support.apple.com/apple-account","devices":["ios","web"],"names":{"ar": "حساب أبل", "ckb": "هەژماری ئەپڵ", "ku": "هەژمارا ئەپڵێ"}},
   {"id":"tiktok","name":"TikTok","tile":"#111214","url":"https://support.tiktok.com/","devices":["ios","android"],"names":{"ar": "تيك توك", "ckb": "تیکتۆک", "ku": "تیکتۆک"}},
   {"id":"snapchat","name":"Snapchat","tile":"#F7C900","url":"https://help.snapchat.com/","devices":["ios","android"],"names":{"ar": "سناب شات", "ckb": "سناپچات", "ku": "سناپچات"}},

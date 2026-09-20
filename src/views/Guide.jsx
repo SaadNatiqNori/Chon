@@ -2,6 +2,7 @@ import { Squircle } from 'corner-smoothing';
 import { s } from '../css.js';
 import Ring from './Ring.jsx';
 import Brand from './Brand.jsx';
+import OtpHelp from './OtpHelp.jsx';
 import { AnimatedContent } from './motion.jsx';
 
 const TONE = { warn: 'warning', danger: 'danger', done: 'success' };
@@ -27,6 +28,30 @@ function Callout({ kind, icon, title, children }) {
   );
 }
 
+// A video is a last resort rather than a feature. It belongs to someone else,
+// it is in one language only, and it cannot be skimmed, which is the wrong
+// shape for a reader stuck on one screen. So it gets the same quiet treatment
+// as the official help link, sits below the steps rather than above them, and
+// says plainly whose it is and where it goes.
+function VideoLink({ v, href }) {
+  return (
+    <div style={s('margin-top:12px')}>
+      <Ring as="a" radius={17} color="var(--c-border-strong)" background="var(--c-surface)"
+        className="btn btn--quiet" href={href} target="_blank" rel="noopener noreferrer"
+        style={s('display:flex;padding:1px')} innerStyle={s('padding:14px;gap:9px')}>
+        <Squircle as="span" cornerRadius={8} cornerSmoothing={0.9} aria-hidden="true"
+          style={s('width:22px;height:22px;background:var(--c-brand);color:var(--c-brand-ink);display:grid;place-items:center;flex:none')}>
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M8 5.2 19 12 8 18.8Z" /></svg>
+        </Squircle>
+        {v.t('watchVideo')} ↗
+      </Ring>
+      <p style={s('margin:8px 2px 0;font-size:12.5px;color:var(--c-fg-muted);line-height:1.5;text-wrap:pretty')}>
+        {v.t('videoNote')}
+      </p>
+    </div>
+  );
+}
+
 export default function Guide({ v }) {
   const p = v.platform;
   if (!p) return null;
@@ -41,7 +66,7 @@ export default function Guide({ v }) {
           <span aria-hidden="true">{v.dir === 'rtl' ? '→' : '←'}</span>
         </Ring>
 
-        <Brand id={p.id} tile={p.tile} size={46} radius={13} />
+        <Brand id={p.id} tile={p.glow || p.tile} size={42} radius={14} />
 
         <div style={s('min-width:0')}>
           <h1 className="guide-title" style={s('margin:0;font-size:26px;font-weight:700;letter-spacing:-.4px;line-height:1.2')}>{p.name}</h1>
@@ -89,15 +114,21 @@ export default function Guide({ v }) {
       )}
 
       {v.steps.length === 0 ? (
-        <Ring radius={21} color="var(--c-border)" background="var(--c-surface-2)"
-          innerStyle={s('display:block;padding:30px 24px')}>
-          <p style={s('margin:0 0 7px;font-size:18px;font-weight:700')}>{v.t('notReadyTitle')}</p>
-          <p style={s('margin:0 0 20px;font-size:15px;color:var(--c-fg-2);line-height:1.6;text-wrap:pretty')}>{v.t('notReadyBody')}</p>
-          <Squircle as="a" cornerRadius={14} cornerSmoothing={0.85} className="btn btn--brand"
-            href={p.url} target="_blank" rel="noopener noreferrer" style={s('text-decoration:none')}>
-            {v.t('openOfficial')} ↗
-          </Squircle>
-        </Ring>
+        <>
+          <Ring radius={21} color="var(--c-border)" background="var(--c-surface-2)"
+            innerStyle={s('display:block;padding:30px 24px')}>
+            <p style={s('margin:0 0 7px;font-size:18px;font-weight:700')}>{v.t('notReadyTitle')}</p>
+            <p style={s('margin:0 0 20px;font-size:15px;color:var(--c-fg-2);line-height:1.6;text-wrap:pretty')}>{v.t('notReadyBody')}</p>
+            <Squircle as="a" cornerRadius={14} cornerSmoothing={0.85} className="btn btn--brand"
+              href={p.url} target="_blank" rel="noopener noreferrer" style={s('text-decoration:none')}>
+              {v.t('openOfficial')} ↗
+            </Squircle>
+          </Ring>
+
+          {/* A platform can have someone else's video before it has pictures of
+              its own, and that is worth more than an apology on its own. */}
+          {v.video && <VideoLink v={v} href={v.video} />}
+        </>
       ) : (
         <>
           <AnimatedContent y={10} style={s('margin-bottom:28px')}>
@@ -119,21 +150,26 @@ export default function Guide({ v }) {
                 </div>
 
                 {/* The first picture is what the reader sees on arrival, so it
-                    loads straight away; the rest wait until scrolled near. */}
-                <Squircle cornerRadius={18} cornerSmoothing={0.85}
-                  style={s('margin-inline:auto;overflow:hidden;background:var(--c-surface-2)',
-                    { maxWidth: step.h / step.w > 1.3 ? '330px' : '100%' })}>
-                  <img
-                    src={step.shot}
-                    alt={step.label}
-                    width={step.w}
-                    height={step.h}
-                    loading={step.n === 1 ? 'eager' : 'lazy'}
-                    fetchpriority={step.n === 1 ? 'high' : 'low'}
-                    decoding="async"
-                    style={s('display:block;width:100%;height:auto')}
-                  />
-                </Squircle>
+                    loads straight away; the rest wait until scrolled near.
+                    A step can carry no picture at all: either the app refuses
+                    to be photographed, or the step is something that happens
+                    after the app is closed and has no screen to show. */}
+                {step.shot && (
+                  <Squircle cornerRadius={18} cornerSmoothing={0.85}
+                    style={s('margin-inline:auto;overflow:hidden;background:var(--c-surface-2)',
+                      { maxWidth: step.h / step.w > 1.3 ? '330px' : '100%' })}>
+                    <img
+                      src={step.shot}
+                      alt={step.label}
+                      width={step.w}
+                      height={step.h}
+                      loading={step.n === 1 ? 'eager' : 'lazy'}
+                      fetchpriority={step.n === 1 ? 'high' : 'low'}
+                      decoding="async"
+                      style={s('display:block;width:100%;height:auto')}
+                    />
+                  </Squircle>
+                )}
 
                 {step.scam && (
                   <div style={s('margin-top:13px')}>
@@ -153,6 +189,14 @@ export default function Guide({ v }) {
           <AnimatedContent y={12} style={s('margin-top:34px')}>
             <Callout kind="done" icon="✓" title={v.t('doneTitle')}>{v.doneBody}</Callout>
           </AnimatedContent>
+
+          {/* The code that never came is the thing readers write in about most,
+              and they are already down here by the time they know it. */}
+          <AnimatedContent y={12} style={s('margin-top:12px')}>
+            <OtpHelp v={v} />
+          </AnimatedContent>
+
+          {v.video && <VideoLink v={v} href={v.video} />}
 
           <Ring as="a" radius={17} color="var(--c-border-strong)" background="var(--c-surface)"
             className="btn btn--quiet" href={p.url} target="_blank" rel="noopener noreferrer"

@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { LANGS, META, t as tr, deviceLabel } from './data/ui.js';
 import { PLATFORMS } from './data/platforms.js';
-import { GUIDES, guideFor, devicesWithGuides, hasGuide, DONE } from './data/guides.js';
+import { GUIDES, guideFor, devicesWithGuides, hasGuide, DONE, VIDEO } from './data/guides.js';
 import { TIPS } from './data/tips.js';
+import { OTP_FIXES } from './data/otp.js';
 import { keepOffline } from './pwa/register.js';
 import { hashFor, readHash, writeHash, baseUrl } from './route.js';
 
@@ -152,7 +153,7 @@ export function useApp() {
   // never scrolls to them would find them missing offline. Opening a guide
   // hands the whole set to the service worker to keep.
   useEffect(() => {
-    if (rawSteps && rawSteps.length) keepOffline(rawSteps.map(st => st.shot));
+    if (rawSteps && rawSteps.length) keepOffline(rawSteps.map(st => st.shot).filter(Boolean));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [platformId, device]);
 
@@ -200,8 +201,12 @@ export function useApp() {
     : [];
 
   const readyCount = PLATFORMS.filter(p => hasGuide(p.id)).length;
+  // The footer calls these 'steps photographed', so a step carrying no picture
+  // has no business in the count. SuperQi's approval wait has no screen to
+  // photograph, and FIB's pictures are not taken yet.
   const stepCount = Object.values(GUIDES).reduce(
-    (sum, byDevice) => sum + Object.values(byDevice).reduce((n, steps) => n + steps.length, 0), 0
+    (sum, byDevice) => sum + Object.values(byDevice).reduce(
+      (n, steps) => n + steps.filter(st => st.shot).length, 0), 0
   );
 
   return {
@@ -229,10 +234,17 @@ export function useApp() {
       const copy = tip[locale] || tip.en;
       return { id: tip.id, icon: tip.icon, tone: tip.tone, t: copy.t, d: copy.d };
     }),
+    otp: OTP_FIXES.map(fix => {
+      const copy = fix[locale] || fix.en;
+      return { id: fix.id, t: copy.t, d: copy.d };
+    }),
     soleDevice: platform && devicesWithGuides(platform.id).length === 1
       ? deviceLabel(devicesWithGuides(platform.id)[0], locale)
       : null,
     doneBody: (platform && DONE[platform.id] && (DONE[platform.id][locale] || DONE[platform.id].en)) || t('doneBody'),
+    // Only the apps that block screenshots have one, so this is empty far more
+    // often than not and the guide has to cope with that.
+    video: (platform && VIDEO[platform.id]) || '',
     tabs: platform
       ? devicesWithGuides(platform.id).map(d => ({
           key: d,

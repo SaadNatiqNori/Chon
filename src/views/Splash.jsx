@@ -3,6 +3,7 @@ import { Squircle } from 'corner-smoothing';
 import { BRAND_ICONS } from '../data/icons.js';
 import { brandInk, cardBloom, cardGradient } from '../tint.js';
 import BounceCards from './BounceCards.jsx';
+import Glyph from './Glyph.jsx';
 
 // The intro layer. The wordmark, and under it the same five tiles the grid
 // opens with, fanned across a full screen of page colour and then got out of
@@ -79,22 +80,18 @@ export default function Splash({ v }) {
       <Fragment key={p.id}>
         <span
           className="bcard__bloom"
-          style={{ background: cardBloom(p.tile, v.resolvedTheme) }}
+          style={{ background: cardBloom(p.glow || p.tile, v.resolvedTheme) }}
         />
         <Squircle
           cornerRadius={26}
           cornerSmoothing={0.8}
           className="bcard"
           style={{
-            '--ink-art': brandInk(p.tile, v.resolvedTheme, 3),
+            '--ink-art': brandInk(p.glow || p.tile, v.resolvedTheme, 3),
             '--solid': cardGradient(p.tile, v.resolvedTheme)
           }}
         >
-          {BRAND_ICONS[p.id] && (
-            <svg viewBox="0 0 24 24" width="42%" height="42%">
-              <path d={BRAND_ICONS[p.id]} />
-            </svg>
-          )}
+          {BRAND_ICONS[p.id] && <Glyph id={p.id} width="42%" height="42%" />}
         </Squircle>
       </Fragment>
     ));

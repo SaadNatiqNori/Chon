@@ -6,6 +6,10 @@
 @font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Medium.woff2')  format('woff2'); font-weight: 500; font-display: swap; }
 @font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Bold.woff2')    format('woff2'); font-weight: 700; font-display: swap; }
 @font-face { font-family: 'Arkan'; src: url('./assets/fonts/Arkan-Black.woff2')   format('woff2'); font-weight: 900; font-display: swap; }
+/* Noto Sans carries the Latin the three Arabic-script languages never ask
+   for. Google serves this family as one file per unicode range, so the
+   file here has to be the *latin* slice; the cyrillic one is first in
+   their stylesheet and leaves English with no glyphs at all. */
 @font-face { font-family: 'NotoSans'; src: url('./assets/fonts/NotoSans.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
 
 /* ---- Colour ------------------------------------------------------------
@@ -81,9 +85,9 @@ body {
   text-rendering: optimizeLegibility;
 }
 h1, h2, h3 { font-family: var(--c-display); }
-/* Brand names are Latin only in English. */
-html[lang="en"] .pcard__name,
-html[lang="en"] .guide-title { font-family: 'NotoSans', system-ui, sans-serif; }
+/* Card names and guide titles are display type in every language, so English
+   reads with the same brand voice as the three right-to-left ones rather than
+   dropping to the body sans. */
 .guide-title { font-family: var(--c-display); }
 a { color: var(--c-fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-brand); }
 a:hover { text-decoration-thickness: 2px; }
@@ -344,7 +348,7 @@ html[data-theme="dark"] {
   /* The page's own ink, not white: the pane is close enough to the page colour
      that white lettering would sit on nothing. */
   color: var(--c-fg);
-  font-family: inherit;
+  font-family: var(--c-display);
   /* Grows with the card rather than with the viewport: on a phone the grid is
      two up and the floor holds the name readable, on a desktop it is five up
      and the ceiling stops it outgrowing the tile. */
@@ -356,6 +360,7 @@ html[data-theme="dark"] {
 }
 .pcard__pill {
   display: block;
+  font-family: var(--c-display);
   padding: 9px 10px;
   font-size: 12.5px;
   font-weight: 700;
@@ -526,6 +531,63 @@ html[data-theme="dark"] .watermark { opacity: var(--wm-o-dark, .085); filter: no
 .callout--done .callout__icon { background: var(--c-success); color: #fff; }
 .callout--done .callout__icon { background: var(--c-success); color: #fff; }
 .callout--done .callout__title { color: var(--c-success); }
+
+/* ---- The code that never came ------------------------------------------ */
+/* Closed, this is a single line at the foot of a guide; open, it is nine
+   numbered fixes. The whole head is the control, because a reader hunting for
+   this is not aiming carefully. */
+.otp__head {
+  display: flex; align-items: center; gap: 13px;
+  width: 100%; padding: 15px 17px;
+  background: none; border: 0; cursor: pointer;
+  color: inherit; font: inherit; text-align: start;
+  transition: background .18s ease;
+}
+.otp__head:hover { background: var(--c-bg-subtle); }
+.otp__icon {
+  width: 26px; height: 26px; flex: none;
+  display: grid; place-items: center;
+  background: var(--c-brand); color: var(--c-brand-ink);
+}
+.otp__heading { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.otp__title { font-size: 14.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+.otp__sub { font-size: 12.5px; color: var(--c-fg-muted); line-height: 1.5; text-wrap: pretty; }
+.otp__chev {
+  flex: none; display: grid; place-items: center;
+  color: var(--c-fg-muted);
+  transition: transform .24s cubic-bezier(.2,.7,.3,1);
+}
+.otp__chev.is-open { transform: rotate(180deg); }
+.otp__chev svg { display: block; }
+
+.otp__panel { padding: 0 17px 17px; animation: chonUp .28s cubic-bezier(.2,.7,.3,1) both; }
+.otp__list {
+  margin: 0; padding: 15px 0 0; list-style: none;
+  display: flex; flex-direction: column; gap: 15px;
+  border-top: 1px solid var(--c-divider);
+}
+.otp__item { display: flex; align-items: flex-start; gap: 11px; }
+/* Decorative: the order is carried by the list itself. */
+.otp__n {
+  width: 23px; height: 23px; flex: none;
+  margin-top: 1px;
+  display: grid; place-items: center;
+  background: var(--c-primary-soft); color: var(--c-fg);
+  font-size: 12.5px; font-weight: 700; line-height: 1;
+}
+.otp__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.otp__t { font-size: 14.5px; font-weight: 700; line-height: 1.35; text-wrap: pretty; }
+.otp__d { font-size: 14px; color: var(--c-fg-2); line-height: 1.6; text-wrap: pretty; }
+.otp__note {
+  margin: 16px 0 0; padding-top: 14px;
+  border-top: 1px solid var(--c-divider);
+  font-size: 12.5px; color: var(--c-fg-muted); line-height: 1.6; text-wrap: pretty;
+}
+
+@media (max-width: 560px) {
+  .otp__head { padding: 14px 15px; gap: 11px; }
+  .otp__panel { padding: 0 15px 15px; }
+}
 
 /* ---- Buttons ----------------------------------------------------------- */
 .btn {
@@ -826,7 +888,8 @@ html[data-theme="dark"] .tip { filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .62
 }
 /* Never broken across a line, so a two word setting name stays readable
    inside a right to left sentence. */
-.tip__term { white-space: nowrap; }
+/* Shared with the code panel: see views/terms.jsx. */
+.term { white-space: nowrap; }
 
 .tip__close {
   flex: none;

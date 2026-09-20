@@ -5,6 +5,139 @@
 // entry below with the same shape.
 
 export const GUIDES = {
+  // FastPay is the one guide with no tap sequence in it, and that is the
+  // finding rather than a gap. Its own FAQ, in English and in Arabic, covers
+  // the PIN and says nothing about the number; there is no walkthrough on its
+  // channel; and the one first hand account says the option is not to be found.
+  // Guessing a sequence for a wallet holding money would be worse than useless,
+  // so these steps give the route instead: where to look, and who changes it
+  // when it is not there. The hotline and the address are FastPay's own,
+  // published at fast-pay.iq. The hotline is written as one unbroken run of
+  // digits on purpose. Spaces would split it into separate neutral runs,
+  // which a right to left paragraph then orders right to left, so
+  // '066 231 0000' reads back to a Kurdish or Arabic reader as
+  // '0000 231 066'. A wrong number is worse than an ugly one.
+  fastpay: {
+    ios: [
+      {
+        en: { t: 'Open Settings and look under Security', d: 'FastPay keeps account changes there. It is where the app sends you to change your PIN, so it is the first place to look for the number.', note: 'FastPay does not allow screenshots, and unlike every other app here it publishes no steps for changing a number. So this guide is the route rather than the screens, written from FastPay\'s own help pages.' },
+        ar: { t: 'افتح الإعدادات وابحث تحت الأمان', d: 'فاست باي يضع تغييرات الحساب هناك. هو المكان الذي يرسلك إليه التطبيق لتغيير الرمز السري، فهو أول مكان تبحث فيه عن الرقم.', note: 'فاست باي لا يسمح بتصوير الشاشة، وخلافاً لكل تطبيق آخر هنا لا ينشر خطوات لتغيير الرقم. لذلك هذا الدليل يعطيك الطريق لا الشاشات، وهو مكتوب من صفحات المساعدة الخاصة بفاست باي.' },
+        ckb: { t: 'ڕێکخستن بکەرەوە و لە ژێر Security بگەڕێ', d: 'فاست پەی گۆڕانکارییەکانی هەژمار لەوێ دادەنێت. ئەوە ئەو شوێنەیە کە ئەپەکە بۆ گۆڕینی کۆدی نهێنی دەتنێرێتە ئەوێ، بۆیە یەکەم شوێنە بۆ گەڕان بەدوای ژمارەکەدا.', note: 'فاست پەی ڕێگە بە وێنەگرتنی شاشە نادات، و بەپێچەوانەی هەموو ئەپێکی تری ئێرە هیچ هەنگاوێک بۆ گۆڕینی ژمارە بڵاو ناکاتەوە. بۆیە ئەم ڕێنماییە ڕێگاکەت پێ دەڵێت نەک شاشەکان، و لە پەڕەکانی یارمەتی خودی فاست پەی نووسراوە.' },
+        ku: { t: 'ڕێکخستنان ڤەکە و د بنێ Security دا بگەڕە', d: 'فاست پەی گوهۆڕینێن هەژماری ل وێرێ دانیت. ئەو جهە یە ئەڤێ ئەپ بۆ گوهۆڕینا کۆدێ نهێنی تە بۆ دشینیت، لەوما ئێکەم جه یە بۆ گەڕیانا ل دویڤ ژمارێ.', note: 'فاست پەی دەستویر نادەت ئێکران بهێتە وێنەگرتن، و ب دژی هەمی ئەپێن دی یێن ڤێرێ چو گاڤان بۆ گوهۆڕینا ژمارێ بەلاڤ ناکەت. لەوما ئەڤ ڕێنمایی ڕێکا تە دبێژیتە تە نە ئێکرانان، و ژ پەلێن هاریکاریا خودێ فاست پەی هاتیە نڤیسین.' }
+      },
+      {
+        en: { t: 'If there is no option for it, ask FastPay to change it', d: 'A wallet holding money will not move a number without checking who you are. Call 0662310000 or write to info@fast-pay.iq. You can also go to a FastPay showroom or agent; the app has a map of them.', scam: true },
+        ar: { t: 'إذا لم يكن هناك خيار لذلك، اطلب من فاست باي تغييره', d: 'محفظة تحمل مالاً لن تنقل رقماً دون التحقق من هويتك. اتصل على 0662310000 أو راسل info@fast-pay.iq. يمكنك أيضاً الذهاب إلى صالة عرض أو وكيل لفاست باي، والتطبيق فيه خريطة بمواقعهم.', scam: true },
+        ckb: { t: 'ئەگەر هیچ هەڵبژاردنێک بۆی نەبوو، داوا لە فاست پەی بکە بیگۆڕێت', d: 'جزدانێک کە پارەی تێدایە ژمارەیەک ناگوازێتەوە بێ ئەوەی بزانێت تۆ کێیت. پەیوەندی بکە بە 0662310000 یان بنووسە بۆ info@fast-pay.iq. هەروەها دەتوانیت بچیتە شوێنی پیشانگا یان بریکارێکی فاست پەی، ئەپەکە نەخشەیەکی شوێنەکانیانی تێدایە.', scam: true },
+        ku: { t: 'ئەگەر چو هەلبژارتن بۆ وێ نەبوو، ژ فاست پەی بخازە کو بگوهۆڕیت', d: 'جزدانەک کو پارە تێدا هەی ژمارەکێ ناگوهێزیت بێی کو بزانیت تو کی یی. پەیوەندی ب 0662310000 بکە یان بۆ info@fast-pay.iq بنڤیسە. هەروەسا تو دشێی بچی جهەکێ پیشانگەهێ یان بریکارەکێ فاست پەی, ئەپ نەخشەیا جهێن وان تێدا هەی.', scam: true }
+      },
+      {
+        en: { t: 'Have your ID and both numbers ready', d: 'The old number, the new one, and the identity document you opened the account with. Wait until FastPay tells you the change is done before you sign in with the new number.', done: true },
+        ar: { t: 'جهّز هويتك والرقمين معاً', d: 'الرقم القديم، والجديد، ووثيقة الهوية التي فتحت بها الحساب. انتظر حتى يخبرك فاست باي أن التغيير تم قبل أن تسجّل الدخول بالرقم الجديد.', done: true },
+        ckb: { t: 'ناسنامەکەت و هەردوو ژمارەکە ئامادە بکە', d: 'ژمارە کۆنەکە، نوێیەکە، و ئەو بەڵگەنامەی ناسنامەی کە هەژمارەکەت پێ کردەوە. چاوەڕێ بکە تا فاست پەی پێت دەڵێت گۆڕانکارییەکە تەواو بووە، پێش ئەوەی بە ژمارە نوێیەکە بچیتە ژوورەوە.', done: true },
+        ku: { t: 'ناسناما خۆ و هەر دو ژمارا ئامادە بکە', d: 'ژمارا کەڤن, یا نوی, و ئەو بەلگەنامەیا ناسنامێ ئەڤێ تە هەژمار پێ ڤەکری. چاڤەڕێ بکە هەتا فاست پەی بێژیتە تە گوهۆڕین تەمام بوو, بەری تو ب ژمارا نوی هەری ژوور.', done: true }
+      }
+    ]
+  },
+
+  // SuperQi runs in Arabic, so the button names below are quoted as they are
+  // printed on the screen with the meaning beside them, rather than translated
+  // away. The app blocks screen capture on its camera step, which is why the
+  // fourth picture is black, and a note there says so.
+  superqi: {
+    ios: [
+      {
+        shot: 'shots/superqi/q1.jpg', w: 720, h: 1395,
+        en: { t: 'Open SuperQi and tap الاعدادات', d: 'The gear at the end of the row along the bottom of the screen.', note: 'SuperQi runs in Arabic, so every button named in this guide is written the way it appears on your screen, with the meaning beside it. الاعدادات means Settings.' },
+        ar: { t: 'افتح سوبركي واضغط على الاعدادات', d: 'أيقونة الترس في آخر الصف أسفل الشاشة.', note: 'سوبركي بالعربية، وأسماء الأزرار في هذا الدليل مكتوبة كما تظهر على شاشتك.' },
+        ckb: { t: 'سوپەرکی بکەرەوە و لە الاعدادات بدە', d: 'ئەو چەرخەی لە کۆتایی ڕیزی خوارەوەی شاشەکەیە.', note: 'سوپەرکی بە عەرەبییە، بۆیە ناوی هەموو دوگمەکان لەم ڕێنماییەدا وەک ئەوە نووسراوە کە لەسەر شاشەکەت دەردەکەوێت. الاعدادات مانای ڕێکخستنە.' },
+        ku: { t: 'سوپەرکی ڤەکە و ل الاعدادات بدە', d: 'ئەو چەرخا ل دوماهیکا ڕیزا بنێ ئێکرانێ.', note: 'سوپەرکی ب عەرەبی یە، لەوما ناڤێ هەمی دوگمان د ڤێ ڕێنمایی دا وەکی ل سەر ئێکرانا تە دیار دبیت هاتیە نڤیسین. الاعدادات مانا ڕێکخستنێ یە.' }
+      },
+      {
+        shot: 'shots/superqi/q2.jpg', w: 720, h: 1146,
+        en: { t: 'Tap تغيير رقم الهاتف', d: 'Change phone number. It sits near the bottom, under the heading إعدادات التطبيق, App settings.' },
+        ar: { t: 'اضغط على تغيير رقم الهاتف', d: 'قريب من الأسفل، تحت عنوان إعدادات التطبيق.' },
+        ckb: { t: 'لە تغيير رقم الهاتف بدە', d: 'مانای گۆڕینی ژمارەی مۆبایلە. نزیک خوارەوەیە، لە ژێر سەردێری إعدادات التطبيق، ڕێکخستنی ئەپ.' },
+        ku: { t: 'ل تغيير رقم الهاتف بدە', d: 'مانا گوهۆڕینا ژمارا مۆبایلی یە. نێزیکی بنێ یە، د بنێ سەرناڤا إعدادات التطبيق دا، ڕێکخستنا ئەپێ.' }
+      },
+      {
+        shot: 'shots/superqi/q3.jpg', w: 720, h: 1388,
+        en: { t: 'Tap التقط سيلفي', d: 'Take a selfie. SuperQi checks that it is really you before it will touch the number. The screen asks for three things: bright light behind you, a smile, and your face inside the frame.' },
+        ar: { t: 'اضغط على التقط سيلفي', d: 'سوبركي يتأكد أنك أنت قبل أن يغيّر الرقم. الشاشة تطلب ثلاثة أمور: خلفية ساطعة خلفك، وابتسامة، ووجهك داخل الإطار.' },
+        ckb: { t: 'لە التقط سيلفي بدە', d: 'مانای سێلفی گرتنە. سوپەرکی دڵنیا دەبێتەوە کە خۆتی، پێش ئەوەی دەست لە ژمارەکە بدات. شاشەکە سێ شت داوا دەکات: ڕووناکی بەهێز لە پشتت، پێکەنین، و ڕووت لەناو چوارچێوەکە.' },
+        ku: { t: 'ل التقط سيلفي بدە', d: 'مانا سێلفی گرتنێ یە. سوپەرکی دلنیا دبیت کو تو خۆ ی، بەری دەست ل ژمارێ بدەت. ئێکران سێ تشتان دخازیت: ڕۆناهیا بهێز ل پشتا تە، کەنین، و ڕویێ تە د ناڤ چوارچێڤێ دا.' }
+      },
+      {
+        shot: 'shots/superqi/q4.jpg', w: 720, h: 1376,
+        en: { t: 'Hold your face inside the circle', d: 'The camera takes the picture by itself once your face is in the frame. There is nothing to tap.', note: 'The picture here is black because SuperQi does not let its camera screen be photographed. On your own phone you will see yourself.' },
+        ar: { t: 'ثبّت وجهك داخل الدائرة', d: 'الكاميرا تأخذ الصورة وحدها عندما يكون وجهك داخل الإطار. لا شيء تضغط عليه.', note: 'الصورة هنا سوداء لأن سوبركي لا يسمح بتصوير شاشة الكاميرا. على هاتفك سترى نفسك.' },
+        ckb: { t: 'ڕووت لەناو بازنەکە ڕاگرە', d: 'کامێراکە خۆی وێنەکە دەگرێت کاتێک ڕووت لەناو چوارچێوەکەیە. هیچ شتێک نییە لێی بدەیت.', note: 'وێنەکە لێرە ڕەشە چونکە سوپەرکی ڕێگە نادات شاشەی کامێراکەی وێنە بگیرێت. لەسەر مۆبایلی خۆت، خۆت دەبینی.' },
+        ku: { t: 'ڕویێ خۆ د ناڤ خەلەکێ دا بگرە', d: 'کامێرا بخۆ وێنێ دگریت دەمێ ڕویێ تە د ناڤ چوارچێڤێ دا بیت. چو تشت نینە تو لێ بدەی.', note: 'وێنە ل ڤێرێ ڕەش ە چونکی سوپەرکی دەستویر نادەت ئێکرانا کامێرایا وی بهێتە وێنەگرتن. ل سەر مۆبایلا خۆ، تە خۆ دبینی.' }
+      },
+      {
+        shot: 'shots/superqi/q5.jpg', w: 720, h: 1441,
+        en: { t: 'Type the new number', d: 'Check the country code first, +964 for Iraq. Then type the number without its first zero, the way the grey example 7712345678 is written. إستمرار, Continue, wakes up once the number is complete.', scam: true },
+        ar: { t: 'اكتب الرقم الجديد', d: 'تحقّق من رمز الدولة أولاً، +964 للعراق. ثم اكتب الرقم بدون الصفر الأول، مثل المثال الرمادي 7712345678. زر إستمرار يعمل بعد أن يكتمل الرقم.', scam: true },
+        ckb: { t: 'ژمارە نوێیەکە بنووسە', d: 'سەرەتا کۆدی وڵات بپشکنە، +964 بۆ عێراق. پاشان ژمارەکە بێ سفری یەکەم بنووسە، وەک ئەو نموونە خۆڵەمێشییەی 7712345678. دوگمەی إستمرار کار دەکات دوای ئەوەی ژمارەکە تەواو بوو.', scam: true },
+        ku: { t: 'ژمارا نوی بنڤیسە', d: 'بەرێ کۆدا وەلاتی بپشکنە، +964 بۆ عیراقێ. پاشی ژمارێ بێ سفرا ئێکێ بنڤیسە، وەکی وێ نموونا خۆلەمێشی 7712345678. دوگمەیا إستمرار کار دکەت پشتی ژمارە تەمام بوو.', scam: true }
+      },
+      {
+        // No picture: what happens here happens after the app is closed, so
+        // there is no screen to show. The step still earns its number, because
+        // the number is not actually yours until this has run its course.
+        en: { t: 'Wait for SuperQi to approve it', d: 'The request now goes to the SuperQi team. When they approve it, a notification arrives inside the app. After that, sign out and sign in again with the new number.', done: true },
+        ar: { t: 'انتظر موافقة سوبركي', d: 'الطلب يذهب الآن إلى فريق سوبركي. عند موافقتهم يصلك إشعار داخل التطبيق. بعد ذلك، اخرج من حسابك وسجّل الدخول من جديد بالرقم الجديد.', done: true },
+        ckb: { t: 'چاوەڕێی ڕەزامەندی سوپەرکی بکە', d: 'داواکارییەکە ئێستا بۆ تیمی سوپەرکی دەچێت. کاتێک ڕەزامەندی دەدەن، ئاگادارکردنەوەیەک لەناو ئەپەکە دێت. دوای ئەوە، لە هەژمارەکەت بچۆ دەرەوە و بە ژمارە نوێیەکە جارێکی تر بچۆ ژوورەوە.', done: true },
+        ku: { t: 'چاڤەڕێیا ڕەزامەندیا سوپەرکی بکە', d: 'داخازی نوکە بۆ تیما سوپەرکی دچیت. دەمێ وان ڕەزامەندی دا، ئاگەهدارییەک د ناڤ ئەپێ دا دهێت. پشتی وێ، ژ هەژمارا خۆ دەرکەڤە و ب ژمارا نوی جارەکا دی هەرە ژوور.', done: true }
+      }
+    ]
+  },
+
+  // FIB blocks screenshots too, and its pictures are not taken yet. These steps
+  // are written from the shape of the job rather than from photographs of it,
+  // so they are the part of this file most in need of checking against a real
+  // phone. The video under the closing panel is what a reader has meanwhile.
+  fib: {
+    ios: [
+      {
+        en: { t: 'Open FIB and tap More', d: 'The last item on the row along the bottom of the screen.', note: 'The pictures for FIB are not taken yet, because the app does not allow screenshots. The video at the bottom of this page shows the whole job in the meantime.' },
+        ar: { t: 'افتح FIB واضغط على More', d: 'آخر عنصر في الصف أسفل الشاشة.', note: 'صور FIB لم تؤخذ بعد، لأن التطبيق لا يسمح بتصوير الشاشة. الفيديو أسفل هذه الصفحة يريك العملية كاملة في هذه الأثناء.' },
+        ckb: { t: 'FIB بکەرەوە و لە More بدە', d: 'دوا شت لە ڕیزی خوارەوەی شاشەکە.', note: 'وێنەکانی FIB هێشتا نەگیراون، چونکە ئەپەکە ڕێگە بە وێنەگرتنی شاشە نادات. ئەو ڤیدیۆی خوارەوەی ئەم پەڕەیە لەم ماوەیەدا هەموو کارەکەت پیشان دەدات.' },
+        ku: { t: 'FIB ڤەکە و ل More بدە', d: 'تشتێ دوماهیک ل ڕیزا بنێ ئێکرانێ.', note: 'وێنێن FIB هێشتا نەهاتینە گرتن، چونکی ئەپ دەستویر نادەت ئێکران بهێتە وێنەگرتن. ئەو ڤیدیۆیا بنێ ڤێ پەلێ د ڤێ دەمی دا هەمی کارێ تە نیشان ددەت.' }
+      },
+      {
+        en: { t: 'Tap Settings', d: 'The gear, near the top of the list that opens.' },
+        ar: { t: 'اضغط على Settings', d: 'أيقونة الترس، قريبة من أعلى القائمة التي تفتح.' },
+        ckb: { t: 'لە Settings بدە', d: 'چەرخەکە، نزیک سەرەوەی ئەو لیستەی دەکرێتەوە.' },
+        ku: { t: 'ل Settings بدە', d: 'چەرخ، نێزیکی سەرێ وێ لیستا ڤەدبیت.' }
+      },
+      {
+        en: { t: 'Tap Change phone number', d: 'It is in the account section, under your own details.' },
+        ar: { t: 'اضغط على Change phone number', d: 'في قسم الحساب، تحت بياناتك الشخصية.' },
+        ckb: { t: 'لە Change phone number بدە', d: 'لە بەشی هەژمارەکە، لە ژێر زانیارییەکانی خۆت.' },
+        ku: { t: 'ل Change phone number بدە', d: 'د بەشا هەژماری دا، د بنێ زانیاریێن خۆ دا.' }
+      },
+      {
+        en: { t: 'Confirm that it is you', d: 'FIB asks for the passcode you open the app with. Some accounts are asked for a selfie instead.' },
+        ar: { t: 'أكّد أنك أنت', d: 'يطلب FIB رمز المرور الذي تفتح به التطبيق. بعض الحسابات يطلب منها صورة سيلفي بدلاً من ذلك.' },
+        ckb: { t: 'دڵنیای بکە کە خۆتی', d: 'FIB داوای ئەو کۆدە دەکات کە ئەپەکەی پێ دەکەیتەوە. لە هەندێک هەژمار لەبری ئەوە داوای سێلفی دەکرێت.' },
+        ku: { t: 'دلنیاهی بکە کو تو خۆ ی', d: 'FIB داخازا وی کۆدی دکەت ئەڤێ تو ئەپ پێ ڤەدکەی. ژ هندەک هەژماران ل شوینا وێ داخازا سێلفی دهێتە کرن.' }
+      },
+      {
+        en: { t: 'Type the new number', d: 'Pick +964 for Iraq, then type the number without its first zero.', scam: true },
+        ar: { t: 'اكتب الرقم الجديد', d: 'اختر +964 للعراق، ثم اكتب الرقم بدون الصفر الأول.', scam: true },
+        ckb: { t: 'ژمارە نوێیەکە بنووسە', d: '+964 بۆ عێراق هەڵبژێرە، پاشان ژمارەکە بێ سفری یەکەم بنووسە.', scam: true },
+        ku: { t: 'ژمارا نوی بنڤیسە', d: '+964 بۆ عیراقێ هەلبژێرە، پاشی ژمارێ بێ سفرا ئێکێ بنڤیسە.', scam: true }
+      },
+      {
+        en: { t: 'Type the code FIB sends you', d: 'It arrives by text on the new number. Once it is accepted, the new number is the one on the account.', done: true },
+        ar: { t: 'اكتب الرمز الذي يرسله FIB', d: 'يصل برسالة نصية على الرقم الجديد. بعد قبوله يصبح الرقم الجديد هو رقم الحساب.', done: true },
+        ckb: { t: 'ئەو کۆدەی FIB بۆت دەنێرێت بنووسە', d: 'بە نامەی نووسین بۆ ژمارە نوێیەکە دێت. دوای ئەوەی پەسەند کرا، ژمارە نوێیەکە دەبێتە ژمارەی هەژمارەکە.', done: true },
+        ku: { t: 'ئەو کۆدێ FIB بۆ تە دشینیت بنڤیسە', d: 'ب نامەیا نڤیسینێ بۆ ژمارا نوی دهێت. پشتی هاتە پەسەندکرن، ژمارا نوی دبیتە ژمارا هەژماری.', done: true }
+      }
+    ]
+  },
+
   threads: {
     android: [
       {
@@ -740,6 +873,21 @@ export const GUIDES = {
 
 // A platform may close with its own line instead of the shared one.
 export const DONE = {
+  fastpay: {
+    en: 'Once FastPay confirms the change, sign in with the new number.',
+    ar: 'بعد أن يؤكد فاست باي التغيير، سجّل الدخول بالرقم الجديد.',
+    ckb: 'دوای ئەوەی فاست پەی گۆڕانکارییەکە پشتڕاست دەکاتەوە، بە ژمارە نوێیەکە بچۆ ژوورەوە.',
+    ku: 'پشتی فاست پەی گوهۆڕینێ پشتڕاست کر, ب ژمارا نوی هەرە ژوور.'
+  },
+  // SuperQi is the one guide that does not end when the steps do, so its
+  // closing line says what is still outstanding rather than congratulating
+  // the reader on a number that is not live yet.
+  superqi: {
+    en: 'The request is with SuperQi. The new number only works once they have approved it and you have signed in again.',
+    ar: 'الطلب الآن عند سوبركي. الرقم الجديد لا يعمل إلا بعد موافقتهم وتسجيل دخولك من جديد.',
+    ckb: 'داواکارییەکە لای سوپەرکییە. ژمارە نوێیەکە تەنها کار دەکات دوای ئەوەی ڕەزامەندی دەدەن و جارێکی تر دەچیتەوە ژوورەوە.',
+    ku: 'داخازی نوکە ل دەڤ سوپەرکی یە. ژمارا نوی تنێ کار دکەت پشتی وان ڕەزامەندی دا و تو جارەکا دی چووی ژوور.'
+  },
   threads: {
     en: 'Your new number is on the account and the old one is gone. Threads and Instagram share it, so both are updated.',
     ar: 'رقمك الجديد على الحساب والقديم لم يعد موجوداً. ثريدز وإنستغرام يتشاركانه، لذا تم تحديث كليهما.',
@@ -794,6 +942,15 @@ export const DONE = {
     ckb: 'ژمارە نوێیەکەت لەسەر هەژمارەکەیە و کۆنەکە نەماوە.',
     ku: 'ژمارا تە یا نوی ل سەر هەژمارێ یە و یا کەڤن نەما.'
   }
+};
+
+// Someone else's recording of the same job, for the apps that refuse to be
+// photographed. It sits under the closing panel, after the steps, never in
+// place of them: a video cannot be skimmed, and a reader halfway through a
+// number change wants the one screen they are stuck on, not four minutes.
+export const VIDEO = {
+  fib: 'https://www.youtube.com/watch?v=EJkwzhwgCZo',
+  superqi: 'https://www.youtube.com/watch?v=5njRr315oeQ'
 };
 
 export function guideFor(platformId, device) {

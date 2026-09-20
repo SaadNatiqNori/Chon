@@ -2,6 +2,7 @@ import { Squircle } from 'corner-smoothing';
 import { s } from '../css.js';
 import { BRAND_ICONS } from '../data/icons.js';
 import { brandInk, cardBloom, cardGradient } from '../tint.js';
+import Glyph from './Glyph.jsx';
 import { AnimatedContent, BlurText } from './motion.jsx';
 import TiltedCard from './TiltedCard.jsx';
 
@@ -9,14 +10,15 @@ function Card({ p, v, i }) {
   const d = BRAND_ICONS[p.id];
   const theme = v.resolvedTheme;
 
-  // Four values, all drawn from the one brand colour: the light the card sits
-  // in, the ink its name and pill are set in, the slightly bolder ink the mark
+  // Four values, all drawn from the brand colour: the light the card sits in,
+  // the ink its name and pill are set in, the slightly bolder ink the mark
   // gets, and the opaque card kept in reserve for readers who have asked their
-  // system for less transparency. The stylesheet decides which are used.
+  // system for less transparency. The stylesheet decides which are used. The
+  // two that carry the colour openly take `glow` where a brand sets one.
   const tone = {
-    '--bloom': cardBloom(p.tile, theme),
+    '--bloom': cardBloom(p.glow || p.tile, theme),
     '--ink': brandInk(p.tile, theme),
-    '--ink-art': brandInk(p.tile, theme, 3),
+    '--ink-art': brandInk(p.glow || p.tile, theme, 3),
     '--solid': cardGradient(p.tile, theme)
   };
 
@@ -38,7 +40,7 @@ function Card({ p, v, i }) {
         >
           <span className="pcard__art" aria-hidden="true">
             {d
-              ? <svg viewBox="0 0 24 24" width="44%" height="44%"><path d={d} /></svg>
+              ? <Glyph id={p.id} width="44%" height="44%" />
               : <span className="pcard__dot" />}
           </span>
 
@@ -85,7 +87,7 @@ export default function Home({ v }) {
 
       {soon.length > 0 && (
         <>
-          <AnimatedContent as="h2" y={10} style={s('margin:40px 0 14px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--c-fg-muted)')}>
+          <AnimatedContent as="h2" y={10} style={s('margin:40px 0 16px;font-size:17px;font-weight:800;letter-spacing:.2px;text-align:center;color:var(--c-fg-muted)')}>
             {v.t('soon')}
           </AnimatedContent>
           <div className="card-grid">
