@@ -31,7 +31,8 @@ src/
     ui.js             every interface string, in all four languages
     icons.js          brand glyphs (Simple Icons, CC0)
   tint.js             builds each card's gradient from its brand colour
-  views/              Header, Footer, Home, Guide, Brand, motion
+  views/              Header, Footer, Home, Guide, Brand, Ring, motion,
+                      Splash and BounceCards (the intro layer)
   assets/fonts/       Arkan Lyon (4 weights) + Noto Sans, self-hosted woff2
   assets/originals/   the full-size screenshots as shot, kept as source.
                       Nothing imports them, so they never reach the build.
@@ -60,6 +61,29 @@ public/shots/         the shrunk screenshots the site actually serves
 
 `w` and `h` are the real pixel dimensions (`sips -g pixelWidth -g pixelHeight`);
 they reserve the space so the page does not jump while the photos load.
+
+## The splash
+
+`views/Splash.jsx` covers the page on load with five brand tiles, fanned out and
+bounced into place: WhatsApp, Telegram, Instagram, Google and Facebook, the five
+people ask about most. They are miniatures of the grid cards underneath, built
+from the same `cardGradient` and the same mark. There is no logo on it and no
+words in any language, which is deliberate. The header carries the brand a
+second later, and a splash that has to be read is a splash that has to be
+waited through.
+
+It plays on every load. The layer holds for two seconds and then fades, and any
+pointer, key or wheel event takes it away at once, so it is never a gate. The
+body is locked against scrolling while it is up, or a reader who flicks at it
+lands halfway down a grid they have not seen. Once faded it is unmounted rather
+than hidden, so nothing is left lying over the page.
+
+Under `prefers-reduced-motion` the layer never mounts at all. An intro is the
+one thing on the site carrying no information, so the honest answer to a request
+for stillness is to skip it rather than to flash it.
+
+The ground is `--c-bg`, the same colour the page is about to be, so there is no
+flash of a second background on the way out.
 
 ## The home screen
 
@@ -264,9 +288,33 @@ preference changes, so cards restyle with the page.
 `views/motion.jsx` holds two components in the spirit of ReactBits:
 `AnimatedContent` lifts and fades a block in as it scrolls into view, and
 `BlurText` unblurs a line one word at a time. ReactBits is a copy in library
-rather than a runtime package, so these are local: an IntersectionObserver over
-CSS transitions, no animation engine shipped to the reader. Home staggers its
+rather than a runtime package, so these two are local: an IntersectionObserver
+over CSS transitions, nothing but the browser doing the work. Home staggers its
 cards, a guide reveals each step as you reach it.
+
+`views/BounceCards.jsx` is the exception. It is the ReactBits component itself,
+and it runs on GSAP, which the site now carries for its sake alone, about 28 kB
+over the wire. The splash is the only place it is used. Three things are added
+to the original. It takes a `cards`
+prop, so the fan can hold brand tiles built the same way the grid cards are
+rather than photographs. It mirrors its own lean and spread when the page reads
+right to left, so the fan falls away from the heading in all four languages.
+And it watches `prefers-reduced-motion` itself, because GSAP writes inline
+transforms and would otherwise sail straight past the rules below.
+
+`views/TiltedCard.jsx` is the second one kept whole, and it brings its own
+engine: Motion, for the spring the grid cards lean on. A spring is the point of
+the effect. It is what makes a card feel like an object with weight rather than
+a picture being eased, and stiffness 100 against a mass of 2 is a figure no
+`cubic-bezier` can be asked for. What changed from the original: it wraps
+children rather than an `<img>`, since the thing leaning is a whole card; the
+cursor caption went with the image, because the card already shows its name and
+its pill and a tooltip would only repeat them; and the upstream mobile warning
+is replaced by a `(hover: hover) and (pointer: fine)` test, so a finger, which
+can tilt a card but never straighten it again, leaves the card flat. It checks
+`prefers-reduced-motion` for the same reason BounceCards does. Since the tilt is
+a mouse's doing, `.pcard-shell:focus-within` gives a card reached by keyboard
+the lift the old hover used to give.
 
 The reduced motion rules in `styles.css` do not merely shorten these, they land
 everything in its final state at once. That matters here more than on most
@@ -287,6 +335,18 @@ for each of the four languages. `applyDoc` rewrites the document title and the
 description, Open Graph and Twitter tags whenever the language changes, so a
 page shared from the Kurdish interface previews in Kurdish. `index.html` ships
 the Sorani set as the default, alongside `site.webmanifest` and the icon set.
+
+## Brand names
+
+`data/platforms.js` carries a `names` map beside each platform: the brand as it
+is written in Arabic, Sorani and Badini. English falls back to `name`. `useApp`
+picks the right one once, so the grid, the card labels, the screen reader labels
+and the guide heading all agree without any of them reaching for the raw record.
+
+Which face renders them follows the script rather than the element. A Latin
+brand name sits in Noto Sans; the same name written in Arabic script belongs in
+Arkan with everything around it. One rule keyed off `html[lang="en"]` does that
+for both the cards and the guide heading.
 
 ## Translations
 

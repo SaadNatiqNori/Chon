@@ -44,8 +44,7 @@ export default function Guide({ v }) {
         <Brand id={p.id} tile={p.tile} size={46} radius={13} />
 
         <div style={s('min-width:0')}>
-          {/* A Latin brand name, so it stays in the text face. */}
-          <h1 style={s("margin:0;font-size:26px;font-weight:700;letter-spacing:-.4px;line-height:1.2;font-family:'NotoSans',system-ui,sans-serif")}>{p.name}</h1>
+          <h1 className="guide-title" style={s('margin:0;font-size:26px;font-weight:700;letter-spacing:-.4px;line-height:1.2')}>{p.name}</h1>
           {v.steps.length > 0 && (
             <p style={s('margin:2px 0 0;font-size:13.5px;color:var(--c-fg-muted)')}>
               {v.t('stepsCount', { n: v.steps.length })}{v.soleDevice ? ' · ' + v.soleDevice : ''}

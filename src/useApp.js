@@ -89,7 +89,10 @@ export function useApp() {
   const goHome = () => { setRoute('home'); window.scrollTo(0, 0); };
 
   const lang = LANGS.find(l => l.code === locale) || LANGS[0];
-  const platform = PLATFORMS.find(p => p.id === platformId) || null;
+  const brandName = p => (p.names && p.names[locale]) || p.name;
+
+  const raw = PLATFORMS.find(p => p.id === platformId) || null;
+  const platform = raw ? { ...raw, name: brandName(raw) } : null;
   const rawSteps = platform ? guideFor(platform.id, device) : null;
 
   const steps = rawSteps
@@ -131,7 +134,7 @@ export function useApp() {
     wide: route === 'home',
     goHome,
     openPlatform,
-    platforms: PLATFORMS.map(p => ({ ...p, ready: hasGuide(p.id) })),
+    platforms: PLATFORMS.map(p => ({ ...p, name: brandName(p), ready: hasGuide(p.id) })),
     platform,
     steps,
     soleDevice: platform && devicesWithGuides(platform.id).length === 1

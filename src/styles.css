@@ -81,6 +81,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 h1, h2, h3 { font-family: var(--c-display); }
+/* Brand names are Latin only in English. */
+html[lang="en"] .pcard__name,
+html[lang="en"] .guide-title { font-family: 'NotoSans', system-ui, sans-serif; }
+.guide-title { font-family: var(--c-display); }
 a { color: var(--c-fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-brand); }
 a:hover { text-decoration-thickness: 2px; }
 button { font: inherit; color: inherit; border: 0; -webkit-appearance: none; appearance: none; }
@@ -202,19 +206,42 @@ html[data-theme="dark"] img.brandmark__dark { display: block; }
 @media (min-width: 1180px) { .card-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
 /* The squircle is drawn with clip-path, which would cut a box-shadow off, so
-   the depth lives on this shell as a drop-shadow that follows the silhouette. */
+   the depth lives on this shell as a drop-shadow that follows the silhouette.
+   The filter sits above the tilt in the tree, so the shadow is taken from the
+   leaning card and leans with it. A hovered card grows past its grid track,
+   hence the z-index: without it the next card in the row is painted over the
+   corner it overlaps. */
 .pcard-shell {
+  position: relative;
+  z-index: 0;
   aspect-ratio: 3 / 4;
   filter: drop-shadow(0 8px 20px rgba(26, 26, 28, .16));
   transition: transform .28s cubic-bezier(.2, .7, .3, 1), filter .28s ease;
 }
-.pcard-shell:hover { transform: translateY(-6px); filter: drop-shadow(0 20px 34px rgba(26, 26, 28, .26)); }
-.pcard-shell:active { transform: translateY(-2px); }
+.pcard-shell:hover,
+.pcard-shell:focus-within { z-index: 3; filter: drop-shadow(0 20px 34px rgba(26, 26, 28, .26)); }
+/* The tilt is a mouse's doing, so a card reached by keyboard gets the lift the
+   hover used to give instead, rather than no answer at all. */
+.pcard-shell:focus-within { transform: translateY(-6px); }
 html[data-theme="dark"] .pcard-shell { filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .55)); }
-html[data-theme="dark"] .pcard-shell:hover { filter: drop-shadow(0 20px 38px rgba(0, 0, 0, .7)); }
+html[data-theme="dark"] .pcard-shell:hover,
+html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 38px rgba(0, 0, 0, .7)); }
+
+/* ReactBits TiltedCard. The perspective lives on the outer box so the inner one
+   has a room to lean inside of; the lean itself is set from TiltedCard.jsx,
+   because it settles on a spring and a spring has no CSS spelling. */
+.tilted-card { width: 100%; height: 100%; perspective: 800px; }
+.tilted-card__inner {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.tilted-card:active .pcard { transform: scale(.97); }
 
 .pcard {
   position: relative;
+  transition: transform .18s cubic-bezier(.2, .7, .3, 1);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -247,7 +274,7 @@ html[data-theme="dark"] .pcard-shell:hover { filter: drop-shadow(0 20px 38px rgb
 .pcard__body { position: relative; padding: 0 12px 12px; display: flex; flex-direction: column; gap: 9px; text-align: center; }
 .pcard__name {
   color: #fff;
-  font-family: 'NotoSans', system-ui, sans-serif;
+  font-family: inherit;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.25;
@@ -347,3 +374,96 @@ html[data-theme="dark"] .watermark { opacity: .085; filter: none; }
 /* Back control on a guide. */
 .backbtn { width: 42px; height: 42px; flex: none; color: var(--c-fg); font-size: 17px; line-height: 1; cursor: pointer; transition: background .18s ease; }
 .backbtn:hover { background: var(--c-border-strong); }
+
+/* ---- Splash ------------------------------------------------------------ */
+/* The intro layer. Page colour edge to edge so there is no flash of a second
+   background, with the fan of tiles centred on it. It is removed from the DOM
+   once it has faded, not merely hidden, so nothing is left covering the page. */
+.splash {
+  --sp-scale: 1.15;
+  --sp-logo: 64px;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-bg);
+  /* The fan keeps its 500px box at every scale, so the sides are clipped here
+     rather than allowed to stretch the layer on a narrow phone. */
+  overflow: hidden;
+}
+.splash .bounceCards {
+  flex: none;
+  transform: scale(var(--sp-scale));
+  transform-origin: center;
+}
+
+/* The wordmark, larger than the header wears it. Height only: the theme swap
+   above owns `display` on these two images, and a rule here that set it would
+   win on specificity and leave the dark logo showing on a light page. */
+.splash__logo {
+  display: flex;
+  justify-content: center;
+  flex: none;
+  animation: splash-logo-in .55s cubic-bezier(.2, .7, .3, 1) both;
+}
+.splash__logo img.brandmark__light,
+.splash__logo img.brandmark__dark {
+  align-self: center;
+  height: var(--sp-logo);
+  width: auto;
+}
+@keyframes splash-logo-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.splash--out { animation: splash-out .52s cubic-bezier(.4, 0, .2, 1) forwards; }
+@keyframes splash-out {
+  to { opacity: 0; transform: scale(1.04); }
+}
+@media (max-width: 620px) { .splash { --sp-scale: .78; --sp-logo: 52px; } }
+@media (max-width: 420px) { .splash { --sp-scale: .62; --sp-logo: 44px; } }
+
+.bounceCards {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bounceCards__card {
+  position: absolute;
+  width: 116px;
+  aspect-ratio: 3 / 4;
+  transform-origin: center;
+  filter: drop-shadow(0 10px 24px rgba(26, 26, 28, .20));
+}
+html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgba(0, 0, 0, .6)); }
+
+.bounceCards__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+/* The tile itself, lit the way a grid card is. */
+.bcard {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+}
+.bcard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
+    linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
+  pointer-events: none;
+}

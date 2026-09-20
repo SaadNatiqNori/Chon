@@ -3,34 +3,37 @@ import { s } from '../css.js';
 import { BRAND_ICONS } from '../data/icons.js';
 import { cardGradient } from '../tint.js';
 import { AnimatedContent, BlurText } from './motion.jsx';
+import TiltedCard from './TiltedCard.jsx';
 
 function Card({ p, v, i }) {
   const d = BRAND_ICONS[p.id];
 
   return (
     <AnimatedContent className="pcard-shell" delay={Math.min(i, 9) * 55} y={22} scale={0.97}>
-      <Squircle
-        as="button"
-        cornerRadius={34}
-        cornerSmoothing={0.8}
-        className={'pcard' + (p.ready ? '' : ' pcard--soon')}
-        style={{ background: cardGradient(p.tile, v.resolvedTheme) }}
-        onClick={() => v.openPlatform(p.id)}
-        aria-label={p.name + ', ' + (p.ready ? v.t('openGuide') : v.t('soon'))}
-      >
-        <span className="pcard__art" aria-hidden="true">
-          {d
-            ? <svg viewBox="0 0 24 24" width="44%" height="44%" fill="rgba(255,255,255,.96)"><path d={d} /></svg>
-            : <span style={{ width: '20%', aspectRatio: '1', borderRadius: '50%', background: 'rgba(255,255,255,.9)' }} />}
-        </span>
+      <TiltedCard>
+        <Squircle
+          as="button"
+          cornerRadius={34}
+          cornerSmoothing={0.8}
+          className={'pcard' + (p.ready ? '' : ' pcard--soon')}
+          style={{ background: cardGradient(p.tile, v.resolvedTheme) }}
+          onClick={() => v.openPlatform(p.id)}
+          aria-label={p.name + ', ' + (p.ready ? v.t('openGuide') : v.t('soon'))}
+        >
+          <span className="pcard__art" aria-hidden="true">
+            {d
+              ? <svg viewBox="0 0 24 24" width="44%" height="44%" fill="rgba(255,255,255,.96)"><path d={d} /></svg>
+              : <span style={{ width: '20%', aspectRatio: '1', borderRadius: '50%', background: 'rgba(255,255,255,.9)' }} />}
+          </span>
 
-        <span className="pcard__body">
-          <span className="pcard__name">{p.name}</span>
-          <Squircle as="span" cornerRadius={16} cornerSmoothing={0.9} className="pcard__pill">
-            {p.ready ? v.t('openGuide') : v.t('soon')}
-          </Squircle>
-        </span>
-      </Squircle>
+          <span className="pcard__body">
+            <span className="pcard__name">{p.name}</span>
+            <Squircle as="span" cornerRadius={16} cornerSmoothing={0.9} className="pcard__pill">
+              {p.ready ? v.t('openGuide') : v.t('soon')}
+            </Squircle>
+          </span>
+        </Squircle>
+      </TiltedCard>
     </AnimatedContent>
   );
 }

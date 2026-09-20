@@ -56,7 +56,7 @@ export const UI = {
     en: 'Ready', ar: 'جاهز', ckb: 'ئامادەیە', ku: 'ئامادەیە'
   },
   soon: {
-    en: 'Soon', ar: 'قريباً', ckb: 'بەزووی', ku: 'ب زوویی'
+    en: 'Soon', ar: 'قريباً', ckb: 'بەم زووانە', ku: 'ب زوویی'
   },
   openGuide: {
     en: 'Open guide', ar: 'افتح الدليل', ckb: 'ڕێنمایی بکەرەوە', ku: 'ڕێنمایێ ڤەکە'
