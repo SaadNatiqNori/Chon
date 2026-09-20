@@ -38,12 +38,26 @@ function Card({ p, v, i }) {
   );
 }
 
+// The footer's corner watermark, brought onto the page: the same outlined
+// wordmark printed three times down the sides, each one turned differently so
+// the repeat reads as a pattern rather than a stamp. Decorative throughout.
+function Watermarks() {
+  return (
+    <div className="wm-field" aria-hidden="true">
+      <img className="watermark wm-field__a" src="brand/logo-outline.png" alt="" width="1005" height="482" decoding="async" />
+      <img className="watermark wm-field__b" src="brand/logo-outline.png" alt="" width="1005" height="482" decoding="async" />
+      <img className="watermark wm-field__c" src="brand/logo-outline.png" alt="" width="1005" height="482" decoding="async" />
+    </div>
+  );
+}
+
 export default function Home({ v }) {
   const ready = v.platforms.filter(p => p.ready);
   const soon = v.platforms.filter(p => !p.ready);
 
   return (
-    <section style={s('padding:34px 0 0;position:relative')}>
+    <section className="home" style={s('padding:34px 0 0;position:relative')}>
+      <Watermarks />
       <BlurText as="h1" text={v.t('pickTitle')} style={s('margin:0 0 6px;font-size:34px;font-weight:900;letter-spacing:-.4px;line-height:1.15')} />
       <AnimatedContent as="p" delay={120} y={10} style={s('margin:0 0 28px;font-size:16px;color:var(--c-fg-2);text-wrap:pretty')}>
         {v.t('pickSub')}

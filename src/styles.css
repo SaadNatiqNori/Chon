@@ -275,8 +275,11 @@ html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 3
 .pcard__name {
   color: #fff;
   font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
+  /* Grows with the card rather than with the viewport: on a phone the grid is
+     two up and the floor holds the name readable, on a desktop it is five up
+     and the ceiling stops it outgrowing the tile. */
+  font-size: clamp(16.5px, 3.4vw, 19px);
+  font-weight: 700;
   line-height: 1.25;
   letter-spacing: -.1px;
   text-shadow: 0 1px 12px rgba(0, 0, 0, .4);
@@ -304,10 +307,85 @@ html[data-theme="dark"] .pcard-shell:focus-within { filter: drop-shadow(0 20px 3
   object-fit: contain;
   pointer-events: none;
   user-select: none;
-  opacity: .07;
+  opacity: var(--wm-o, .07);
   filter: invert(1);
 }
-html[data-theme="dark"] .watermark { opacity: .085; filter: none; }
+html[data-theme="dark"] .watermark { opacity: var(--wm-o-dark, .085); filter: none; }
+
+/* ---- Watermark field --------------------------------------------------- */
+/* The same outlined wordmark the footer corner carries, printed three times
+   behind the home grid at different sizes and angles. Full-bleed: the layer
+   reaches past its column out to the viewport edges, and clips its own
+   contents there, so a mark can hang off the side without widening the page. */
+.wm-field {
+  position: absolute;
+  /* Reaches up past the section and behind the sticky header, so the top print
+     runs off the top of the window rather than stopping at a cut edge. */
+  inset-block: -110px 0;
+  inset-inline: calc(50% - 50vw);
+  overflow: clip;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Everything else in the section rides above the prints. */
+.home > *:not(.wm-field) { position: relative; z-index: 1; }
+
+/* Each print is placed by its own corner and turned by its own angle. The
+   angle is a variable because right-to-left mirrors the page, and a mirrored
+   composition wants the lean mirrored with it. */
+.wm-field .watermark {
+  transform: rotate(var(--wm-r));
+  transform-origin: 50% 50%;
+  /* The light theme inverts the print, and a filtered image would otherwise be
+     repainted on every frame of the drift. Its own layer costs a little memory
+     and saves that work. */
+  will-change: transform;
+  animation: wmDrift var(--wm-t) cubic-bezier(.45, 0, .55, 1) var(--wm-delay, 0s) infinite alternate;
+}
+[dir="rtl"] .wm-field .watermark { --wm-r: var(--wm-r-rtl); }
+
+/* Top, on the far side of the headline, where the page is still open. This is
+   the one with room to be read, so it is the largest and the clearest. */
+.wm-field__a {
+  --wm-r: -13deg; --wm-r-rtl: 13deg; --wm-t: 34s;
+  --wm-o: .075; --wm-o-dark: .085;
+  width: 540px;
+  inset-block-start: 8px;
+  inset-inline-end: -122px;
+}
+/* Middle, on the near side — the counterweight. Past the headline the grid
+   fills the column, so this one and the next show as a turned edge in the
+   margin beside it. */
+.wm-field__b {
+  --wm-r: 17deg; --wm-r-rtl: -17deg; --wm-t: 44s; --wm-delay: -12s;
+  --wm-o: .062; --wm-o-dark: .072;
+  width: 470px;
+  inset-block-start: 40%;
+  inset-inline-start: -126px;
+}
+/* Low, back on the far side, the smallest of the three — it closes the
+   diagonal the first two open. */
+.wm-field__c {
+  --wm-r: -7deg; --wm-r-rtl: 7deg; --wm-t: 38s; --wm-delay: -24s;
+  --wm-o: .055; --wm-o-dark: .065;
+  width: 410px;
+  inset-block-end: 9%;
+  inset-inline-end: -98px;
+}
+
+/* Barely a movement — a slow breath, so the page is never quite still. */
+@keyframes wmDrift {
+  from { transform: rotate(var(--wm-r)) translate3d(0, 0, 0); }
+  to   { transform: rotate(calc(var(--wm-r) + 2.5deg)) translate3d(0, -20px, 0); }
+}
+
+/* On a phone the grid is two up and the column is narrow, so the field thins
+   out to a single print that stays clear of the cards' centre. */
+@media (max-width: 720px) {
+  .wm-field__a { width: 330px; inset-block-start: 40px; inset-inline-end: -96px; }
+  .wm-field__b { display: none; }
+  .wm-field__c { width: 290px; inset-inline-end: -84px; }
+}
 
 /* ---- Footer ------------------------------------------------------------ */
 .site-footer {
@@ -374,6 +452,21 @@ html[data-theme="dark"] .watermark { opacity: .085; filter: none; }
 /* Back control on a guide. */
 .backbtn { width: 42px; height: 42px; flex: none; color: var(--c-fg); font-size: 17px; line-height: 1; cursor: pointer; transition: background .18s ease; }
 .backbtn:hover { background: var(--c-border-strong); }
+
+/* Share sits at the far end of the same row, so the title has a control on
+   either side of it rather than drifting into empty space. */
+.sharebtn { margin-inline-start: auto; }
+.sharebtn svg { display: block; }
+
+/* Announced to a screen reader, shown to nobody. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 /* ---- Splash ------------------------------------------------------------ */
 /* The intro layer. Page colour edge to edge so there is no flash of a second
@@ -466,4 +559,167 @@ html[data-theme="dark"] .bounceCards__card { filter: drop-shadow(0 10px 26px rgb
     linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 30%),
     linear-gradient(0deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 34%);
   pointer-events: none;
+}
+
+/* ---- Guide steps ------------------------------------------------------- */
+/* A dashed rail runs from one numbered chip down to the next, so a reader
+   scrolling past a tall screenshot can still see the thread of the walkthrough.
+   It hangs 29px below the step to meet the next chip across the list's 36px
+   gap, and the last step has nothing to point at, so it goes without.
+   Painted as a repeating gradient rather than a dashed border, because a
+   border gives no say over how far apart the dashes sit: 7px of mark to 11px
+   of air, which is open enough to read as a trail of steps rather than a rule. */
+.guide-step { position: relative; }
+.guide-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 15px;
+  top: 39px;
+  bottom: -29px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--c-brand) 0 7px,
+    transparent 7px 18px
+  );
+  pointer-events: none;
+}
+
+
+/* ---- Tips ---------------------------------------------------------------
+   Safety notes as a thread in the corner, filling from the foot up. The layer
+   is fixed and transparent to the pointer, so only a note itself is clickable
+   and the page underneath scrolls normally. Because the column is pinned to
+   the bottom, a note growing at its foot lifts the ones above it. */
+.tips {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  padding: 0 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+.tips__inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Written in flow terms, so the thread sits on the reading side of the page
+     in all four languages without a second rule. */
+  align-items: flex-start;
+  gap: 9px;
+}
+
+/* A note is its own clipping window: the background, the hairline and the
+   corner live here rather than on the content, so at every moment of the grow
+   the visible shape is a finished bubble and never a cut off one. */
+.tip {
+  --tip-w: min(340px, 84vw);
+  --tip-pill: 68px;
+  --tip-ease: cubic-bezier(.2, .8, .25, 1);
+
+  width: var(--tip-w);
+  overflow: hidden;
+  pointer-events: auto;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 21px;
+  transform-origin: bottom left;
+  /* The shadow is a filter rather than a box-shadow so that it is taken from
+     the clipped silhouette and follows the note as it grows. */
+  filter: drop-shadow(0 10px 26px rgba(26, 26, 28, .16));
+  /* Nothing fades and nothing travels: a note arrives by growing. The height
+     is measured and set from Tips.jsx, since how tall a message is depends on
+     where the words wrap. */
+  transition: width .46s var(--tip-ease), height .46s var(--tip-ease);
+}
+[dir="rtl"] .tip { transform-origin: bottom right; }
+html[data-theme="dark"] .tip { filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .62)); }
+
+.tip--typing { width: var(--tip-pill); }
+.tip--out { animation: tip-out .46s cubic-bezier(.4, 0, .2, 1) forwards; }
+@keyframes tip-out {
+  to { opacity: 0; transform: translateY(-8px) scale(.96); filter: blur(4px); }
+}
+
+/* Laid out at the width the message will settle at, whatever the window is
+   currently showing, so the words are revealed by the opening rather than
+   rewrapped on every frame of it. The border is inside the width, hence the
+   two pixels. */
+.tip__content {
+  width: calc(var(--tip-w) - 2px);
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 13px 13px;
+}
+.tip--typing .tip__content { padding: 13px 15px; }
+
+/* The typing indicator. */
+.tip__dots { display: flex; align-items: center; gap: 5px; }
+.tip__dots i {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-fg-muted);
+  animation: tip-dot 1.15s infinite ease-in-out;
+}
+.tip__dots i:nth-child(2) { animation-delay: .16s; }
+.tip__dots i:nth-child(3) { animation-delay: .32s; }
+@keyframes tip-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+  30%           { transform: translateY(-4px); opacity: 1; }
+}
+
+.tip__icon {
+  width: 25px; height: 25px; flex: none;
+  display: grid; place-items: center;
+  margin-top: 1px;
+  border-radius: 9px;
+  color: #fff;
+}
+.tip__icon svg { display: block; }
+.tip__text { min-width: 0; flex: 1; }
+.tip__title {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+.tip__body {
+  display: block;
+  font-size: 13px;
+  color: var(--c-fg-2);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.tip__close {
+  flex: none;
+  width: 22px; height: 22px;
+  margin-block-start: -2px;
+  margin-inline-end: -3px;
+  display: grid; place-items: center;
+  background: none;
+  border-radius: 7px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--c-fg-muted);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+.tip__close:hover { background: var(--c-bg-subtle); color: var(--c-fg); }
+
+@media (max-width: 480px) {
+  .tips { padding-inline: 10px; }
+  .tip { --tip-w: min(340px, 88vw); }
+  .tip__body { font-size: 12.5px; }
+}
+
+/* Someone who has asked for stillness gets the note, not the journey. */
+@media (prefers-reduced-motion: reduce) {
+  .tip { transition: none !important; }
+  .tip--out { animation: none !important; }
+  .tip__dots i { animation: none !important; opacity: .7; }
 }

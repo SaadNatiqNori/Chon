@@ -51,7 +51,27 @@ export default function Guide({ v }) {
             </p>
           )}
         </div>
+
+        {/* Mirrors Back across the title. A drawn mark rather than a character,
+            because the glyph has to read the same in all four languages. */}
+        <Ring as="button" radius={14} color="var(--c-border)" background="var(--c-surface)"
+          className="backbtn sharebtn" onClick={v.share}
+          aria-label={v.shared ? v.t('shareCopied') : v.t('share')}
+          title={v.shared ? v.t('shareCopied') : v.t('share')}>
+          {v.shared ? (
+            <span aria-hidden="true">✓</span>
+          ) : (
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none"
+              stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 15.5V3.5" />
+              <path d="m7.5 8 4.5-4.5L16.5 8" />
+              <path d="M5.5 12.5v6a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-6" />
+            </svg>
+          )}
+        </Ring>
       </div>
+
+      <span className="sr-only" aria-live="polite">{v.shared ? v.t('shareCopied') : ''}</span>
 
       {v.tabs.length > 1 && (
         <Ring radius={15} color="var(--c-border)" background="var(--c-bg-subtle)" role="tablist"
@@ -86,7 +106,7 @@ export default function Guide({ v }) {
 
           <ol style={s('margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:36px')}>
             {v.steps.map(step => (
-              <AnimatedContent as="li" key={step.n} y={20}>
+              <AnimatedContent as="li" className="guide-step" key={step.n} y={20}>
                 <div style={s('display:flex;align-items:flex-start;gap:12px;margin-bottom:13px')}>
                   <Squircle as="span" cornerRadius={11} cornerSmoothing={0.9} aria-hidden="true"
                     style={s('width:32px;height:32px;background:var(--c-brand);color:var(--c-brand-ink);display:grid;place-items:center;font-size:15px;font-weight:700;flex:none')}>

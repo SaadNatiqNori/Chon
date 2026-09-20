@@ -152,6 +152,26 @@ export const UI = {
   },
   themeLabel: {
     en: 'Change theme', ar: 'تغيير المظهر', ckb: 'گۆڕینی ڕووکار', ku: 'گوهۆڕینا ڕوکاری'
+  },
+  share: {
+    en: 'Share', ar: 'مشاركة', ckb: 'هاوبەشکردن', ku: 'پارڤەکرن'
+  },
+  shareCopied: {
+    en: 'Link copied', ar: 'تم نسخ الرابط', ckb: 'بەستەرەکە کۆپی کرا', ku: 'لینک هاتە کۆپی کرن'
+  },
+  // The message that travels with the link when the phone's own share sheet
+  // asks for one. {app} is the brand as that language writes it.
+  tipsDismiss: {
+    en: 'Hide these notes',
+    ar: 'إخفاء هذه الملاحظات',
+    ckb: 'شاردنەوەی ئەم تێبینیانە',
+    ku: 'ڤەشارتنا ڤان تێبینیان'
+  },
+  shareText: {
+    en: 'A step by step guide to changing your number on {app}.',
+    ar: 'دليل مصوّر خطوة بخطوة لتغيير رقمك في {app}.',
+    ckb: 'ڕێنمایی وێنەیی هەنگاو بە هەنگاو بۆ گۆڕینی ژمارەکەت لە {app}.',
+    ku: 'ڕێنمایا وێنەیی گاڤ ب گاڤ بۆ گوهۆڕینا ژمارا تە د {app} دا.'
   }
 };
 
