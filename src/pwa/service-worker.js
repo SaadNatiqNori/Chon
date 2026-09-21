@@ -123,6 +123,11 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
   if (new URL(request.url).origin !== self.location.origin) return;
 
+  // The edge function that answers which country a reader is in has a different
+  // answer for every visitor, and no answer at all worth keeping. Cached, it
+  // would hand the first reader's country to everyone behind the same node.
+  if (new URL(request.url).pathname.startsWith('/api/')) return;
+
   if (request.mode === 'navigate') {
     event.respondWith(navigate(request));
     return;

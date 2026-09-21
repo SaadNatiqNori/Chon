@@ -1,0 +1,150 @@
+rules_version = '2';
+
+// What a browser is allowed to do to Chon's counters.
+//
+// Everything here runs in the open. The Firebase config ships inside the
+// JavaScript bundle, so anybody can open the console and start issuing writes
+// against this database with a valid key. That is the normal condition of a
+// client side Firebase app, and these rules, not the secrecy of the key, are
+// what make it safe.
+//
+// The design rests on one idea: every visitor has a document of their own at
+// visitors/{uid}, and a counter may only move when that document moves with
+// it. A like is allowed only if the reader's own flag flips from false to true
+// in the same batch, so the second press cannot add a second like. A country
+// is counted only on the batch that creates the visitor. The result is that
+// the worst an attacker can do by hand is what an honest reader can do by
+// clicking, once per anonymous account.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn()  { return request.auth != null; }
+    function me()        { return request.auth.uid; }
+    function meRef()     { return /databases/$(database)/documents/visitors/$(me()); }
+
+    // Reads inside a rule are not themselves subject to rules, so these see the
+    // visitor document even though the browser may not. getAfter() is the state
+    // the batch is about to leave behind, which is how a counter can be made to
+    // depend on a change happening beside it.
+    function meNow()     { return get(meRef()).data; }
+    function meAfter()   { return getAfter(meRef()).data; }
+    function firstTime() { return !exists(meRef()); }
+
+    function isCode(c)   { return c is string && c.matches('^[A-Z]{2}$'); }
+
+    // ---- The reader's own record ----------------------------------------
+
+    match /visitors/{uid} {
+      // Yours and nobody else's. The collection is never listed, so the country
+      // of any individual reader is not something the site can be asked for.
+      allow read: if signedIn() && uid == me();
+
+      allow create: if signedIn() && uid == me()
+        && request.resource.data.keys().hasOnly(['country', 'liked', 'firstSeen', 'lastSeen'])
+        && request.resource.data.keys().hasAll(['country', 'liked', 'firstSeen', 'lastSeen'])
+        && isCode(request.resource.data.country)
+        // Arriving already liked would be a free like, counted by the arrival
+        // batch and then liked again afterwards.
+        && request.resource.data.liked == false
+        && request.resource.data.firstSeen == request.time
+        && request.resource.data.lastSeen == request.time;
+
+      // The country is set once, on arrival, and is not revisable. Otherwise a
+      // reader could move themselves between countries and bank a fresh count
+      // in each one.
+      allow update: if signedIn() && uid == me()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['liked', 'lastSeen'])
+        && request.resource.data.liked is bool
+        && request.resource.data.lastSeen == request.time;
+
+      allow delete: if false;
+    }
+
+    // ---- The three public numbers ---------------------------------------
+
+    match /counters/global {
+      function touched()       { return request.resource.data.diff(resource.data).affectedKeys(); }
+      function likesMoved(by)  { return request.resource.data.likes    == resource.data.likes + by; }
+      function viewsMoved(by)  { return request.resource.data.views    == resource.data.views + by; }
+      function peopleMoved(by) { return request.resource.data.visitors == resource.data.visitors + by; }
+
+      // A reader seen for the first time: one more person, one more view, and a
+      // visitor document created alongside this write.
+      function isArrival() {
+        return touched().hasOnly(['visitors', 'views'])
+          && peopleMoved(1) && viewsMoved(1)
+          && firstTime()
+          && meAfter().liked == false;
+      }
+
+      // A reader who has been here before: a view, and nothing else.
+      function isReturn() {
+        return touched().hasOnly(['views'])
+          && viewsMoved(1)
+          && !firstTime()
+          && meAfter().lastSeen == request.time;
+      }
+
+      function isLike() {
+        return touched().hasOnly(['likes']) && likesMoved(1)
+          && meNow().liked == false && meAfter().liked == true;
+      }
+
+      function isUnlike() {
+        return touched().hasOnly(['likes']) && likesMoved(-1)
+          && meNow().liked == true && meAfter().liked == false;
+      }
+
+      // Public, and deliberately so: the footer draws these for everyone,
+      // including a reader whose anonymous sign in has not landed yet.
+      allow read: if true;
+
+      // Whoever gets here first starts the document at zero. It can only be
+      // created empty, so this is not a way to write a number of your choosing.
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['likes', 'visitors', 'views'])
+        && request.resource.data.likes == 0
+        && request.resource.data.visitors == 0
+        && request.resource.data.views == 0;
+
+      allow update: if signedIn() && (isArrival() || isReturn() || isLike() || isUnlike());
+
+      allow delete: if false;
+    }
+
+    // Nothing else belongs in this collection.
+    match /counters/{other} {
+      allow read: if other == 'global';
+      allow write: if false;
+    }
+
+    // ---- Where the readers are ------------------------------------------
+
+    match /countries/{code} {
+      allow read: if true;
+
+      // Both halves are pinned to the arrival batch: it has to be the reader's
+      // first visit, and the country has to be the one written onto their own
+      // document in the same commit. A second country cannot be added later.
+      allow create: if signedIn() && isCode(code)
+        && firstTime()
+        && request.resource.data.keys().hasOnly(['n'])
+        && request.resource.data.n == 1
+        && meAfter().country == code;
+
+      allow update: if signedIn() && isCode(code)
+        && firstTime()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['n'])
+        && request.resource.data.n == resource.data.n + 1
+        && meAfter().country == code;
+
+      allow delete: if false;
+    }
+
+    // Anything not named above is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

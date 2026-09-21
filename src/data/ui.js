@@ -204,6 +204,53 @@ export const UI = {
     ar: 'دليل مصوّر خطوة بخطوة لتغيير رقمك في {app}.',
     ckb: 'ڕێنمایی وێنەیی هەنگاو بە هەنگاو بۆ گۆڕینی ژمارەکەت لە {app}.',
     ku: 'ڕێنمایا وێنەیی گاڤ ب گاڤ بۆ گوهۆڕینا ژمارا تە د {app} دا.'
+  },
+  // ---- The footer's living numbers ------------------------------------
+  // Written by the people reading, rather than by us. The counts come from
+  // Firestore; the country is two letters from the edge and nothing more.
+  pulseTitle: {
+    en: 'Readers', ar: 'القرّاء', ckb: 'خوێنەران', ku: 'خواندەڤان'
+  },
+  pulsePeople: {
+    en: 'people', ar: 'شخصاً', ckb: 'کەس', ku: 'کەس'
+  },
+  pulseVisits: {
+    en: 'visits', ar: 'زيارة', ckb: 'سەردان', ku: 'سەردان'
+  },
+  pulseFrom: {
+    en: 'Where from', ar: 'من أين', ckb: 'لە کوێوە', ku: 'ژ کیڤە'
+  },
+  countryOther: {
+    en: 'Elsewhere', ar: 'أماكن أخرى', ckb: 'شوێنی تر', ku: 'جهێن دی'
+  },
+  likeAsk: {
+    en: 'Did this help you?',
+    ar: 'هل ساعدك هذا؟',
+    ckb: 'ئەمە یارمەتی دایت؟',
+    ku: 'ڤێ هاریکاریا تە کر؟'
+  },
+  likeYes: {
+    en: 'Yes, it helped',
+    ar: 'نعم، ساعدني',
+    ckb: 'بەڵێ، یارمەتی دام',
+    ku: 'بەلێ، هاریکاریا من کر'
+  },
+  likeDone: {
+    en: 'Thank you', ar: 'شكراً لك', ckb: 'سوپاس', ku: 'سپاس'
+  },
+  likeCount: {
+    en: '{n} found it useful',
+    ar: '{n} وجدوه مفيداً',
+    ckb: '{n} کەس بە سوودی زانیوە',
+    ku: '{n} کەسان ب سوود زانیە'
+  },
+  // Said plainly, because a reader who is changing a phone number is already
+  // being careful about who knows what.
+  privacyNote: {
+    en: 'We count visits and countries only. No names, no numbers, no addresses, and nothing that points back at you.',
+    ar: 'نحصي الزيارات والدول فقط. لا أسماء ولا أرقام ولا عناوين، ولا شيء يدل عليك.',
+    ckb: 'تەنها سەردان و وڵاتان دەژمێرین. نە ناو، نە ژمارە، نە ناونیشان، و هیچ شتێک کە ئاماژە بە تۆ بکات.',
+    ku: 'تنێ سەردان و وەلاتان دهژمێرین. نە ناڤ، نە ژمارە، نە ناڤونیشان، و چو تشت کو ئاماژەیێ ب تە بکەت.'
   }
 };
 

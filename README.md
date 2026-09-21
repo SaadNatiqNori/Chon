@@ -31,13 +31,30 @@ src/
     ui.js             every interface string, in all four languages
     icons.js          brand glyphs (Simple Icons, CC0)
   tint.js             builds each card's gradient from its brand colour
+  usePulse.js         the footer's visitor and like counts, as React sees them
+  firebase/           client.js (lazy SDK), pulse.js (counters), analytics.js
   views/              Header, Footer, Home, Guide, Brand, Ring, motion,
-                      Splash and BounceCards (the intro layer)
+                      Splash, BounceCards (the intro layer) and Pulse
   assets/fonts/       Arkan Lyon (4 weights) + Noto Sans, self-hosted woff2
   assets/originals/   the full-size screenshots as shot, kept as source.
                       Nothing imports them, so they never reach the build.
 public/shots/         the shrunk screenshots the site actually serves
+api/geo.js            Vercel edge function: which country a reader is in
+firestore.rules       what a browser may do to the counters
+test/rules.test.mjs   25 cases proving it
 ```
+
+## The counters
+
+The footer counts its own readers: people, visits, countries, and the hearts.
+It runs on Firebase from the browser, so there is no server involved and Vercel
+hosts it as the static site it already was. The SDK is behind a dynamic import
+and is never fetched at all when the project is not configured.
+
+    npm run test:rules     # prove the security rules, needs Java 21+
+    npm run deploy:rules   # push firestore.rules to the project
+
+Setting it up is [FIREBASE.md](FIREBASE.md).
 
 ## Adding a platform
 

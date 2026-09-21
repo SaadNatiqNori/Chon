@@ -1,2 +1,15 @@
 node_modules/
 dist/
+
+# The Firebase config is not secret, but it is per deployment, so it stays out
+# of the repository and is set in the Vercel dashboard instead.
+.env
+.env.local
+.env.*.local
+
+# Firebase CLI state
+.firebase/
+.firebaserc
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

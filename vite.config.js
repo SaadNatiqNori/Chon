@@ -45,7 +45,13 @@ function serviceWorker() {
     apply: 'build',
     configResolved(config) { root = config.root; },
     generateBundle(_options, bundle) {
-      const built = Object.keys(bundle).filter(name => name !== 'sw.js');
+      // The Firebase SDK is deliberately left out. It is the largest thing the
+      // build produces and it is useless with no network, so precaching it
+      // would make the offline install a quarter of a megabyte heavier in
+      // exchange for nothing a reader offline could use.
+      const built = Object.keys(bundle).filter(
+        name => name !== 'sw.js' && !/(^|\/)firebase-[^/]*\.js$/.test(name)
+      );
       // './' is how the browser asks for the page when the address ends at the
       // directory, which is the usual way in; index.html covers the other.
       const precache = ['./', 'index.html', ...built, ...shellFromPublic(root)];
@@ -64,5 +70,16 @@ export default defineConfig({
   plugins: [react(), serviceWorker()],
   // Served from XAMPP at http://localhost/Chon/dist/ after `npm run build`.
   base: './',
-  build: { outDir: 'dist' }
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        // Kept in one chunk of its own so the guides are not held up behind it
+        // and so the service worker has a single name to leave alone.
+        manualChunks(id) {
+          if (/node_modules[\\/](@firebase|firebase|idb)[\\/]/.test(id)) return 'firebase';
+        }
+      }
+    }
+  }
 });

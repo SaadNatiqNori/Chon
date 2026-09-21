@@ -1,5 +1,6 @@
 import { s } from '../css.js';
 import { AnimatedContent } from './motion.jsx';
+import { PulseStats, PulseLike } from './Pulse.jsx';
 
 export default function Footer({ v }) {
   const width = v.wide ? '1180px' : '620px';
@@ -41,10 +42,14 @@ export default function Footer({ v }) {
               </button>
             ))}
           </div>
+          <PulseStats v={v} />
         </AnimatedContent>
+
+        <PulseLike v={v} />
 
         <div className="site-footer__rule" />
         <p className="site-footer__legal" style={s('margin:0')}>{v.t('disclaimer')}</p>
+        <p className="site-footer__legal" style={s('margin:8px 0 0')}>{v.t('privacyNote')}</p>
       </div>
     </footer>
   );

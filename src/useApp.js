@@ -6,6 +6,8 @@ import { TIPS } from './data/tips.js';
 import { OTP_FIXES } from './data/otp.js';
 import { keepOffline } from './pwa/register.js';
 import { hashFor, readHash, writeHash, baseUrl } from './route.js';
+import { usePulse } from './usePulse.js';
+import { track, trackScreen, describeVisitor } from './firebase/analytics.js';
 
 function applyMeta(locale) {
   const m = META[locale] || META.en;
@@ -72,6 +74,7 @@ export function useApp() {
   const [device, setDevice] = useState('ios');
   const [shared, setShared] = useState(false);
   const sharedTimer = useRef(0);
+  const pulse = usePulse(locale);
 
   useEffect(() => {
     let loc = 'ckb', th = 'dark';
@@ -114,12 +117,25 @@ export function useApp() {
     return () => mq.removeEventListener('change', on);
   }, [theme, locale]);
 
+  // Chon is one document with a hash on the end, so Analytics sees a single
+  // page_view on arrival and nothing after it. Reporting the move here is what
+  // makes the console able to say which guide anybody actually read.
+  useEffect(() => {
+    if (route === 'guide' && platformId) {
+      trackScreen('/' + platformId + '/' + device, platformId + ' · ' + device);
+    } else if (route === 'home') {
+      trackScreen('/', 'Chon home');
+    }
+  }, [route, platformId, device]);
+
   const t = useCallback((key, vars) => tr(key, locale, vars), [locale]);
 
   const pickLocale = code => {
     setLocale(code);
     try { localStorage.setItem('chon.locale', code); } catch (e) {}
     setResolved(applyDoc(code, theme));
+    track('language_change', { language: code, from: locale });
+    describeVisitor({ app_locale: code });
   };
 
   const cycleTheme = () => {
@@ -128,6 +144,7 @@ export function useApp() {
     setTheme(next);
     try { localStorage.setItem('chon.theme', next); } catch (e) {}
     setResolved(applyDoc(locale, next));
+    track('theme_change', { theme: next });
   };
 
   const openPlatform = id => {
@@ -138,9 +155,17 @@ export function useApp() {
     setRoute('guide');
     writeHash(hashFor(id, d));
     window.scrollTo(0, 0);
+    // The event Chon exists to measure: which app a reader came here for, on
+    // which phone, and whether the pictures for it are taken yet.
+    track('guide_open', {
+      platform_id: id,
+      device: d,
+      language: locale,
+      ready: hasGuide(id)
+    });
   };
 
-  const goHome = () => { setRoute('home'); writeHash(''); window.scrollTo(0, 0); };
+  const goHome = () => { setRoute('home'); writeHash(''); window.scrollTo(0, 0); track('go_home'); };
 
   const lang = LANGS.find(l => l.code === locale) || LANGS[0];
   const brandName = p => (p.names && p.names[locale]) || p.name;
@@ -169,6 +194,7 @@ export function useApp() {
           text: t('shareText', { app: platform.name }),
           url
         });
+        track('share', { method: 'native', platform_id: platform.id, device });
         return;
       } catch (e) {
         // A cancelled sheet is not a failure and wants no answer; anything else
@@ -177,6 +203,7 @@ export function useApp() {
       }
     }
     if (!(await copyText(url))) return;
+    track('share', { method: 'clipboard', platform_id: platform.id, device });
     clearTimeout(sharedTimer.current);
     setShared(true);
     sharedTimer.current = setTimeout(() => setShared(false), 1800);
@@ -211,6 +238,7 @@ export function useApp() {
 
   return {
     dir: lang.dir,
+    pulse,
     readyCount,
     stepCount,
     locale,
@@ -252,7 +280,12 @@ export function useApp() {
           active: d === device,
           // Replaced rather than pushed: flicking between iPhone and Android is
           // not a place you should have to press Back through.
-          pick: () => { setDevice(d); writeHash(hashFor(platform.id, d), true); window.scrollTo(0, 0); }
+          pick: () => {
+            setDevice(d);
+            writeHash(hashFor(platform.id, d), true);
+            window.scrollTo(0, 0);
+            track('device_switch', { platform_id: platform.id, device: d });
+          }
         }))
       : []
   };

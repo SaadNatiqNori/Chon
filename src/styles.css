@@ -307,6 +307,12 @@ html[data-theme="dark"] {
   cursor: pointer;
   isolation: isolate;
   text-align: inherit;
+  /* Safari's user agent stylesheet sets `align-items: flex-start` on every
+     button, and a button is what this card is. The name and the pill are laid
+     out by the card's own width, so without this they shrink to their text and
+     sit against the leading edge instead of centred. Chrome leaves align-items
+     at `normal`, which is why the card only ever looked wrong on Safari. */
+  align-items: stretch;
   background: var(--pane);
   /* Inside the tilt's 3D context Chrome drops the squircle's clip-path unless
      the card has a compositing layer of its own, and the card goes back to
@@ -819,15 +825,20 @@ html[data-theme="dark"] .bcard__bloom { inset: -22%; opacity: .78; }
   border: 1px solid var(--c-border);
   border-radius: 21px;
   transform-origin: bottom center;
-  /* The shadow is a filter rather than a box-shadow so that it is taken from
-     the clipped silhouette and follows the note as it grows. */
-  filter: drop-shadow(0 10px 26px rgba(26, 26, 28, .16));
+  /* A box-shadow rather than a drop-shadow filter. The filter is the better
+     tool where a shape is cut by clip-path, but this note is a plain rounded
+     rectangle and box-shadow already traces `border-radius` exactly, growing
+     with the note as its width and height transition. The filter also cannot
+     be used here: Safari takes drop-shadow from the element's border box and
+     ignores the rounding that `overflow: hidden` applies, so the shadow came
+     out as a hard edged rectangle sitting behind the bubble. */
+  box-shadow: 0 10px 26px rgba(26, 26, 28, .16);
   /* Nothing fades and nothing travels: a note arrives by growing. The height
      is measured and set from Tips.jsx, since how tall a message is depends on
      where the words wrap. */
   transition: width .46s var(--tip-ease), height .46s var(--tip-ease);
 }
-html[data-theme="dark"] .tip { filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .62)); }
+html[data-theme="dark"] .tip { box-shadow: 0 12px 30px rgba(0, 0, 0, .62); }
 
 .tip--typing { width: var(--tip-pill); }
 .tip--out { animation: tip-out .46s cubic-bezier(.4, 0, .2, 1) forwards; }
@@ -919,4 +930,71 @@ html[data-theme="dark"] .tip { filter: drop-shadow(0 12px 30px rgba(0, 0, 0, .62
   .tip { transition: none !important; }
   .tip--out { animation: none !important; }
   .tip__dots i { animation: none !important; opacity: .7; }
+}
+
+/* ---- The footer's living numbers ---------------------------------------
+   The readers column and the one control on the page that writes to the
+   database. Everything here is hidden until Firestore has answered, so none
+   of it has a loading state to style. */
+
+.pulse__h--sub { margin-top: 10px; }
+
+.pulse__places { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.pulse__place { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--c-fg-2); }
+/* The emoji comes from the system font, never from Arkan, which has no flags
+   and would draw four boxes instead. */
+.pulse__flag {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  font-size: 14px; line-height: 1; flex: none;
+}
+.pulse__country { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pulse__n { color: var(--c-fg); font-weight: 700; font-variant-numeric: tabular-nums; flex: none; }
+
+.pulse__ask {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px;
+  margin-top: 28px; padding: 16px 18px;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+}
+.pulse__question { font-size: 14px; font-weight: 700; color: var(--c-fg); }
+
+.pulse__heart {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px;
+  font: inherit; font-size: 13.5px; font-weight: 700;
+  color: var(--c-fg); cursor: pointer;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-strong);
+  border-radius: 999px;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, color .18s ease;
+}
+.pulse__heart:hover { border-color: var(--c-brand); }
+.pulse__heart:active { transform: translateY(1px); }
+.pulse__heart.is-on {
+  background: var(--c-brand); border-color: var(--c-brand); color: var(--c-brand-ink);
+}
+.pulse__heart-mark { font-size: 15px; line-height: 1; }
+/* The fill arriving is the whole acknowledgement, so it is worth a beat of
+   motion rather than an instant swap. */
+.pulse__heart.is-on .pulse__heart-mark { animation: pulse-beat .42s cubic-bezier(.2, .7, .3, 1); }
+
+@keyframes pulse-beat {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.pulse__tally {
+  font-size: 13px; color: var(--c-fg-muted);
+  margin-inline-start: auto; font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+  .pulse__ask { margin-top: 22px; padding: 14px; }
+  .pulse__tally { margin-inline-start: 0; flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse__heart.is-on .pulse__heart-mark { animation: none !important; }
 }

@@ -93,47 +93,58 @@ export const GUIDES = {
     ]
   },
 
-  // FIB blocks screenshots too, and its pictures are not taken yet. These steps
-  // are written from the shape of the job rather than from photographs of it,
-  // so they are the part of this file most in need of checking against a real
-  // phone. The video under the closing panel is what a reader has meanwhile.
+  // FIB blocks screenshots, so these four are photographs of the screen rather
+  // than captures of it, and they run out where the photographing ran out. They
+  // also replace the route this entry used to carry, which was written from the
+  // shape of the job and guessed wrong: the number does not sit under Settings
+  // at all, it sits under the profile picture, in معلومات الاتصال. The phone
+  // they were taken on runs FIB in Arabic, which is how most readers here will
+  // meet it, so the buttons are quoted as they are printed with the meaning
+  // beside them, the way the SuperQi guide does it. The last two steps have no
+  // picture of their own; the video under the closing panel covers them.
   fib: {
     ios: [
       {
-        en: { t: 'Open FIB and tap More', d: 'The last item on the row along the bottom of the screen.', note: 'The pictures for FIB are not taken yet, because the app does not allow screenshots. The video at the bottom of this page shows the whole job in the meantime.' },
-        ar: { t: 'افتح FIB واضغط على More', d: 'آخر عنصر في الصف أسفل الشاشة.', note: 'صور FIB لم تؤخذ بعد، لأن التطبيق لا يسمح بتصوير الشاشة. الفيديو أسفل هذه الصفحة يريك العملية كاملة في هذه الأثناء.' },
-        ckb: { t: 'FIB بکەرەوە و لە More بدە', d: 'دوا شت لە ڕیزی خوارەوەی شاشەکە.', note: 'وێنەکانی FIB هێشتا نەگیراون، چونکە ئەپەکە ڕێگە بە وێنەگرتنی شاشە نادات. ئەو ڤیدیۆی خوارەوەی ئەم پەڕەیە لەم ماوەیەدا هەموو کارەکەت پیشان دەدات.' },
-        ku: { t: 'FIB ڤەکە و ل More بدە', d: 'تشتێ دوماهیک ل ڕیزا بنێ ئێکرانێ.', note: 'وێنێن FIB هێشتا نەهاتینە گرتن، چونکی ئەپ دەستویر نادەت ئێکران بهێتە وێنەگرتن. ئەو ڤیدیۆیا بنێ ڤێ پەلێ د ڤێ دەمی دا هەمی کارێ تە نیشان ددەت.' }
+        shot: 'shots/fib/fib1.jpg', w: 720, h: 759,
+        en: { t: 'Open FIB and tap your picture', d: 'The round button at the top right of the home screen, at the end of the row your name is in.', note: 'FIB does not allow screenshots, so the pictures here were photographed off the screen. The phone in them runs FIB in Arabic, so every button named in this guide is written the way it appears on your screen, with the meaning beside it.' },
+        ar: { t: 'افتح FIB واضغط على صورتك', d: 'الزر الدائري أعلى يمين الشاشة الرئيسية، في آخر السطر الذي فيه اسمك.', note: 'FIB لا يسمح بتصوير الشاشة، لذلك الصور هنا ملتقطة بالكاميرا. الهاتف فيها يشغّل FIB بالعربية، وأسماء الأزرار في هذا الدليل مكتوبة كما تظهر على شاشتك.' },
+        ckb: { t: 'FIB بکەرەوە و لە وێنەکەت بدە', d: 'ئەو دوگمە بازنەییەی سەرەوەی ڕاستی شاشە سەرەکییەکەیە، لە کۆتایی ئەو دێڕەی ناوەکەت تێدایە.', note: 'FIB ڕێگە بە وێنەگرتنی شاشە نادات، بۆیە وێنەکانی ئێرە بە کامێرا گیراون. ئەو مۆبایلەی تێیاندا FIB بە عەرەبی کار دەکات، بۆیە ناوی هەموو دوگمەکان لەم ڕێنماییەدا وەک ئەوە نووسراوە کە لەسەر شاشەکەت دەردەکەوێت.' },
+        ku: { t: 'FIB ڤەکە و ل وێنا خۆ بدە', d: 'ئەو دوگمەیا خەلەکی یا سەرێ ڕاستێ یا ئێکرانا سەرەکی، ل دوماهیکا وێ ڕێزێ یا ناڤێ تە تێدا.', note: 'FIB دەستویر نادەت ئێکران بهێتە وێنەگرتن، لەوما وێنێن ڤێرێ ب کامێرایێ هاتینە گرتن. ئەو مۆبایلا د وان دا FIB ب عەرەبی کار دکەت، لەوما ناڤێ هەمی دوگمان د ڤێ ڕێنمایی دا وەکی ل سەر ئێکرانا تە دیار دبیت هاتیە نڤیسین.' }
       },
       {
-        en: { t: 'Tap Settings', d: 'The gear, near the top of the list that opens.' },
-        ar: { t: 'اضغط على Settings', d: 'أيقونة الترس، قريبة من أعلى القائمة التي تفتح.' },
-        ckb: { t: 'لە Settings بدە', d: 'چەرخەکە، نزیک سەرەوەی ئەو لیستەی دەکرێتەوە.' },
-        ku: { t: 'ل Settings بدە', d: 'چەرخ، نێزیکی سەرێ وێ لیستا ڤەدبیت.' }
+        shot: 'shots/fib/fib2.jpg', w: 720, h: 1298,
+        en: { t: 'Tap معلومات الاتصال', d: 'Contact information. It is the third row down the list on ملفك الشخصي, your profile, directly under معلومات شخصية, personal information.' },
+        ar: { t: 'اضغط على معلومات الاتصال', d: 'ثالث سطر في قائمة ملفك الشخصي، مباشرة تحت معلومات شخصية.' },
+        ckb: { t: 'لە معلومات الاتصال بدە', d: 'مانای زانیاری پەیوەندییە. سێیەم دێڕە لە لیستەی ملفك الشخصي، پەڕەی خۆت، ڕاستەوخۆ لە ژێر معلومات شخصية، زانیاری کەسی.' },
+        ku: { t: 'ل معلومات الاتصال بدە', d: 'مانا زانیاریێن پەیوەندیێ یە. سێیێ ڕێز ە د لیستا ملفك الشخصي دا، پەلا تە یا خۆ، ڕاستەڕاست د بنێ معلومات شخصية دا، زانیاریێن کەسی.' }
       },
       {
-        en: { t: 'Tap Change phone number', d: 'It is in the account section, under your own details.' },
-        ar: { t: 'اضغط على Change phone number', d: 'في قسم الحساب، تحت بياناتك الشخصية.' },
-        ckb: { t: 'لە Change phone number بدە', d: 'لە بەشی هەژمارەکە، لە ژێر زانیارییەکانی خۆت.' },
-        ku: { t: 'ل Change phone number بدە', d: 'د بەشا هەژماری دا، د بنێ زانیاریێن خۆ دا.' }
+        shot: 'shots/fib/fib3.jpg', w: 720, h: 322,
+        en: { t: 'Tap رقم الهاتف', d: 'Phone number. It is the only row on this screen, and it shows the number the account carries now.' },
+        ar: { t: 'اضغط على رقم الهاتف', d: 'هو السطر الوحيد في هذه الشاشة، ويظهر فيه الرقم المسجَّل على الحساب الآن.' },
+        ckb: { t: 'لە رقم الهاتف بدە', d: 'مانای ژمارەی مۆبایلە. تاکە دێڕی ئەم شاشەیەیە، و ئەو ژمارەیە پیشان دەدات کە ئێستا لەسەر هەژمارەکەیە.' },
+        ku: { t: 'ل رقم الهاتف بدە', d: 'مانا ژمارا مۆبایلی یە. تنێ ڕێزا ڤێ ئێکرانێ یە، و وێ ژمارێ نیشان ددەت ئەڤا نوکە ل سەر هەژماری یە.' }
       },
       {
-        en: { t: 'Confirm that it is you', d: 'FIB asks for the passcode you open the app with. Some accounts are asked for a selfie instead.' },
-        ar: { t: 'أكّد أنك أنت', d: 'يطلب FIB رمز المرور الذي تفتح به التطبيق. بعض الحسابات يطلب منها صورة سيلفي بدلاً من ذلك.' },
-        ckb: { t: 'دڵنیای بکە کە خۆتی', d: 'FIB داوای ئەو کۆدە دەکات کە ئەپەکەی پێ دەکەیتەوە. لە هەندێک هەژمار لەبری ئەوە داوای سێلفی دەکرێت.' },
-        ku: { t: 'دلنیاهی بکە کو تو خۆ ی', d: 'FIB داخازا وی کۆدی دکەت ئەڤێ تو ئەپ پێ ڤەدکەی. ژ هندەک هەژماران ل شوینا وێ داخازا سێلفی دهێتە کرن.' }
+        shot: 'shots/fib/fib4.jpg', w: 720, h: 1379,
+        en: { t: 'Tick the box, then tap التالي', d: 'Next. The box reads أفهم. أرغب في تغيير رقم هاتفي, I understand, I want to change my phone number. The warning above it, ملاحظة مهمة, says that once the number is changed FIB signs you out, and you sign back in with the new number and the password you already use.' },
+        ar: { t: 'أشّر على المربّع ثم اضغط على التالي', d: 'نص المربّع: أفهم. أرغب في تغيير رقم هاتفي. والملاحظة المهمة فوقه تقول إن FIB سيخرجك من حسابك بعد تغيير الرقم، وتسجّل الدخول من جديد بالرقم الجديد وكلمة المرور التي تستعملها الآن.' },
+        ckb: { t: 'چوارگۆشەکە نیشان بکە، پاشان لە التالي بدە', d: 'مانای دواتر. نووسینی چوارگۆشەکە أفهم. أرغب في تغيير رقم هاتفي یە، تێدەگەم، دەمەوێت ژمارەی مۆبایلەکەم بگۆڕم. ئەو ئاگادارییەی سەرەوەی، ملاحظة مهمة، دەڵێت دوای گۆڕینی ژمارەکە FIB لە هەژمارەکەت دەرت دەکات، و بە ژمارە نوێیەکە و هەمان وشەی تێپەڕبوون دەچیتەوە ژوورەوە.' },
+        ku: { t: 'چوارگۆشێ نیشان بکە، پاشی ل التالي بدە', d: 'مانا پاشی یە. نڤیسینا چوارگۆشێ أفهم. أرغب في تغيير رقم هاتفي ە، ئەز تێدگەهم، دخازم ژمارا مۆبایلا خۆ بگوهۆڕم. ئەو ئاگەهداریا ل سەرێ، ملاحظة مهمة، دبێژیت پشتی گوهۆڕینا ژمارێ FIB تە ژ هەژمارا تە دەردخیت، و تو ب ژمارا نوی و هەمان پەیڤا دەرباسبوونێ دیسا دچییە ژوور.' }
       },
       {
-        en: { t: 'Type the new number', d: 'Pick +964 for Iraq, then type the number without its first zero.', scam: true },
-        ar: { t: 'اكتب الرقم الجديد', d: 'اختر +964 للعراق، ثم اكتب الرقم بدون الصفر الأول.', scam: true },
-        ckb: { t: 'ژمارە نوێیەکە بنووسە', d: '+964 بۆ عێراق هەڵبژێرە، پاشان ژمارەکە بێ سفری یەکەم بنووسە.', scam: true },
-        ku: { t: 'ژمارا نوی بنڤیسە', d: '+964 بۆ عیراقێ هەلبژێرە، پاشی ژمارێ بێ سفرا ئێکێ بنڤیسە.', scam: true }
+        // The photographing stopped here, so the last two steps carry no
+        // picture. They are the part of this entry still to be checked.
+        en: { t: 'Type the new number', d: 'Pick +964 for Iraq, then type the number without its first zero.', note: 'The pictures end above. These last two steps are not photographed yet; the video under this page shows them.', scam: true },
+        ar: { t: 'اكتب الرقم الجديد', d: 'اختر +964 للعراق، ثم اكتب الرقم بدون الصفر الأول.', note: 'الصور تنتهي عند الخطوة السابقة. الخطوتان الأخيرتان لم تُصوَّرا بعد، والفيديو أسفل هذه الصفحة يريكهما.', scam: true },
+        ckb: { t: 'ژمارە نوێیەکە بنووسە', d: '+964 بۆ عێراق هەڵبژێرە، پاشان ژمارەکە بێ سفری یەکەم بنووسە.', note: 'وێنەکان لە هەنگاوی پێشوو تەواو دەبن. ئەم دوو هەنگاوە دواییە هێشتا نەگیراون، و ئەو ڤیدیۆی خوارەوەی ئەم پەڕەیە پیشانت دەدات.', scam: true },
+        ku: { t: 'ژمارا نوی بنڤیسە', d: '+964 بۆ عیراقێ هەلبژێرە، پاشی ژمارێ بێ سفرا ئێکێ بنڤیسە.', note: 'وێنە ل گاڤا بەری وێ دقەدن. ئەڤ دو گاڤێن دوماهیێ هێشتا نەهاتینە گرتن، و ئەو ڤیدیۆیا بنێ ڤێ پەلێ وان نیشانی تە ددەت.', scam: true }
       },
       {
-        en: { t: 'Type the code FIB sends you', d: 'It arrives by text on the new number. Once it is accepted, the new number is the one on the account.', done: true },
-        ar: { t: 'اكتب الرمز الذي يرسله FIB', d: 'يصل برسالة نصية على الرقم الجديد. بعد قبوله يصبح الرقم الجديد هو رقم الحساب.', done: true },
-        ckb: { t: 'ئەو کۆدەی FIB بۆت دەنێرێت بنووسە', d: 'بە نامەی نووسین بۆ ژمارە نوێیەکە دێت. دوای ئەوەی پەسەند کرا، ژمارە نوێیەکە دەبێتە ژمارەی هەژمارەکە.', done: true },
-        ku: { t: 'ئەو کۆدێ FIB بۆ تە دشینیت بنڤیسە', d: 'ب نامەیا نڤیسینێ بۆ ژمارا نوی دهێت. پشتی هاتە پەسەندکرن، ژمارا نوی دبیتە ژمارا هەژماری.', done: true }
+        en: { t: 'Type the code FIB sends you', d: 'It arrives by text on the new number. Once it is accepted the account carries the new number, and FIB signs you out. Sign in again with the new number and the password you already use.', done: true },
+        ar: { t: 'اكتب الرمز الذي يرسله FIB', d: 'يصل برسالة نصية على الرقم الجديد. بعد قبوله يصبح الرقم الجديد هو رقم الحساب، ويخرجك FIB من حسابك. سجّل الدخول من جديد بالرقم الجديد وكلمة المرور التي تستعملها الآن.', done: true },
+        ckb: { t: 'ئەو کۆدەی FIB بۆت دەنێرێت بنووسە', d: 'بە نامەی نووسین بۆ ژمارە نوێیەکە دێت. دوای ئەوەی پەسەند کرا، ژمارە نوێیەکە دەبێتە ژمارەی هەژمارەکە، و FIB لە هەژمارەکەت دەرت دەکات. بە ژمارە نوێیەکە و هەمان وشەی تێپەڕبوون جارێکی تر بچۆ ژوورەوە.', done: true },
+        ku: { t: 'ئەو کۆدێ FIB بۆ تە دشینیت بنڤیسە', d: 'ب نامەیا نڤیسینێ بۆ ژمارا نوی دهێت. پشتی هاتە پەسەندکرن، ژمارا نوی دبیتە ژمارا هەژماری، و FIB تە ژ هەژمارا تە دەردخیت. ب ژمارا نوی و هەمان پەیڤا دەرباسبوونێ جارەکا دی هەرە ژوور.', done: true }
       }
     ]
   },
